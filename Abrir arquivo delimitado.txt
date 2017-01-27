@@ -1,0 +1,13 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub AbrirArquivoDelimitado()
+    Workbooks.OpenText Filename:="c:\essproc.cfg", DataType:=xlDelimited, Tab:=True, Other:=True, OtherChar:="|"
+End Sub

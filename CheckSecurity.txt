@@ -1,0 +1,52 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Option Explicit
+
+Sub CheckSecurity()
+Dim Q As Integer
+
+TryNow:
+'// Check security settings 1st!
+If Not SecuritySet(ThisWorkbook) Then
+    Q = MsgBox("These routines access your VBA modules" & vbCrLf & vbCrLf & _
+        "Please set your security to [Trust access to Visual basic Project]." & vbCrLf & vbCrLf & _
+        "Select [Security] > " & vbCrLf & vbTab & "Tab [Trusted Publishers] > " & _
+        vbTab & vbCrLf & vbTab & vbTab & "Click [Trust access to Visual basic Project]" & vbCrLf & vbCrLf & _
+        "You will be taken to these settings after clicking OK" & vbCrLf & _
+        "Click cancel to skip setting this.", vbCritical + vbOKCancel, "Security settings")
+    If Q = vbOK Then
+        With Application
+            .SendKeys "t"
+            .CommandBars.FindControl(ID:=3627).Execute
+        End With
+        GoTo TryNow
+    End If
+End If
+
+End Sub
+
+Function SecuritySet(WBk As Workbook) As Boolean
+Dim objVbaProj As Object
+
+    '// Check Security
+    On Error Resume Next
+    '// Note LateBinding so NO reference to Extensibilty Lib Required
+    Set objVbaProj = WBk.VBProject
+    
+    '// Check Version
+    If CDbl(Val(Application.Version)) > 9 Then
+        SecuritySet = Not CBool(Err.Number)
+    Else
+        SecuritySet = True
+    End If
+    On Error GoTo 0
+
+End Function

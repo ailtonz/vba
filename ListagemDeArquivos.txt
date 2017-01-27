@@ -1,0 +1,133 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub ListagemDeArquivos()
+On Error GoTo Numera_err
+
+Dim i As Integer
+Dim sPesquisar As String
+Dim sNomeArquivo As String
+Dim sCaminho As String
+Dim sArquivo As String
+Dim sTamanho As String
+Dim sFormato As String
+Dim sGuia As String
+Dim Retorno As Variant
+
+'Titulo "Caminho"
+sCaminho = "Caminho"
+
+'Titulo "Arquivo"
+sArquivo = "Arquivo"
+
+'Titulo "Tamanho"
+sTamanho = "Tamanho em bytes"
+
+'Entrada para nome da pesquisa
+sTitulo = "Nome da pesquisa"
+sMensagem = "Informe o nome da pesquisa"
+Retorno = InputBox(sMensagem, sTitulo)
+
+'Nome da nova guia
+sGuia = Retorno
+
+'Entrada de formato para pesquisa
+sTitulo = "Formato do arquivo"
+sMensagem = "Informe o formato do arquivo"
+Retorno = InputBox(sMensagem, sTitulo)
+
+'Formato
+sFormato = Retorno
+
+
+'Pesquisa
+sPesquisar = "d:\"
+
+
+With Application.FileSearch
+    .NewSearch
+    .LookIn = sPesquisar
+    .SearchSubFolders = True
+    .Filename = sFormato
+
+    If .Execute() > 0 Then
+        
+        'Controle de linhas da planilha
+        If .FoundFiles.Count < Rows.Count Then
+
+            'Nova guia
+            Set NewSheet = Sheets.Add(Type:=xlWorksheet)
+            
+            NewSheet.Name = sGuia
+    
+            'Valores da linha título
+            NewSheet.Cells(1, 1).Value = sCaminho
+            NewSheet.Cells(1, 2).Value = sArquivo
+            NewSheet.Cells(1, 3).Value = sTamanho
+                
+            For i = 2 To .FoundFiles.Count
+                sNomeArquivo = .FoundFiles(i)
+                
+                NewSheet.Cells(i, 1).Value = GetPath(sNomeArquivo)
+                NewSheet.Cells(i, 2).Value = GetFileName(sNomeArquivo)
+                NewSheet.Cells(i, 3).Value = GetFileSize(sNomeArquivo)
+    
+            Next i
+            
+            'Formatação da linha Titulo
+            Rows("1:1").Select
+            Selection.Font.Bold = True
+            Selection.Font.ColorIndex = 0
+            
+            'Auto ajuste de colunas
+            Cells.Select
+            Cells.EntireColumn.AutoFit
+            
+            'Congelar painéis
+            Range("A2").Select
+            ActiveWindow.FreezePanes = True
+            
+            MsgBox i & " Arquivos encontrados", vbOKOnly + vbInformation, "Concluido!"
+            
+        Else
+            
+            MsgBox .FoundFiles.Count & " Arquivos encontrados", vbOKOnly + vbExclamation, "Limite de " & Rows.Count & "linhas atingido!"
+            
+        End If
+        
+    Else
+        MsgBox i & " Arquivos encontrados", vbOKOnly + vbCritical, "Concluido!"
+    End If
+
+
+End With
+
+Numera_Fim:
+ Exit Sub
+Numera_err:
+ MsgBox Err.Description
+ Resume Numera_Fim
+
+End Sub
+
+Public Function GetPath(path As String) As String
+'Retrieve the script path
+    GetPath = Left(path, InStrRev(path, "\"))
+End Function
+
+Public Function GetFileName(path As String) As String
+'Retrieve the script File name
+    GetFileName = Right(path, Len(path) - InStrRev(path, "\"))
+End Function
+
+Public Function GetFileSize(File As String) As String
+'Retrieve the script File size
+    GetFileSize = FileLen(File)
+End Function
