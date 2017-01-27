@@ -1,0 +1,28 @@
+
+Sub teste_MakeDir()
+
+    MakeDir Application.CurrentProject.Path & "\tmp\tmp01"
+
+End Sub
+
+
+Public Function MakeDir(ByVal STRPATH As String) As Boolean
+    If Right(STRPATH, 1) = "\" Then
+        STRPATH = Left(STRPATH, Len(STRPATH) - 1)
+    End If
+    Dim SPLITSTRPATH() As String
+    SPLITSTRPATH = Split(STRPATH, "\")
+    Dim VAR1 As Integer
+    Dim MERGE As String
+    For VAR1 = 0 To UBound(SPLITSTRPATH)
+        If VAR1 <> 0 Then
+            MERGE = MERGE & "\"
+        End If
+        MERGE = MERGE & SPLITSTRPATH(VAR1)
+        If Dir(MERGE, vbDirectory) = "" Then
+            MkDir MERGE
+        End If
+    Next
+    MakeDir = True
+    Exit Function
+End Function
