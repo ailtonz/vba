@@ -1,0 +1,92 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub NumeraArquivos()
+
+On Error GoTo Numera_err
+
+Dim i As Integer
+Dim sNomeNovo As String
+Dim sNomeAntigo As String
+
+With Application.FileSearch
+    .NewSearch
+    .LookIn = "C:\Softs\Diversos"
+    .SearchSubFolders = False
+    .FileName = "*.mp3"
+    
+    If .Execute() > 0 Then
+        For i = 1 To .FoundFiles.Count
+            sNomeAntigo = .FoundFiles(i)
+            sNomeNovo = .LookIn & "\" & "Faixa " & Format$(i, "000#") & ".mp3"
+            Name sNomeAntigo As sNomeNovo
+        Next i
+        
+        MsgBox "Os Arquivos foram renomeados"
+    Else
+        MsgBox "Não foi localizado nenhum arquivo do tipo indicado."
+    End If
+    
+End With
+
+Numera_Fim:
+ Exit Sub
+Numera_err:
+ MsgBox Err.Description
+  Resume Numera_Fim
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub NumeraArquivos()
+
+On Error GoTo Numera_err
+
+Dim i As Integer
+Dim sNomeNovo As String
+Dim sNomeAntigo As String
+
+With Application.FileSearch
+    .NewSearch
+    .LookIn = "C:\Softs\Diversos"
+    .SearchSubFolders = False
+    .FileName = "*.mp3"
+    
+    If .Execute() > 0 Then
+        For i = 1 To .FoundFiles.Count
+            sNomeAntigo = .FoundFiles(i)
+            sNomeNovo = .LookIn & "\" & "Faixa " & Format$(i, "000#") & ".mp3"
+            Name sNomeAntigo As sNomeNovo
+        Next i
+        
+        MsgBox "Os Arquivos foram renomeados"
+    Else
+        MsgBox "Não foi localizado nenhum arquivo do tipo indicado."
+    End If
+    
+End With
+
+Numera_Fim:
+ Exit Sub
+Numera_err:
+ MsgBox Err.Description
+  Resume Numera_Fim
+
+End Sub
+

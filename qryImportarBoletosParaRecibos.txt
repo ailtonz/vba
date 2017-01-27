@@ -1,0 +1,32 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+INSERT INTO RecibosItens ( NumeroControleDoParticipante, CAMPO_03, CAMPO_04, CAMPO_05, codRecibo, STATUS_OCORRENCIA )
+SELECT CadastrosBoletos.NumeroControleDoParticipante, CadastrosBoletos.NumeroDoDocumento, CadastrosBoletos.DATA_VENCIMENTO, CCur([VALOR_TITULO]) AS Valor, [NM_RECIBO] AS Recibo, CadastrosBoletos.STATUS_OCORRENCIA
+FROM qryContarOcorrenciasDeBoletosPorCliente INNER JOIN CadastrosBoletos ON qryContarOcorrenciasDeBoletosPorCliente.NumeroInscricaoDoSacado = CadastrosBoletos.NumeroInscricaoDoSacado
+WHERE (((CadastrosBoletos.NumeroControleDoParticipante)=[NM_ControleDoParticipante]) AND ((CadastrosBoletos.STATUS_OCORRENCIA)<>"pago"))
+ORDER BY CadastrosBoletos.DATA_VENCIMENTO DESC;
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+INSERT INTO RecibosItens ( NumeroControleDoParticipante, CAMPO_03, CAMPO_04, CAMPO_05, codRecibo, STATUS_OCORRENCIA )
+SELECT CadastrosBoletos.NumeroControleDoParticipante, CadastrosBoletos.NumeroDoDocumento, CadastrosBoletos.DATA_VENCIMENTO, CCur([VALOR_TITULO]) AS Valor, [NM_RECIBO] AS Recibo, CadastrosBoletos.STATUS_OCORRENCIA
+FROM qryContarOcorrenciasDeBoletosPorCliente INNER JOIN CadastrosBoletos ON qryContarOcorrenciasDeBoletosPorCliente.NumeroInscricaoDoSacado = CadastrosBoletos.NumeroInscricaoDoSacado
+WHERE (((CadastrosBoletos.NumeroControleDoParticipante)=[NM_ControleDoParticipante]) AND ((CadastrosBoletos.STATUS_OCORRENCIA)<>"pago"))
+ORDER BY CadastrosBoletos.DATA_VENCIMENTO DESC;
+

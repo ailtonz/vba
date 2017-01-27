@@ -1,0 +1,82 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub Mail_workbook_Outlook()
+ 
+
+Dim OutApp As Outlook.Application
+Dim OutMail As Outlook.MailItem
+ 
+
+Set OutApp = CreateObject("Outlook.Application")
+Set OutMail = OutApp.CreateItem(olMailItem)
+With OutMail
+  .To = "teste@teste.pt"
+  .Subject = "Envio da assiduidade de " & Format$(DateAdd("m", -1, Date), "mmmm")
+  .Body = "Junto se envia a assiduidade do mês de " & Format$(DateAdd("m", -1, Date), "mmmm")
+
+
+  Application.DisplayAlerts = False
+  ActiveWorkbook.SaveAs ("c:\teste.xls")
+  Application.DisplayAlerts = True
+
+
+  .Attachments.Add ActiveWorkbook.FullName
+  'No Excel 97 use ActiveWorkbook.Path & "\" & ActiveWorkbook.Name
+  .Display 'ou para enviar direto sem interface use .Send
+ 
+
+End With
+Set OutMail = Nothing
+Set OutApp = Nothing
+End Sub
+
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub Mail_workbook_Outlook()
+ 
+
+Dim OutApp As Outlook.Application
+Dim OutMail As Outlook.MailItem
+ 
+
+Set OutApp = CreateObject("Outlook.Application")
+Set OutMail = OutApp.CreateItem(olMailItem)
+With OutMail
+  .To = "teste@teste.pt"
+  .Subject = "Envio da assiduidade de " & Format$(DateAdd("m", -1, Date), "mmmm")
+  .Body = "Junto se envia a assiduidade do mês de " & Format$(DateAdd("m", -1, Date), "mmmm")
+
+
+  Application.DisplayAlerts = False
+  ActiveWorkbook.SaveAs ("c:\teste.xls")
+  Application.DisplayAlerts = True
+
+
+  .Attachments.Add ActiveWorkbook.FullName
+  'No Excel 97 use ActiveWorkbook.Path & "\" & ActiveWorkbook.Name
+  .Display 'ou para enviar direto sem interface use .Send
+ 
+
+End With
+Set OutMail = Nothing
+Set OutApp = Nothing
+End Sub
+
+

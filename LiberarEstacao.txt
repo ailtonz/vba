@@ -1,0 +1,56 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function ImpressoraPadrao(prtDefault As String)
+
+Dim XPrint     As Printer
+Dim n          As Integer
+  
+'Busca o numero da impresora
+For Each XPrint In Printers
+    If XPrint.DeviceName = prtDefault Then
+       Exit For
+    End If
+    n = n + 1
+Next
+ 
+'Efetiva a impressora como padrao
+Set Application.Printer = Application.Printers(n)
+ 
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function ImpressoraPadrao(prtDefault As String)
+
+Dim XPrint     As Printer
+Dim n          As Integer
+  
+'Busca o numero da impresora
+For Each XPrint In Printers
+    If XPrint.DeviceName = prtDefault Then
+       Exit For
+    End If
+    n = n + 1
+Next
+ 
+'Efetiva a impressora como padrao
+Set Application.Printer = Application.Printers(n)
+ 
+End Function
+

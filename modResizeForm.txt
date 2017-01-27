@@ -1,0 +1,258 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function SelecionarArquivo(Titulo As String, MultiSelecao As Boolean, FiltroTitulo As String, FiltroExtencao As String) As String
+Dim fd As Office.FileDialog
+Dim objAccess As Object
+
+Set objAccess = CreateObject("Access.Application")
+
+'Diálogo de selecionar arquivo - Office
+Set fd = Application.FileDialog(msoFileDialogFilePicker)
+
+fd.Filters.Add FiltroTitulo, FiltroExtencao
+fd.Title = Titulo
+fd.AllowMultiSelect = MultiSelecao
+
+If fd.Show = -1 Then
+    SelecionarArquivo = fd.SelectedItems(1)
+End If
+
+Set objAccess = Nothing
+
+End Function
+
+Function ScriptManutencao(Script As String)
+Dim objAccess As Object
+Dim strArq As String
+Dim strSQL As String
+
+strArq = SelecionarArquivo("Selecione o script de manutenção", False, "Script de manutenção", "*.scr")
+    
+objAccess.OpenCurrentDatabase strArq
+
+Open strArq For Input As #1
+
+Do Until EOF(1)
+
+    Line Input #1, strSQL
+
+    objAccess.DoCmd.RunSQL (strSQL)
+
+Loop
+
+Close #1
+
+objAccess.CloseCurrentDatabase
+
+Set objAccess = Nothing
+
+
+End Function
+
+Private Sub cmdManut_Click()
+Dim strArq As String
+
+strArq = SelecionarArquivo("Seleção do Banco de dados", False, "Selecione o banco de dados", "*.MDB;*.MDE")
+
+'Se selecionou arquivo, atualiza os vínculos
+If strArq <> "" Then
+    
+    'Gera bkp da base de dados que sofrerá as alterações
+    Backup strArq
+    ScriptManutencao strArq
+    
+    MsgBox "ok!", vbInformation, "Manutenção"
+
+End If
+
+
+End Sub
+
+
+
+'Dim appAccess As Access.Application
+'
+'Sub DisplayForm()
+'
+'    Dim strDB As String
+'
+'    ' Initialize string to database path.
+'    Const strConPathToSamples = "C:\Program Files\Microsoft Office\Office11\Samples\"
+'
+'    strDB = strConPathToSamples & "Northwind.mdb"
+'    ' Create new instance of Microsoft Access.
+'    Set appAccess = _
+'        CreateObject("Access.Application")
+'
+'    ' Open database in Microsoft Access window.
+'    appAccess.OpenCurrentDatabase strDB
+'
+'    ' Open Orders form.
+'    appAccess.DoCmd.OpenForm "Orders"
+'
+'End Sub
+'
+
+
+'' Enter following in Declarations section of module.
+'Dim appAccess As Access.Application
+'
+'Sub CreateForm()
+'    Const strConPathToSamples = "C:\Program Files\Microsoft Office\Office11\Samples\"
+'
+'    Dim frm As Form, strDB As String
+'
+'    ' Initialize string to database path.
+'    strDB = strConPathToSamples & "Northwind.mdb"
+'    ' Create new instance of Microsoft Access.
+'    Set appAccess = CreateObject("Access.Application")
+'    ' Open database in Microsoft Access window.
+'    appAccess.OpenCurrentDatabase strDB
+'    ' Create new form.
+'    Set frm = appAccess.CreateForm
+'    ' Save new form.
+'    appAccess.DoCmd.Save , "NewForm1"
+'    ' Close currently open database.
+'    appAccess.CloseCurrentDatabase
+'    Set appAccess = Nothing
+'End Sub
+        
+
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function SelecionarArquivo(Titulo As String, MultiSelecao As Boolean, FiltroTitulo As String, FiltroExtencao As String) As String
+Dim fd As Office.FileDialog
+Dim objAccess As Object
+
+Set objAccess = CreateObject("Access.Application")
+
+'Diálogo de selecionar arquivo - Office
+Set fd = Application.FileDialog(msoFileDialogFilePicker)
+
+fd.Filters.Add FiltroTitulo, FiltroExtencao
+fd.Title = Titulo
+fd.AllowMultiSelect = MultiSelecao
+
+If fd.Show = -1 Then
+    SelecionarArquivo = fd.SelectedItems(1)
+End If
+
+Set objAccess = Nothing
+
+End Function
+
+Function ScriptManutencao(Script As String)
+Dim objAccess As Object
+Dim strArq As String
+Dim strSQL As String
+
+strArq = SelecionarArquivo("Selecione o script de manutenção", False, "Script de manutenção", "*.scr")
+    
+objAccess.OpenCurrentDatabase strArq
+
+Open strArq For Input As #1
+
+Do Until EOF(1)
+
+    Line Input #1, strSQL
+
+    objAccess.DoCmd.RunSQL (strSQL)
+
+Loop
+
+Close #1
+
+objAccess.CloseCurrentDatabase
+
+Set objAccess = Nothing
+
+
+End Function
+
+Private Sub cmdManut_Click()
+Dim strArq As String
+
+strArq = SelecionarArquivo("Seleção do Banco de dados", False, "Selecione o banco de dados", "*.MDB;*.MDE")
+
+'Se selecionou arquivo, atualiza os vínculos
+If strArq <> "" Then
+    
+    'Gera bkp da base de dados que sofrerá as alterações
+    Backup strArq
+    ScriptManutencao strArq
+    
+    MsgBox "ok!", vbInformation, "Manutenção"
+
+End If
+
+
+End Sub
+
+
+
+'Dim appAccess As Access.Application
+'
+'Sub DisplayForm()
+'
+'    Dim strDB As String
+'
+'    ' Initialize string to database path.
+'    Const strConPathToSamples = "C:\Program Files\Microsoft Office\Office11\Samples\"
+'
+'    strDB = strConPathToSamples & "Northwind.mdb"
+'    ' Create new instance of Microsoft Access.
+'    Set appAccess = _
+'        CreateObject("Access.Application")
+'
+'    ' Open database in Microsoft Access window.
+'    appAccess.OpenCurrentDatabase strDB
+'
+'    ' Open Orders form.
+'    appAccess.DoCmd.OpenForm "Orders"
+'
+'End Sub
+'
+
+
+'' Enter following in Declarations section of module.
+'Dim appAccess As Access.Application
+'
+'Sub CreateForm()
+'    Const strConPathToSamples = "C:\Program Files\Microsoft Office\Office11\Samples\"
+'
+'    Dim frm As Form, strDB As String
+'
+'    ' Initialize string to database path.
+'    strDB = strConPathToSamples & "Northwind.mdb"
+'    ' Create new instance of Microsoft Access.
+'    Set appAccess = CreateObject("Access.Application")
+'    ' Open database in Microsoft Access window.
+'    appAccess.OpenCurrentDatabase strDB
+'    ' Create new form.
+'    Set frm = appAccess.CreateForm
+'    ' Save new form.
+'    appAccess.DoCmd.Save , "NewForm1"
+'    ' Close currently open database.
+'    appAccess.CloseCurrentDatabase
+'    Set appAccess = Nothing
+'End Sub
+        
+
+

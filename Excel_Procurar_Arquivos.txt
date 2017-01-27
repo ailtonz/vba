@@ -1,0 +1,148 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function Procurar_Arquivos(Guia As String, Caminho As Integer, Arquivos As Integer) As String
+On Error GoTo Numera_err
+
+Dim i As Integer
+Dim sArquivo As String
+Dim sArquivoCaminho As String
+Dim NewSheet As Variant
+Dim NovaGuia As String
+
+'Inicializa a pesquisa
+Application.FileSearch.NewSearch
+
+'Informa o caminho a ser procurado
+sArquivoCaminho = Worksheets(Guia).Cells(Arquivos, Caminho).Value
+Application.FileSearch.LookIn = sArquivoCaminho
+
+'Solicita a busca nas subpastas
+Application.FileSearch.SearchSubFolders = True
+
+'Nova guia
+NovaGuia = "Arquivos encontrados"
+Set NewSheet = Sheets.Add(Type:=xlWorksheet)
+NewSheet.Name = NovaGuia
+'Sheets(NovaGuia).Select
+'ActiveWorkbook.Sheets(NovaGuia).Tab.ColorIndex = 3
+
+'Coluna
+For colIndex = Caminho To Caminho
+    
+    'Linha
+    For rwIndex = Arquivos To Arquivos
+      
+      With Worksheets(Guia)
+            
+           sArquivo = .Cells(Arquivos, Arquivos).Value
+           Application.FileSearch.Filename = sArquivo
+           
+           If Application.FileSearch.Execute() > 0 Then
+                For i = 1 To Application.FileSearch.FoundFiles.Count
+                    sArquivoCaminho = Application.FileSearch.FoundFiles(i)
+                    Sheets(NovaGuia).Select
+                    Sheets(NovaGuia).Cells(i, Caminho).Value = sArquivoCaminho
+                Next i
+           Else
+                .Cells(rwIndex, colIndex).Value = "Arquivo não encontrado"
+           End If
+
+        End With
+    
+    Next rwIndex
+
+Next colIndex
+
+
+
+Numera_Fim:
+ Exit Function
+Numera_err:
+ MsgBox Err.Description
+ Resume Numera_Fim
+
+End Function
+
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function Procurar_Arquivos(Guia As String, Caminho As Integer, Arquivos As Integer) As String
+On Error GoTo Numera_err
+
+Dim i As Integer
+Dim sArquivo As String
+Dim sArquivoCaminho As String
+Dim NewSheet As Variant
+Dim NovaGuia As String
+
+'Inicializa a pesquisa
+Application.FileSearch.NewSearch
+
+'Informa o caminho a ser procurado
+sArquivoCaminho = Worksheets(Guia).Cells(Arquivos, Caminho).Value
+Application.FileSearch.LookIn = sArquivoCaminho
+
+'Solicita a busca nas subpastas
+Application.FileSearch.SearchSubFolders = True
+
+'Nova guia
+NovaGuia = "Arquivos encontrados"
+Set NewSheet = Sheets.Add(Type:=xlWorksheet)
+NewSheet.Name = NovaGuia
+'Sheets(NovaGuia).Select
+'ActiveWorkbook.Sheets(NovaGuia).Tab.ColorIndex = 3
+
+'Coluna
+For colIndex = Caminho To Caminho
+    
+    'Linha
+    For rwIndex = Arquivos To Arquivos
+      
+      With Worksheets(Guia)
+            
+           sArquivo = .Cells(Arquivos, Arquivos).Value
+           Application.FileSearch.Filename = sArquivo
+           
+           If Application.FileSearch.Execute() > 0 Then
+                For i = 1 To Application.FileSearch.FoundFiles.Count
+                    sArquivoCaminho = Application.FileSearch.FoundFiles(i)
+                    Sheets(NovaGuia).Select
+                    Sheets(NovaGuia).Cells(i, Caminho).Value = sArquivoCaminho
+                Next i
+           Else
+                .Cells(rwIndex, colIndex).Value = "Arquivo não encontrado"
+           End If
+
+        End With
+    
+    Next rwIndex
+
+Next colIndex
+
+
+
+Numera_Fim:
+ Exit Function
+Numera_err:
+ MsgBox Err.Description
+ Resume Numera_Fim
+
+End Function
+
+

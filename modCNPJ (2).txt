@@ -1,0 +1,98 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Attribute VB_Name = "modCNPJ"
+Function VerificaCNPJ(CNPJ As String) As String
+
+Dim intSoma, intSoma1, intSoma2, intInteiro As Long
+Dim intNumero, intMais, i, intResto As Integer
+Dim intDig1, intDig2 As Integer
+Dim strcampo, strCaracter, StrConf, strCNPJ, strDigVer As String
+Dim dblDivisao As Double
+intSoma = 0
+intSoma1 = 0
+intSoma2 = 0
+intNumero = 0
+intMais = 0
+
+strDigVer = right(CNPJ, 2)
+strcampo = left(CNPJ, 8)
+strCNPJ = right(CNPJ, 6)
+strCNPJ = left(strCNPJ, 4)
+strcampo = right(strcampo, 4) & strCNPJ
+
+For i = 2 To 9
+    strCaracter = right(strcampo, i - 1)
+    intNumero = left(strCaracter, 1)
+    intMais = intNumero * i
+    intSoma1 = intSoma1 + intMais
+Next i
+'Separa os 4 primeiros dígitos do CNPJ
+strcampo = left(CNPJ, 4)
+For i = 2 To 5
+    strCaracter = right(strcampo, i - 1)
+    intNumero = left(strCaracter, 1)
+    intMais = intNumero * i
+    intSoma2 = intSoma2 + intMais
+Next i
+intSoma = intSoma1 + intSoma2
+dblDivisao = intSoma / 11
+intInteiro = Int(dblDivisao) * 11
+intResto = intSoma - intInteiro
+If intResto = 0 Or intResto = 1 Then
+    intDig1 = 0
+Else
+    intDig1 = 11 - intResto
+End If
+intSoma = 0
+intSoma1 = 0
+intSoma2 = 0
+intNumero = 0
+intMais = 0
+
+strcampo = left(CNPJ, 8)
+strCNPJ = right(CNPJ, 6)
+strCNPJ = left(strCNPJ, 4)
+strcampo = right(strcampo, 3) & strCNPJ & intDig1
+
+For i = 2 To 9
+    strCaracter = right(strcampo, i - 1)
+    intNumero = left(strCaracter, 1)
+    intMais = intNumero * i
+    intSoma1 = intSoma1 + intMais
+Next i
+strcampo = left(CNPJ, 5)
+For i = 2 To 6
+    strCaracter = right(strcampo, i - 1)
+    intNumero = left(strCaracter, 1)
+    intMais = intNumero * i
+    intSoma2 = intSoma2 + intMais
+Next i
+intSoma = intSoma1 + intSoma2
+dblDivisao = intSoma / 11
+intInteiro = Int(dblDivisao) * 11
+intResto = intSoma - intInteiro
+If intResto = 0 Or intResto = 1 Then
+    intDig2 = 0
+Else
+    intDig2 = 11 - intResto
+End If
+StrConf = intDig1 & intDig2
+VerificaCNPJ = StrConf
+
+If VerificaCNPJ = strDigVer Then
+   MsgBox "CNPJ - VÁLIDO!", vbInformation
+
+Else
+   MsgBox "CNPJ - INVÁLIDO", vbCritical
+End If
+
+End Function
+

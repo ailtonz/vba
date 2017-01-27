@@ -1,0 +1,342 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Create Proc ente.spr_tab_ent_ler_valid_cpf_cgc (
+                @cod_cpf_cgc varchar(14)
+                                               )
+As
+  Begin
+/**********************************************************
+*Procedure Name: spr_tab_ent_ler_valid_cpf_cgc
+*Database:
+*Server:
+*SQL-Builder4.3
+*File Path:
+* H:\5 - Proc Entit Global\2 - procedures após meu retorno ao banco\spr_tab_ent_ler_valid_cpf_cgc.PRO
+*********************************************************/
+                /************************************************************************************************************
+                   Desenvolvido por Pedro Abs - 06/09/2012
+                   Esta proc retorna 1 para cpf ou cnpj válido e 0 para inválidos.
+                   Só há um parâmetro de entrada pois ela identifica se é um CPF ou um CNPJ através do número de digitos.
+                *************************************************************************************************************/
+               
+                declare @tip_perso_ente varchar(2)
+               
+                if len(rtrim(@cod_cpf_cgc)) = 14
+                begin
+                                select @tip_perso_ente = 'PJ'
+                end
+               
+                if len(rtrim(@cod_cpf_cgc)) = 11
+                begin
+                                select @tip_perso_ente = 'PF'
+                end
+               
+               
+    --- declaraçoes de variáveis
+    declare @v1 tinyint,
+                               @v2 tinyint,
+                               @v3 tinyint,
+                               @v4 tinyint,
+                               @v5 tinyint,
+                               @v6 tinyint,
+                               @v7 tinyint,
+                               @v8 tinyint,
+                               @v9 tinyint,
+                               @v10 tinyint,
+                               @v11 tinyint,
+                               @v12 tinyint,
+                               @v13 tinyint,
+                               @v14 tinyint,
+                               @multiplicacao1 int,
+                               @multiplicacao2 int,
+                               @resto1 int,
+                               @resto2 int,
+                               @digitoVerificador1 int,
+                               @digitoVerificador2 int
+                              
+    -- popula variáveis                     
+    select @v1 = convert(tinyint, substring(@cod_cpf_cgc,1,1)),
+                               @v2 = convert(tinyint,substring(@cod_cpf_cgc,2,1)),
+                               @v3 = convert(tinyint,substring(@cod_cpf_cgc,3,1)),
+                               @v4 = convert(tinyint,substring(@cod_cpf_cgc,4,1)), 
+                               @v5 = convert(tinyint,substring(@cod_cpf_cgc,5,1)), 
+                               @v6 = convert(tinyint,substring(@cod_cpf_cgc,6,1)), 
+                               @v7 = convert(tinyint,substring(@cod_cpf_cgc,7,1)), 
+                               @v8 = convert(tinyint,substring(@cod_cpf_cgc,8,1)), 
+                               @v9 = convert(tinyint,substring(@cod_cpf_cgc,9,1)),
+                               @v10 = convert(tinyint,substring(@cod_cpf_cgc,10,1)), 
+                               @v11 = convert(tinyint,substring(@cod_cpf_cgc,11,1)),
+                               @v12 = convert(tinyint,substring(@cod_cpf_cgc,12,1)),
+                               @v13 = convert(tinyint,substring(@cod_cpf_cgc,13,1)),
+                               @v14 = convert(tinyint,substring(@cod_cpf_cgc,14,1))   
+                              
+    -- se o tipo pessoa for pessoa física
+    if @tip_perso_ente = 'PF'
+    begin
+   
+                if len(rtrim(@cod_cpf_cgc)) <> 11 return 0
+                              
+               
+                select @multiplicacao1 = (@v1 * 10) + (@v2 * 9) + (@v3 * 8) + (@v4 * 7) + (@v5 * 6) + (@v6 * 5) + (@v7 * 4) + (@v8 * 3) + (@v9 * 2)
+                select @resto1 = @multiplicacao1 % 11
+               
+                if @resto1 < 2
+                begin
+                    select @digitoVerificador1 = 0
+                end
+                else
+                begin
+                    select @digitoVerificador1 =  11 - @resto1
+                end
+               
+               
+               
+                select @multiplicacao2 = (@v1 * 11) + (@v2 * 10) + (@v3 * 9) + (@v4 * 8) + (@v5 * 7) + (@v6 * 6) + (@v7 * 5) + (@v8 * 4) + (@v9 * 3)  + (@v10 * 2)
+                select @resto2 = (@multiplicacao2) % 11
+               
+                if @resto2 < 2
+                begin
+                    select @digitoVerificador2 = 0
+                end
+                else
+                begin
+                    select @digitoVerificador2 = 11 - @resto2
+                end
+               
+               
+                --select 'PF',@digitoVerificador1, @digitoVerificador2
+               
+                if (@v10 = @digitoVerificador1 and @v11 = @digitoVerificador2)
+                begin
+                               --print 'cpf ok'
+                               return 1
+                end
+                else
+                begin
+                                --print 'cpf nao ok'
+                                return 0
+                end                                                                                     
+    end
+   
+    
+    -- se o tipo pessoa for Pessoa Jurídica
+    if @tip_perso_ente = 'PJ'
+    begin
+   
+                if len(rtrim(@cod_cpf_cgc)) <> 14 return 0
+   
+                select @multiplicacao1 = (@v1 * 6) + (@v2 * 7) + (@v3 * 8) + (@v4 * 9) + (@v5 * 2) + (@v6 * 3) + (@v7 * 4) + (@v8 * 5) + (@v9 * 6) + (@v10 * 7) + (@v11 * 8) + (@v12 * 9)
+                select @resto1 = @multiplicacao1 % 11
+               
+                select @multiplicacao2 = (@v1 * 5) + (@v2 * 6) + (@v3 * 7) + (@v4 * 8) + (@v5 * 9) + (@v6 * 2) + (@v7 * 3) + (@v8 * 4) + (@v9 * 5) + (@v10 * 6) + (@v11 * 7) + (@v12 * 8) + (@v13 * 9)
+                select @resto2 = (@multiplicacao2) % 11
+               
+                --select 'PJ',@multiplicacao1, @multiplicacao2, @resto1, @resto2        
+               
+                if @resto1 = 10
+                begin
+                   select @resto1 = 0
+                end
+               
+                if @resto2 = 10
+                begin
+                   select @resto2 = 0
+                end
+               
+                if (@v13 = @resto1 and @v14 = @resto2)
+                begin
+                               --print 'cnpj ok'
+                               return 1
+                end
+                else
+                begin
+                                --print 'cnpj nao ok'
+                                return 0
+                end               
+    
+    end
+   
+    -- se não for nem PF nem PJ
+    return 0
+ 
+end
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Create Proc ente.spr_tab_ent_ler_valid_cpf_cgc (
+                @cod_cpf_cgc varchar(14)
+                                               )
+As
+  Begin
+/**********************************************************
+*Procedure Name: spr_tab_ent_ler_valid_cpf_cgc
+*Database:
+*Server:
+*SQL-Builder4.3
+*File Path:
+* H:\5 - Proc Entit Global\2 - procedures após meu retorno ao banco\spr_tab_ent_ler_valid_cpf_cgc.PRO
+*********************************************************/
+                /************************************************************************************************************
+                   Desenvolvido por Pedro Abs - 06/09/2012
+                   Esta proc retorna 1 para cpf ou cnpj válido e 0 para inválidos.
+                   Só há um parâmetro de entrada pois ela identifica se é um CPF ou um CNPJ através do número de digitos.
+                *************************************************************************************************************/
+               
+                declare @tip_perso_ente varchar(2)
+               
+                if len(rtrim(@cod_cpf_cgc)) = 14
+                begin
+                                select @tip_perso_ente = 'PJ'
+                end
+               
+                if len(rtrim(@cod_cpf_cgc)) = 11
+                begin
+                                select @tip_perso_ente = 'PF'
+                end
+               
+               
+    --- declaraçoes de variáveis
+    declare @v1 tinyint,
+                               @v2 tinyint,
+                               @v3 tinyint,
+                               @v4 tinyint,
+                               @v5 tinyint,
+                               @v6 tinyint,
+                               @v7 tinyint,
+                               @v8 tinyint,
+                               @v9 tinyint,
+                               @v10 tinyint,
+                               @v11 tinyint,
+                               @v12 tinyint,
+                               @v13 tinyint,
+                               @v14 tinyint,
+                               @multiplicacao1 int,
+                               @multiplicacao2 int,
+                               @resto1 int,
+                               @resto2 int,
+                               @digitoVerificador1 int,
+                               @digitoVerificador2 int
+                              
+    -- popula variáveis                     
+    select @v1 = convert(tinyint, substring(@cod_cpf_cgc,1,1)),
+                               @v2 = convert(tinyint,substring(@cod_cpf_cgc,2,1)),
+                               @v3 = convert(tinyint,substring(@cod_cpf_cgc,3,1)),
+                               @v4 = convert(tinyint,substring(@cod_cpf_cgc,4,1)), 
+                               @v5 = convert(tinyint,substring(@cod_cpf_cgc,5,1)), 
+                               @v6 = convert(tinyint,substring(@cod_cpf_cgc,6,1)), 
+                               @v7 = convert(tinyint,substring(@cod_cpf_cgc,7,1)), 
+                               @v8 = convert(tinyint,substring(@cod_cpf_cgc,8,1)), 
+                               @v9 = convert(tinyint,substring(@cod_cpf_cgc,9,1)),
+                               @v10 = convert(tinyint,substring(@cod_cpf_cgc,10,1)), 
+                               @v11 = convert(tinyint,substring(@cod_cpf_cgc,11,1)),
+                               @v12 = convert(tinyint,substring(@cod_cpf_cgc,12,1)),
+                               @v13 = convert(tinyint,substring(@cod_cpf_cgc,13,1)),
+                               @v14 = convert(tinyint,substring(@cod_cpf_cgc,14,1))   
+                              
+    -- se o tipo pessoa for pessoa física
+    if @tip_perso_ente = 'PF'
+    begin
+   
+                if len(rtrim(@cod_cpf_cgc)) <> 11 return 0
+                              
+               
+                select @multiplicacao1 = (@v1 * 10) + (@v2 * 9) + (@v3 * 8) + (@v4 * 7) + (@v5 * 6) + (@v6 * 5) + (@v7 * 4) + (@v8 * 3) + (@v9 * 2)
+                select @resto1 = @multiplicacao1 % 11
+               
+                if @resto1 < 2
+                begin
+                    select @digitoVerificador1 = 0
+                end
+                else
+                begin
+                    select @digitoVerificador1 =  11 - @resto1
+                end
+               
+               
+               
+                select @multiplicacao2 = (@v1 * 11) + (@v2 * 10) + (@v3 * 9) + (@v4 * 8) + (@v5 * 7) + (@v6 * 6) + (@v7 * 5) + (@v8 * 4) + (@v9 * 3)  + (@v10 * 2)
+                select @resto2 = (@multiplicacao2) % 11
+               
+                if @resto2 < 2
+                begin
+                    select @digitoVerificador2 = 0
+                end
+                else
+                begin
+                    select @digitoVerificador2 = 11 - @resto2
+                end
+               
+               
+                --select 'PF',@digitoVerificador1, @digitoVerificador2
+               
+                if (@v10 = @digitoVerificador1 and @v11 = @digitoVerificador2)
+                begin
+                               --print 'cpf ok'
+                               return 1
+                end
+                else
+                begin
+                                --print 'cpf nao ok'
+                                return 0
+                end                                                                                     
+    end
+   
+    
+    -- se o tipo pessoa for Pessoa Jurídica
+    if @tip_perso_ente = 'PJ'
+    begin
+   
+                if len(rtrim(@cod_cpf_cgc)) <> 14 return 0
+   
+                select @multiplicacao1 = (@v1 * 6) + (@v2 * 7) + (@v3 * 8) + (@v4 * 9) + (@v5 * 2) + (@v6 * 3) + (@v7 * 4) + (@v8 * 5) + (@v9 * 6) + (@v10 * 7) + (@v11 * 8) + (@v12 * 9)
+                select @resto1 = @multiplicacao1 % 11
+               
+                select @multiplicacao2 = (@v1 * 5) + (@v2 * 6) + (@v3 * 7) + (@v4 * 8) + (@v5 * 9) + (@v6 * 2) + (@v7 * 3) + (@v8 * 4) + (@v9 * 5) + (@v10 * 6) + (@v11 * 7) + (@v12 * 8) + (@v13 * 9)
+                select @resto2 = (@multiplicacao2) % 11
+               
+                --select 'PJ',@multiplicacao1, @multiplicacao2, @resto1, @resto2        
+               
+                if @resto1 = 10
+                begin
+                   select @resto1 = 0
+                end
+               
+                if @resto2 = 10
+                begin
+                   select @resto2 = 0
+                end
+               
+                if (@v13 = @resto1 and @v14 = @resto2)
+                begin
+                               --print 'cnpj ok'
+                               return 1
+                end
+                else
+                begin
+                                --print 'cnpj nao ok'
+                                return 0
+                end               
+    
+    end
+   
+    -- se não for nem PF nem PJ
+    return 0
+ 
+end
+

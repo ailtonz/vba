@@ -1,0 +1,68 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function MesAnterior(Valor As Integer) As String
+Dim meses(11) As Variant
+
+meses(0) = "Janeiro"
+meses(1) = "Fevereiro"
+meses(2) = "Março"
+meses(3) = "Abril"
+meses(4) = "Maio"
+meses(5) = "Junho"
+meses(6) = "Julho"
+meses(7) = "Agosto"
+meses(8) = "Setembro"
+meses(9) = "Outubro"
+meses(10) = "Novembro"
+meses(11) = "Dezembro"
+
+If (Month(Now) - Valor) = 0 Then
+    MesAnterior = meses(11)
+Else
+    MesAnterior = MonthName(Month(Now) - Valor, False)
+End If
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function MesAnterior(Valor As Integer) As String
+Dim meses(11) As Variant
+
+meses(0) = "Janeiro"
+meses(1) = "Fevereiro"
+meses(2) = "Março"
+meses(3) = "Abril"
+meses(4) = "Maio"
+meses(5) = "Junho"
+meses(6) = "Julho"
+meses(7) = "Agosto"
+meses(8) = "Setembro"
+meses(9) = "Outubro"
+meses(10) = "Novembro"
+meses(11) = "Dezembro"
+
+If (Month(Now) - Valor) = 0 Then
+    MesAnterior = meses(11)
+Else
+    MesAnterior = MonthName(Month(Now) - Valor, False)
+End If
+
+End Function
+

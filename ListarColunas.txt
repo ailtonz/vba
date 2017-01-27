@@ -1,0 +1,60 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function ListarColunas(sPlanilha As String, iColuna As Integer) As String
+Dim Linha As Long
+Dim tmp As String
+
+Sheets(sPlanilha).Activate
+
+tmp = ""
+For Linha = 4 To Rows.Count
+    If Cells(Linha, iColuna) <> "" Then
+        tmp = tmp & Cells(Linha, iColuna)
+    Else
+        Exit For
+    End If
+
+Next
+
+ListarColunas = tmp
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function ListarColunas(sPlanilha As String, iColuna As Integer) As String
+Dim Linha As Long
+Dim tmp As String
+
+Sheets(sPlanilha).Activate
+
+tmp = ""
+For Linha = 4 To Rows.Count
+    If Cells(Linha, iColuna) <> "" Then
+        tmp = tmp & Cells(Linha, iColuna)
+    Else
+        Exit For
+    End If
+
+Next
+
+ListarColunas = tmp
+
+End Function
+

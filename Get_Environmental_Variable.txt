@@ -1,0 +1,52 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub Get_Environmental_Variable()
+
+Dim sHostName As String
+Dim sUserName As String
+
+' Get Host Name / Get Computer Name
+sHostName = Environ$("computername")
+
+' Get Current User Name
+sUserName = Environ$("username")
+
+Worksheets("Plan1").Range("a1").Value = sHostName
+Worksheets("Plan1").Range("a2").Value = sUserName
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub Get_Environmental_Variable()
+
+Dim sHostName As String
+Dim sUserName As String
+
+' Get Host Name / Get Computer Name
+sHostName = Environ$("computername")
+
+' Get Current User Name
+sUserName = Environ$("username")
+
+Worksheets("Plan1").Range("a1").Value = sHostName
+Worksheets("Plan1").Range("a2").Value = sUserName
+
+End Sub
+

@@ -1,0 +1,296 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Option Explicit
+
+' IDTExtensibility2 a interface que liga o COM addin ao Outlook
+Implements IDTExtensibility2
+
+' principal objecto da aplicação – é passado pelo Outlook no método OnConnection
+Dim goOutlook As Outlook.Application
+
+' lidar com os eventos inspector para detector quando um utilizador está a criar uma mensagem
+Public WithEvents goInspectors As Outlook.Inspectors
+
+' esta linha é usada para detector se quando o nosso botão (commandbar) é clicado
+Public WithEvents goButton As Office.CommandBarButton
+
+ ' OnConnection – é activado pelo Outlook quando o addin é ligado pela primeira vez (loaded).
+Private Sub IDTExtensibility2_OnConnection(ByVal Application As Object, _
+                       ByVal ConnectMode As AddInDesignerObjects.ext_ConnectMode, _
+                       ByVal AddInInst As Object, custom() As Variant)
+On Error GoTo Err_Handler
+
+' guarda o objecto da aplicação de Outlook para utilizar mais tarde
+Set goOutlook = Application
+
+' guarda o objecto inspectors para detectarmos quando o utilizador está a criar uma mensagem
+Set goInspectors = goOutlook.Inspectors
+
+Exit Sub
+
+Err_Handler:
+' lidar com os erros
+End Sub
+
+Private Sub goInspectors_NewInspector(ByVal inspector As Outlook.inspector)
+'O Resume next vai resultar duma chamada do FindControl se o botão não for encontrado
+'Não queremos que vá para o final sem adicionaro botão à controlbar.
+On Error Resume Next
+
+
+' ver se o botão já existe na commandbar
+Dim oBar As Office.CommandBar
+
+Set oBar = inspector.CommandBars("Standard")
+Set goButton = oBar.FindControl(Type:=msoControlButton, ID:=oBar.Controls("Criar Msg").ID)
+
+' se não existir, adicionar à controlbar
+If goButton Is Nothing Then
+    Set goButton = oBar.Controls.Add(1)
+    goButton.Caption = "Criar Msg"
+End If
+
+' utilizar o icone igual ao do botão Send para o nosso botão
+Dim oSendButton As Office.CommandBarButton
+Set oSendButton = oBar.FindControl(Type:=msoControlButton, ID:=oBar.Controls("Send").ID)
+
+' apenas definir as propriedades se encontrar o botão
+If Not oSendButton Is Nothing Then
+    goButton.Style = msoButtonIconAndCaption
+    goButton.FaceId = oSendButton.FaceId
+End If
+
+' apenas mostra o botão se for uma mensagem
+If inspector.CurrentItem.Class = olMail Then
+    goButton.Visible = True
+Else
+    goButton.Visible = False
+End If
+
+End Sub
+
+Private Sub goButton_Click(ByVal Ctrl As Office.CommandBarButton, CancelDefault As Boolean)
+On Error GoTo Err_Handler
+
+' seleccionar o objecto da mensagem, através da selecção do inspector e depois os inspectors da mensagem
+Dim oInspector As inspector
+Set oInspector = goOutlook.ActiveInspector
+
+' seleccionar o mail item corrente
+Dim oCurMail As Outlook.MailItem
+Set oCurMail = oInspector.CurrentItem
+
+'abre o formulário de Outlook "Reparação"
+Dim OutMail As Outlook.MailItem
+Set OutMail = goOutlook.CreateItem(olMailItem)
+
+
+With OutMail
+
+    .To = "teste@teste.pt"
+    
+    .Subject = "Isto é um teste " & Format$(DateAdd("m", -1, Date), "mmmm")
+    
+    .Body = "Isto é parte do corpo da mensagem."
+    
+    .Display 'ou para enviar directo sem interface use .Send
+
+End With
+
+           
+Err_Handler:
+
+'error handling
+
+End Sub
+
+Private Sub IDTExtensibility2_OnDisconnection(ByVal RemoveMode As AddInDesignerObjects.ext_DisconnectMode, custom() As Variant)
+On Error Resume Next
+
+'Este evento não funciona se
+'RemoveMode = ext_dm_HostShutdown
+'só funciona se RemoveMode = ext_dm_UserClosed
+
+If RemoveMode = ext_dm_UserClosed Then
+  'Se UserClosed, então remove os botões adicionador
+  'goButton.Delete
+End If
+
+End Sub
+
+Private Sub IDTExtensibility2_OnAddInsUpdate(custom() As Variant)
+' Mesmo que não utilize código para alguns dos métodos estes têm que estar presentes,
+'se não surgem erros na compilação da aplicação
+End Sub
+
+Private Sub IDTExtensibility2_OnStartupComplete(custom() As Variant)
+' Mesmo que não utilize código para alguns dos métodos estes têm que estar presentes,
+'se não surgem erros na compilação da aplicação
+End Sub
+
+Private Sub IDTExtensibility2_OnBeginShutdown(custom() As Variant)
+' Mesmo que não utilize código para alguns dos métodos estes têm que estar presentes,
+'se não surgem erros na compilação da aplicação
+End Sub
+
+Private Sub IDTExtensibility2_OnBeginShutdown(custom() As Variant)
+' Mesmo que não utilize código para alguns dos métodos estes têm que estar presentes,
+'se não surgem erros na compilação da aplicação
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Option Explicit
+
+' IDTExtensibility2 a interface que liga o COM addin ao Outlook
+Implements IDTExtensibility2
+
+' principal objecto da aplicação – é passado pelo Outlook no método OnConnection
+Dim goOutlook As Outlook.Application
+
+' lidar com os eventos inspector para detector quando um utilizador está a criar uma mensagem
+Public WithEvents goInspectors As Outlook.Inspectors
+
+' esta linha é usada para detector se quando o nosso botão (commandbar) é clicado
+Public WithEvents goButton As Office.CommandBarButton
+
+ ' OnConnection – é activado pelo Outlook quando o addin é ligado pela primeira vez (loaded).
+Private Sub IDTExtensibility2_OnConnection(ByVal Application As Object, _
+                       ByVal ConnectMode As AddInDesignerObjects.ext_ConnectMode, _
+                       ByVal AddInInst As Object, custom() As Variant)
+On Error GoTo Err_Handler
+
+' guarda o objecto da aplicação de Outlook para utilizar mais tarde
+Set goOutlook = Application
+
+' guarda o objecto inspectors para detectarmos quando o utilizador está a criar uma mensagem
+Set goInspectors = goOutlook.Inspectors
+
+Exit Sub
+
+Err_Handler:
+' lidar com os erros
+End Sub
+
+Private Sub goInspectors_NewInspector(ByVal inspector As Outlook.inspector)
+'O Resume next vai resultar duma chamada do FindControl se o botão não for encontrado
+'Não queremos que vá para o final sem adicionaro botão à controlbar.
+On Error Resume Next
+
+
+' ver se o botão já existe na commandbar
+Dim oBar As Office.CommandBar
+
+Set oBar = inspector.CommandBars("Standard")
+Set goButton = oBar.FindControl(Type:=msoControlButton, ID:=oBar.Controls("Criar Msg").ID)
+
+' se não existir, adicionar à controlbar
+If goButton Is Nothing Then
+    Set goButton = oBar.Controls.Add(1)
+    goButton.Caption = "Criar Msg"
+End If
+
+' utilizar o icone igual ao do botão Send para o nosso botão
+Dim oSendButton As Office.CommandBarButton
+Set oSendButton = oBar.FindControl(Type:=msoControlButton, ID:=oBar.Controls("Send").ID)
+
+' apenas definir as propriedades se encontrar o botão
+If Not oSendButton Is Nothing Then
+    goButton.Style = msoButtonIconAndCaption
+    goButton.FaceId = oSendButton.FaceId
+End If
+
+' apenas mostra o botão se for uma mensagem
+If inspector.CurrentItem.Class = olMail Then
+    goButton.Visible = True
+Else
+    goButton.Visible = False
+End If
+
+End Sub
+
+Private Sub goButton_Click(ByVal Ctrl As Office.CommandBarButton, CancelDefault As Boolean)
+On Error GoTo Err_Handler
+
+' seleccionar o objecto da mensagem, através da selecção do inspector e depois os inspectors da mensagem
+Dim oInspector As inspector
+Set oInspector = goOutlook.ActiveInspector
+
+' seleccionar o mail item corrente
+Dim oCurMail As Outlook.MailItem
+Set oCurMail = oInspector.CurrentItem
+
+'abre o formulário de Outlook "Reparação"
+Dim OutMail As Outlook.MailItem
+Set OutMail = goOutlook.CreateItem(olMailItem)
+
+
+With OutMail
+
+    .To = "teste@teste.pt"
+    
+    .Subject = "Isto é um teste " & Format$(DateAdd("m", -1, Date), "mmmm")
+    
+    .Body = "Isto é parte do corpo da mensagem."
+    
+    .Display 'ou para enviar directo sem interface use .Send
+
+End With
+
+           
+Err_Handler:
+
+'error handling
+
+End Sub
+
+Private Sub IDTExtensibility2_OnDisconnection(ByVal RemoveMode As AddInDesignerObjects.ext_DisconnectMode, custom() As Variant)
+On Error Resume Next
+
+'Este evento não funciona se
+'RemoveMode = ext_dm_HostShutdown
+'só funciona se RemoveMode = ext_dm_UserClosed
+
+If RemoveMode = ext_dm_UserClosed Then
+  'Se UserClosed, então remove os botões adicionador
+  'goButton.Delete
+End If
+
+End Sub
+
+Private Sub IDTExtensibility2_OnAddInsUpdate(custom() As Variant)
+' Mesmo que não utilize código para alguns dos métodos estes têm que estar presentes,
+'se não surgem erros na compilação da aplicação
+End Sub
+
+Private Sub IDTExtensibility2_OnStartupComplete(custom() As Variant)
+' Mesmo que não utilize código para alguns dos métodos estes têm que estar presentes,
+'se não surgem erros na compilação da aplicação
+End Sub
+
+Private Sub IDTExtensibility2_OnBeginShutdown(custom() As Variant)
+' Mesmo que não utilize código para alguns dos métodos estes têm que estar presentes,
+'se não surgem erros na compilação da aplicação
+End Sub
+
+Private Sub IDTExtensibility2_OnBeginShutdown(custom() As Variant)
+' Mesmo que não utilize código para alguns dos métodos estes têm que estar presentes,
+'se não surgem erros na compilação da aplicação
+End Sub
+

@@ -1,0 +1,32 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub HistoricoDeArquivosRecentes()
+
+Application.RecentFiles.Add Name:="Oscar.xls"
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub HistoricoDeArquivosRecentes()
+
+Application.RecentFiles.Add Name:="Oscar.xls"
+
+End Sub
+

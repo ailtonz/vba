@@ -1,0 +1,44 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub ExcluirModuloVBA()
+ 
+    Dim vbCom As Object
+    Dim NomeModulo As String
+    NomeModulo = "Módulo1"
+    Set vbCom = Application.VBE.ActiveVBProject.VBComponents
+ 
+    vbCom.Remove VBComponent:= vbCom.Item(NomeModulo)
+    MsgBox NomeModulo & " excluído com sucesso"
+ 
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub ExcluirModuloVBA()
+ 
+    Dim vbCom As Object
+    Dim NomeModulo As String
+    NomeModulo = "Módulo1"
+    Set vbCom = Application.VBE.ActiveVBProject.VBComponents
+ 
+    vbCom.Remove VBComponent:= vbCom.Item(NomeModulo)
+    MsgBox NomeModulo & " excluído com sucesso"
+ 
+End Sub
+

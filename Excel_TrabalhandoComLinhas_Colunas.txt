@@ -1,0 +1,38 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub TrabalhandoComLinhas_Colunas()
+
+'Application.Columns("E").Delete
+'Application.Rows(3).Insert
+'Application.Rows(3).Delete
+'Worksheets("Plan1").Rows(2).Insert
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub TrabalhandoComLinhas_Colunas()
+
+'Application.Columns("E").Delete
+'Application.Rows(3).Insert
+'Application.Rows(3).Delete
+'Worksheets("Plan1").Rows(2).Insert
+
+End Sub
+

@@ -1,0 +1,180 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub PesquisarLogs()
+On Error GoTo Numera_err
+
+Dim i As Integer
+Dim l As Integer
+Dim c As Integer
+Dim sNomeNovo As String
+Dim sNomeAntigo As String
+
+Dim inStream As TextStream
+Dim fs As New FileSystemObject
+Dim aryColunas As Variant
+
+Set fs = CreateObject("Scripting.FileSystemObject")
+
+'#######################################
+' ATENÇÃO: Variavel preenchida p/ tst's
+
+sCaminho = ActiveWorkbook.Path & "\LOG\"
+
+'#######################################
+
+With application.FileSearch
+    .NewSearch
+    .LookIn = sCaminho
+    .SearchSubFolders = True
+    .Filename = "*.txt"
+    l = 2
+    c = 1
+    If .Execute() > 0 Then
+        Set NewSheet = Sheets.Add(Type:=xlWorksheet)
+        NewSheet.Cells(1, 1).Value = "Inicio"
+        NewSheet.Cells(1, 2).Value = "Terminio"
+        NewSheet.Cells(1, 3).Value = "Planilha"
+        NewSheet.Cells(1, 4).Value = "Processo"
+        NewSheet.Cells(1, 5).Value = "Status"
+        
+        For i = 1 To 5
+            With NewSheet
+                .Cells(1, i).Font.Bold = True
+            End With
+        Next i
+
+        For i = 1 To .FoundFiles.Count
+            sNomeAntigo = .FoundFiles(i)
+            
+            Set inStream = fs.OpenTextFile(sNomeAntigo, ForReading)
+            While inStream.AtEndOfStream = False
+                Linha = inStream.ReadLine
+                aryColunas = Array()
+                aryColunas = Split(Linha, ";")
+                NewSheet.Cells(l, c).Value = aryColunas(0)
+                NewSheet.Cells(l, c + 1).Value = aryColunas(1)
+                NewSheet.Cells(l, c + 2).Value = aryColunas(2)
+                NewSheet.Cells(l, c + 3).Value = aryColunas(3)
+                NewSheet.Cells(l, c + 4).Value = aryColunas(4)
+                l = l + 1
+            Wend
+            
+            Set inStream = Nothing
+            c = 1
+        
+        Next i
+
+    End If
+
+    Columns("A:E").Select
+    Columns("A:E").EntireColumn.AutoFit
+    Range("A1").Select
+End With
+
+Numera_Fim:
+ Exit Sub
+Numera_err:
+ MsgBox Err.Description
+ Resume Numera_Fim
+
+End Sub
+
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub PesquisarLogs()
+On Error GoTo Numera_err
+
+Dim i As Integer
+Dim l As Integer
+Dim c As Integer
+Dim sNomeNovo As String
+Dim sNomeAntigo As String
+
+Dim inStream As TextStream
+Dim fs As New FileSystemObject
+Dim aryColunas As Variant
+
+Set fs = CreateObject("Scripting.FileSystemObject")
+
+'#######################################
+' ATENÇÃO: Variavel preenchida p/ tst's
+
+sCaminho = ActiveWorkbook.Path & "\LOG\"
+
+'#######################################
+
+With application.FileSearch
+    .NewSearch
+    .LookIn = sCaminho
+    .SearchSubFolders = True
+    .Filename = "*.txt"
+    l = 2
+    c = 1
+    If .Execute() > 0 Then
+        Set NewSheet = Sheets.Add(Type:=xlWorksheet)
+        NewSheet.Cells(1, 1).Value = "Inicio"
+        NewSheet.Cells(1, 2).Value = "Terminio"
+        NewSheet.Cells(1, 3).Value = "Planilha"
+        NewSheet.Cells(1, 4).Value = "Processo"
+        NewSheet.Cells(1, 5).Value = "Status"
+        
+        For i = 1 To 5
+            With NewSheet
+                .Cells(1, i).Font.Bold = True
+            End With
+        Next i
+
+        For i = 1 To .FoundFiles.Count
+            sNomeAntigo = .FoundFiles(i)
+            
+            Set inStream = fs.OpenTextFile(sNomeAntigo, ForReading)
+            While inStream.AtEndOfStream = False
+                Linha = inStream.ReadLine
+                aryColunas = Array()
+                aryColunas = Split(Linha, ";")
+                NewSheet.Cells(l, c).Value = aryColunas(0)
+                NewSheet.Cells(l, c + 1).Value = aryColunas(1)
+                NewSheet.Cells(l, c + 2).Value = aryColunas(2)
+                NewSheet.Cells(l, c + 3).Value = aryColunas(3)
+                NewSheet.Cells(l, c + 4).Value = aryColunas(4)
+                l = l + 1
+            Wend
+            
+            Set inStream = Nothing
+            c = 1
+        
+        Next i
+
+    End If
+
+    Columns("A:E").Select
+    Columns("A:E").EntireColumn.AutoFit
+    Range("A1").Select
+End With
+
+Numera_Fim:
+ Exit Sub
+Numera_err:
+ MsgBox Err.Description
+ Resume Numera_Fim
+
+End Sub
+
+

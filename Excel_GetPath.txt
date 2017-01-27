@@ -1,0 +1,34 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function GetPath(path As String)
+' Retrieve the script path
+ 
+ GetPath = Left(path, InStrRev(path, "\"))
+ 
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function GetPath(path As String)
+' Retrieve the script path
+ 
+ GetPath = Left(path, InStrRev(path, "\"))
+ 
+End Function
+

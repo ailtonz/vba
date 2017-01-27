@@ -1,0 +1,54 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub LogErro(intErro As Integer, Optional strFuncao As String)
+Dim strForm As String
+Dim strCtl As String
+Dim intArquivo As Integer
+
+On Error Resume Next
+
+strForm = scree.activeform.Name
+strCtl = scree.activecontrol.Name
+intArquivo = FreeFile
+
+Open "Erros-LOG.txt" For Append As #intArquivo
+Write #intArquivo, Now, "Erro: " & intErro, "Função: " & strFuncao, "Formulário: " & strForm, "Controle: " & strCtl
+Close #intArquivo
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub LogErro(intErro As Integer, Optional strFuncao As String)
+Dim strForm As String
+Dim strCtl As String
+Dim intArquivo As Integer
+
+On Error Resume Next
+
+strForm = scree.activeform.Name
+strCtl = scree.activecontrol.Name
+intArquivo = FreeFile
+
+Open "Erros-LOG.txt" For Append As #intArquivo
+Write #intArquivo, Now, "Erro: " & intErro, "Função: " & strFuncao, "Formulário: " & strForm, "Controle: " & strCtl
+Close #intArquivo
+
+End Sub
+

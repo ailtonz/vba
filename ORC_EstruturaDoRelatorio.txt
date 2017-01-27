@@ -1,0 +1,146 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub EstruturaDoRelatorio()
+Dim inStream As TextStream
+Dim fs As New FileSystemObject
+Dim aryColunas As Variant
+Dim Linha As Variant
+Dim Titulo As Variant
+Dim Caminho As String
+Dim Arquivo As String
+Dim Pasta As String
+Dim I As Integer
+Dim L As Variant
+Dim C As Variant
+
+Caminho = ActiveWorkbook.Path
+Arquivo = ActiveWorkbook.Name
+L = 1
+C = 1
+
+'############################################
+'   ATENÇÃO AO CONTROLE DE ABAS DO DOCUMENTO
+'############################################
+
+Set fs = CreateObject("Scripting.FileSystemObject")
+For I = 1 To 1 'Sheets.Count
+    Pasta = Sheets(I).Name
+    Set inStream = fs.OpenTextFile(Caminho & "\" & Pasta & ".txt", ForReading)
+    While inStream.AtEndOfStream = False
+        Linha = inStream.ReadLine
+        aryColunas = Array()
+        aryColunas = Split(Linha, ";")
+        If aryColunas(0) = "L" Then
+            C = C + 1
+            If UBound(aryColunas) = 4 Then
+                If aryColunas(3) <> "" Then
+                    Sheets(Pasta).Cells(aryColunas(1) + 1, C).Value = aryColunas(3)
+                End If
+                
+                If aryColunas(4) <> "" Then
+                    Sheets(Pasta).Cells(aryColunas(1) + 2, C).Value = aryColunas(4)
+                End If
+            ElseIf UBound(aryColunas) = 3 Then
+                If Titulo <> aryColunas(2) And aryColunas(2) <> "" Then
+                    Sheets(Pasta).Cells(aryColunas(1), C).Value = aryColunas(2)
+                    Titulo = aryColunas(2)
+                End If
+                
+                If aryColunas(3) <> "" Then
+                    Sheets(Pasta).Cells(aryColunas(1) + 1, C).Value = aryColunas(3)
+                End If
+            ElseIf UBound(aryColunas) = 2 Then
+                If aryColunas(2) <> "" Then
+                    C = 1
+                    Sheets(Pasta).Cells(aryColunas(1), C).Value = aryColunas(2)
+                End If
+            End If
+        ElseIf aryColunas(0) = "C" Then
+            Sheets(Pasta).Cells(L, CInt(aryColunas(1))).Value = aryColunas(2)
+        End If
+    Wend
+    Set inStream = Nothing
+Next I
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub EstruturaDoRelatorio()
+Dim inStream As TextStream
+Dim fs As New FileSystemObject
+Dim aryColunas As Variant
+Dim Linha As Variant
+Dim Titulo As Variant
+Dim Caminho As String
+Dim Arquivo As String
+Dim Pasta As String
+Dim I As Integer
+Dim L As Variant
+Dim C As Variant
+
+Caminho = ActiveWorkbook.Path
+Arquivo = ActiveWorkbook.Name
+L = 1
+C = 1
+
+'############################################
+'   ATENÇÃO AO CONTROLE DE ABAS DO DOCUMENTO
+'############################################
+
+Set fs = CreateObject("Scripting.FileSystemObject")
+For I = 1 To 1 'Sheets.Count
+    Pasta = Sheets(I).Name
+    Set inStream = fs.OpenTextFile(Caminho & "\" & Pasta & ".txt", ForReading)
+    While inStream.AtEndOfStream = False
+        Linha = inStream.ReadLine
+        aryColunas = Array()
+        aryColunas = Split(Linha, ";")
+        If aryColunas(0) = "L" Then
+            C = C + 1
+            If UBound(aryColunas) = 4 Then
+                If aryColunas(3) <> "" Then
+                    Sheets(Pasta).Cells(aryColunas(1) + 1, C).Value = aryColunas(3)
+                End If
+                
+                If aryColunas(4) <> "" Then
+                    Sheets(Pasta).Cells(aryColunas(1) + 2, C).Value = aryColunas(4)
+                End If
+            ElseIf UBound(aryColunas) = 3 Then
+                If Titulo <> aryColunas(2) And aryColunas(2) <> "" Then
+                    Sheets(Pasta).Cells(aryColunas(1), C).Value = aryColunas(2)
+                    Titulo = aryColunas(2)
+                End If
+                
+                If aryColunas(3) <> "" Then
+                    Sheets(Pasta).Cells(aryColunas(1) + 1, C).Value = aryColunas(3)
+                End If
+            ElseIf UBound(aryColunas) = 2 Then
+                If aryColunas(2) <> "" Then
+                    C = 1
+                    Sheets(Pasta).Cells(aryColunas(1), C).Value = aryColunas(2)
+                End If
+            End If
+        ElseIf aryColunas(0) = "C" Then
+            Sheets(Pasta).Cells(L, CInt(aryColunas(1))).Value = aryColunas(2)
+        End If
+    Wend
+    Set inStream = Nothing
+Next I
+End Sub
+

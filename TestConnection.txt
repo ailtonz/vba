@@ -1,0 +1,29 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Dim cnn As ADODB.Connection
+Dim canConnect As Boolean
+
+Public Sub TestConnection()
+
+    Set cnn = New ADODB.Connection
+    cnn.Open "Provider = SQLOLEDB" & _
+                              ";Data Source=10.128.222.66" & _
+                              ";Initial Catalog=SISCOB" & _
+                              ";User ID=SISCOB_HML" & _
+                              ";Password=@Cc3nture.[0m$"
+    If cnn.State = adStateOpen Then
+        canConnect = True
+        cnn.Close
+    End If
+    
+MsgBox canConnect
+
+End Sub

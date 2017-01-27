@@ -1,0 +1,66 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub NewControls()
+    Dim frm As Form
+    Dim ctlLabel As Control, ctlText As Control
+    Dim intDataX As Integer, intDataY As Integer
+    Dim intLabelX As Integer, intLabelY As Integer
+
+    ' Create new form with Orders table as its record source.
+    Set frm = CreateForm
+'    frm.RecordSource = "Orders"
+    ' Set positioning values for new controls.
+    intLabelX = 100
+    intLabelY = 100
+    intDataX = 1000
+    intDataY = 100
+    ' Create unbound default-size text box in detail section.
+    Set ctlText = CreateControl(frm.Name, acTextBox, , "", "", intDataX, intDataY, 3000)
+    ' Create child label control for text box.
+    Set ctlLabel = CreateControl(frm.Name, acLabel, , _
+         ctlText.Name, "NewLabel", intLabelX, intLabelY)
+    ' Restore form.
+    DoCmd.Restore
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub NewControls()
+    Dim frm As Form
+    Dim ctlLabel As Control, ctlText As Control
+    Dim intDataX As Integer, intDataY As Integer
+    Dim intLabelX As Integer, intLabelY As Integer
+
+    ' Create new form with Orders table as its record source.
+    Set frm = CreateForm
+'    frm.RecordSource = "Orders"
+    ' Set positioning values for new controls.
+    intLabelX = 100
+    intLabelY = 100
+    intDataX = 1000
+    intDataY = 100
+    ' Create unbound default-size text box in detail section.
+    Set ctlText = CreateControl(frm.Name, acTextBox, , "", "", intDataX, intDataY, 3000)
+    ' Create child label control for text box.
+    Set ctlLabel = CreateControl(frm.Name, acLabel, , _
+         ctlText.Name, "NewLabel", intLabelX, intLabelY)
+    ' Restore form.
+    DoCmd.Restore
+End Sub
+

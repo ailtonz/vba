@@ -1,0 +1,266 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub ExportarParaExcel(ByVal ssql As String, ByVal sDataInicial As String, ByVal sDataFinal As String)
+
+Dim DB As Database
+Dim i As Integer
+Dim x As Integer
+
+Dim Rd As Recordset
+
+Dim sTemp As String
+
+Dim intTituloPrincipal As Integer
+Dim intTituloSecundario As Integer
+Dim intCategoria As Integer
+Dim intSubCategoria As Integer
+Dim objExcel As Object
+Dim intLinha As Integer
+Dim intColuna As Integer
+
+x = 3
+
+Set DB = CurrentDb
+Set Rd = DB.OpenRecordset(ssql, dbOpenForwardOnly)
+
+If Rd.RecordCount > 0 Then
+    
+    'Cria referencia ao EXCEL
+    Set objExcel = CreateObject("Excel.Application")
+
+    'Cria uma pasta de planilhas
+    objExcel.Workbooks.Add
+
+    'Seleciona a primeira planilha
+    objExcel.Workbooks(1).Sheets(1).Select
+
+    '# ANO
+    intLinha = intLinha + 1
+    intColuna = intColuna + 1
+    With objExcel.Cells(intLinha, intColuna)
+        'Valor
+        .Value = "Ailton"
+        'Estilo
+        .Font.Bold = True
+        'Tamanho
+        .Font.Size = 15
+        'Cor
+        .Font.ColorIndex = 5
+    End With
+    
+    '# MÊS
+    intLinha = intLinha + 1
+    intColuna = intColuna + 2
+    For i = 1 To 12
+        With objExcel.Cells(intLinha, intColuna)
+            'Valor
+            .Value = MesAtual(i)
+            'Estilo
+            .Font.Bold = True
+            'Tamanho
+            .Font.Size = 10
+            'Cor
+            .Font.ColorIndex = 0
+        End With
+        intColuna = intColuna + 1
+    Next i
+    
+    '# SUBCATEGORIA
+    intLinha = 5
+    intColuna = 2
+    For i = 1 To 12
+        With objExcel.Cells(intLinha, intColuna)
+            'Valor
+            .Value = "T"
+            'Estilo
+            .Font.Bold = True
+            'Tamanho
+            .Font.Size = 10
+            'Cor
+            .Font.ColorIndex = 0
+        End With
+        intLinha = intLinha + 1
+    Next i
+
+
+    objExcel.Workbooks(1).Sheets(1).Name = "Controle Financeiro"
+
+    'formata novo nome da planilha
+    sTemp = "C:\Temp\" & Format(Now, "yy_mm_dd_hhnn") & ".xls"
+    
+    'se o diretório não existe, cria
+    If Dir$("C:\Temp", vbDirectory) = "" Then MkDir "C:\Temp"
+    
+    'se o arquivo já existe, deleta
+    If Dir$(sTemp) <> "" Then Kill sTemp
+    
+    'salva a planilha
+    objExcel.ActiveWorkbook.SaveAs FileName:=sTemp, _
+    FileFormat:=xlNormal, Password:="", WriteResPassword:="", _
+    ReadOnlyRecommended:=False, CreateBackup:=False
+    
+    'fecha o Excel
+    objExcel.Quit
+    
+    'descarrega da memória
+    Set objExcel = Nothing
+
+End If
+Rd.Close
+Set Rd = Nothing
+Set DB = Nothing
+MsgBox "A planilha foi gerada com êxito." & vbCrLf & "Está em " & sTemp, vbInformation, "ATENÇÃO"
+End Sub
+
+
+Function MesAtual(intMes As Integer) As String
+Dim myMonth As Variant
+
+myMonth = Array("", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
+
+MesAtual = myMonth(intMes)
+
+End Function
+
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub ExportarParaExcel(ByVal ssql As String, ByVal sDataInicial As String, ByVal sDataFinal As String)
+
+Dim DB As Database
+Dim i As Integer
+Dim x As Integer
+
+Dim Rd As Recordset
+
+Dim sTemp As String
+
+Dim intTituloPrincipal As Integer
+Dim intTituloSecundario As Integer
+Dim intCategoria As Integer
+Dim intSubCategoria As Integer
+Dim objExcel As Object
+Dim intLinha As Integer
+Dim intColuna As Integer
+
+x = 3
+
+Set DB = CurrentDb
+Set Rd = DB.OpenRecordset(ssql, dbOpenForwardOnly)
+
+If Rd.RecordCount > 0 Then
+    
+    'Cria referencia ao EXCEL
+    Set objExcel = CreateObject("Excel.Application")
+
+    'Cria uma pasta de planilhas
+    objExcel.Workbooks.Add
+
+    'Seleciona a primeira planilha
+    objExcel.Workbooks(1).Sheets(1).Select
+
+    '# ANO
+    intLinha = intLinha + 1
+    intColuna = intColuna + 1
+    With objExcel.Cells(intLinha, intColuna)
+        'Valor
+        .Value = "Ailton"
+        'Estilo
+        .Font.Bold = True
+        'Tamanho
+        .Font.Size = 15
+        'Cor
+        .Font.ColorIndex = 5
+    End With
+    
+    '# MÊS
+    intLinha = intLinha + 1
+    intColuna = intColuna + 2
+    For i = 1 To 12
+        With objExcel.Cells(intLinha, intColuna)
+            'Valor
+            .Value = MesAtual(i)
+            'Estilo
+            .Font.Bold = True
+            'Tamanho
+            .Font.Size = 10
+            'Cor
+            .Font.ColorIndex = 0
+        End With
+        intColuna = intColuna + 1
+    Next i
+    
+    '# SUBCATEGORIA
+    intLinha = 5
+    intColuna = 2
+    For i = 1 To 12
+        With objExcel.Cells(intLinha, intColuna)
+            'Valor
+            .Value = "T"
+            'Estilo
+            .Font.Bold = True
+            'Tamanho
+            .Font.Size = 10
+            'Cor
+            .Font.ColorIndex = 0
+        End With
+        intLinha = intLinha + 1
+    Next i
+
+
+    objExcel.Workbooks(1).Sheets(1).Name = "Controle Financeiro"
+
+    'formata novo nome da planilha
+    sTemp = "C:\Temp\" & Format(Now, "yy_mm_dd_hhnn") & ".xls"
+    
+    'se o diretório não existe, cria
+    If Dir$("C:\Temp", vbDirectory) = "" Then MkDir "C:\Temp"
+    
+    'se o arquivo já existe, deleta
+    If Dir$(sTemp) <> "" Then Kill sTemp
+    
+    'salva a planilha
+    objExcel.ActiveWorkbook.SaveAs FileName:=sTemp, _
+    FileFormat:=xlNormal, Password:="", WriteResPassword:="", _
+    ReadOnlyRecommended:=False, CreateBackup:=False
+    
+    'fecha o Excel
+    objExcel.Quit
+    
+    'descarrega da memória
+    Set objExcel = Nothing
+
+End If
+Rd.Close
+Set Rd = Nothing
+Set DB = Nothing
+MsgBox "A planilha foi gerada com êxito." & vbCrLf & "Está em " & sTemp, vbInformation, "ATENÇÃO"
+End Sub
+
+
+Function MesAtual(intMes As Integer) As String
+Dim myMonth As Variant
+
+myMonth = Array("", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
+
+MesAtual = myMonth(intMes)
+
+End Function
+
+

@@ -1,0 +1,130 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ImportarProdutos()
+Dim fd As Office.FileDialog
+Dim strArq As String
+Dim strNomeDaTabela As String
+Dim strCaminhoArquivo As String
+
+On Error GoTo ErrHandler
+
+Set fd = Application.FileDialog(msoFileDialogFilePicker)
+strNomeDaTabela = "admPlanilhaProdutos"
+
+' Open the file dialog
+With fd
+    .Title = "Importar >> Planilha de Produtos <<  do Ponto de Venda - ATENÇÃO: SELECIONAR PLANILHA DE PRODUTOS!"
+    .Filters.Add "Arquivos Excel", "*.xls"
+    .AllowMultiSelect = False
+
+    If fd.Show = -1 Then
+        strCaminhoArquivo = fd.SelectedItems(1)
+    End If
+    
+    If strCaminhoArquivo <> "" Then
+        DoCmd.TransferSpreadsheet acImport, acSpreadsheetTypeExcel8, strNomeDaTabela, strCaminhoArquivo, True
+        MsgBox "A Importação da Planilha de Produtos foi concluída.", vbOKOnly + vbInformation, "Importação de >> Planilha de Produtos << "
+    End If
+
+End With
+
+
+ExitHere:
+Exit Function
+
+ErrHandler:
+MsgBox Err.Description
+Resume ExitHere
+
+End Function
+
+'----------------------------------------------------------------------------------------------
+
+Public Function ExportarCodigoDeBarras_PontoDeVenda()
+    Dim sTemp As String
+    Dim sSQL As String: sSQL = "admCodigoDeBarras-PontoDeVenda"
+    
+    sTemp = pathDesktopAddress & Format(Now, "yymmdd_hhnn") & "-CodigoDeBarras-PONTO_DE_VENDA.xls"
+    
+    DoCmd.Hourglass True
+    
+    DoCmd.TransferSpreadsheet acExport, acSpreadsheetTypeExcel97, sSQL, sTemp, True
+    
+    DoCmd.Hourglass False
+    MsgBox "A planilha foi gerada com êxito." & vbCrLf & vbCrLf & "Está em " & sTemp, vbInformation, "Exportação de Codigo De Barras"
+    
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ImportarProdutos()
+Dim fd As Office.FileDialog
+Dim strArq As String
+Dim strNomeDaTabela As String
+Dim strCaminhoArquivo As String
+
+On Error GoTo ErrHandler
+
+Set fd = Application.FileDialog(msoFileDialogFilePicker)
+strNomeDaTabela = "admPlanilhaProdutos"
+
+' Open the file dialog
+With fd
+    .Title = "Importar >> Planilha de Produtos <<  do Ponto de Venda - ATENÇÃO: SELECIONAR PLANILHA DE PRODUTOS!"
+    .Filters.Add "Arquivos Excel", "*.xls"
+    .AllowMultiSelect = False
+
+    If fd.Show = -1 Then
+        strCaminhoArquivo = fd.SelectedItems(1)
+    End If
+    
+    If strCaminhoArquivo <> "" Then
+        DoCmd.TransferSpreadsheet acImport, acSpreadsheetTypeExcel8, strNomeDaTabela, strCaminhoArquivo, True
+        MsgBox "A Importação da Planilha de Produtos foi concluída.", vbOKOnly + vbInformation, "Importação de >> Planilha de Produtos << "
+    End If
+
+End With
+
+
+ExitHere:
+Exit Function
+
+ErrHandler:
+MsgBox Err.Description
+Resume ExitHere
+
+End Function
+
+'----------------------------------------------------------------------------------------------
+
+Public Function ExportarCodigoDeBarras_PontoDeVenda()
+    Dim sTemp As String
+    Dim sSQL As String: sSQL = "admCodigoDeBarras-PontoDeVenda"
+    
+    sTemp = pathDesktopAddress & Format(Now, "yymmdd_hhnn") & "-CodigoDeBarras-PONTO_DE_VENDA.xls"
+    
+    DoCmd.Hourglass True
+    
+    DoCmd.TransferSpreadsheet acExport, acSpreadsheetTypeExcel97, sSQL, sTemp, True
+    
+    DoCmd.Hourglass False
+    MsgBox "A planilha foi gerada com êxito." & vbCrLf & vbCrLf & "Está em " & sTemp, vbInformation, "Exportação de Codigo De Barras"
+    
+End Function
+

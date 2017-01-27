@@ -1,0 +1,326 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Private Function PosicionarCampos(strCadastro As String)
+
+Dim rstControle As DAO.Recordset
+Dim strSQL As String
+Dim obj As Variant
+
+strSQL = "Select * from dbo_admCampos where Controle = '" & strCadastro & "' and Ativo = -1 Order by Descricao"
+
+Set rstControle = CurrentDb.OpenRecordset(strSQL)
+
+strSQL = ""
+
+While Not rstControle.EOF
+
+    'Ler controles ocultos
+    For Each obj In Me.Controls
+        If obj.Visible = False Then
+            If TypeOf obj Is TextBox Then
+                If rstControle.Fields("TipoControle") = "TextBox" Then
+                    If Right(obj.Name, Len(obj.Name) - 3) = rstControle.Fields("Descricao") Then
+                        With obj
+                            'Esquerda
+                            .Left = rstControle.Fields("Esquerda")
+                            'Topo
+                            .Top = rstControle.Fields("Topo")
+                            'Largura
+                            .Width = rstControle.Fields("Largura")
+                            'Altura
+                            .Height = rstControle.Fields("Altura")
+                            'Tamanho da Fonte
+                            .FontSize = rstControle.Fields("TamanhoDaFonte")
+                            'Fonte Em Negrito
+                            .FontBold = rstControle.Fields("FonteEmNegrito")
+                            'Aparência
+                            .SpecialEffect = 0
+                            'Estilo da borda
+                            .BorderStyle = rstControle.Fields("EstiloDaBorda")
+                            'Alinhamento do texto
+                            .TextAlign = rstControle.Fields("AlinhamentoDoTexto")
+                            'Visivel
+                            .Visible = rstControle.Fields("Visivel")
+                            'Bloqueado
+                            .Locked = rstControle.Fields("Bloqueado")
+                            'Parada De Tabulação
+                            .TabStop = IIf(IsNull(rstControle.Fields("Tabulacao")), True, rstControle.Fields("Tabulacao"))
+                            'Indice de Tabulação
+                            .TabIndex = rstControle.Fields("Classificacao")
+                        End With
+                    End If
+                End If
+            ElseIf TypeOf obj Is ComboBox Then
+                If rstControle.Fields("TipoControle") = "ComboBox" Then
+                    If Right(obj.Name, Len(obj.Name) - 3) = rstControle.Fields("Descricao") Then
+                        With obj
+                            'Esquerda
+                            .Left = rstControle.Fields("Esquerda")
+                            'Topo
+                            .Top = rstControle.Fields("Topo")
+                            'Largura
+                            .Width = rstControle.Fields("Largura")
+                            'Altura
+                            .Height = rstControle.Fields("Altura")
+                            'Origem
+                            .RowSource = rstControle("Origem")
+                            'Tamanho da Fonte
+                            .FontSize = rstControle.Fields("TamanhoDaFonte")
+                            'Fonte Em Negrito
+                            .FontBold = rstControle.Fields("FonteEmNegrito")
+                            'Aparência
+                            .SpecialEffect = 0
+                            'Estilo da borda
+                            .BorderStyle = rstControle.Fields("EstiloDaBorda")
+                            'Visivel
+                            .Visible = rstControle.Fields("Visivel")
+                            'Bloqueado
+                            .Locked = rstControle.Fields("Bloqueado")
+                            'Parada De Tabulação
+                            .TabStop = IIf(IsNull(rstControle.Fields("Tabulacao")), True, rstControle.Fields("Tabulacao"))
+                            'Indice de Tabulação
+                            .TabIndex = rstControle.Fields("Classificacao")
+                            'Limitar A Uma Lista
+                            .LimitToList = True
+                        End With
+                    End If
+                End If
+            ElseIf TypeOf obj Is Label Then
+                If rstControle.Fields("TipoControle") = "Label" Then
+                    If Right(obj.Name, Len(obj.Name) - 3) = rstControle.Fields("Descricao") Then
+                        With obj
+                            'Esquerda
+                            .Left = rstControle.Fields("Esquerda")
+                            'Topo
+                            .Top = rstControle.Fields("Topo")
+                            'Largura
+                            .Width = rstControle.Fields("Largura")
+                            'Altura
+                            .Height = rstControle.Fields("Altura")
+                            'Descrição
+                            .Caption = rstControle.Fields("Descricao")
+                            'Tamanho da Fonte
+                            .FontSize = rstControle.Fields("TamanhoDaFonte")
+                            'Fonte Em Negrito
+                            .FontBold = rstControle.Fields("FonteEmNegrito")
+                            'Aparência
+                            .SpecialEffect = 0
+                            'Estilo da borda
+                            .BorderStyle = rstControle.Fields("EstiloDaBorda")
+                            'Alinhamento do texto
+                            .TextAlign = rstControle.Fields("AlinhamentoDoTexto")
+                            'Visivel
+                            .Visible = rstControle.Fields("Visivel")
+                        End With
+                    End If
+                End If
+            ElseIf TypeOf obj Is CommandButton Then
+                If rstControle.Fields("TipoControle") = "CommandButton" Then
+                    If Right(obj.Name, Len(obj.Name) - 3) = rstControle.Fields("Descricao") Then
+                        With obj
+                            'Esquerda
+                            .Left = rstControle.Fields("Esquerda")
+                            'Topo
+                            .Top = rstControle.Fields("Topo")
+                            'Largura
+                            .Width = rstControle.Fields("Largura")
+                            'Altura
+                            .Height = rstControle.Fields("Altura")
+                            'Tamanho da Fonte
+                            .FontSize = rstControle.Fields("TamanhoDaFonte")
+                            'Fonte Em Negrito
+                            .FontBold = rstControle.Fields("FonteEmNegrito")
+                            'Visivel
+                            .Visible = rstControle.Fields("Visivel")
+                            'Parada De Tabulação
+                            .TabStop = IIf(IsNull(rstControle.Fields("Tabulacao")), True, rstControle.Fields("Tabulacao"))
+                            'Indice de Tabulação
+                            .TabIndex = rstControle.Fields("Classificacao")
+                        End With
+                    End If
+                End If
+            End If
+        End If
+    Next
+
+    rstControle.MoveNext
+
+Wend
+
+rstControle.Close
+
+Set rstControle = Nothing
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Private Function PosicionarCampos(strCadastro As String)
+
+Dim rstControle As DAO.Recordset
+Dim strSQL As String
+Dim obj As Variant
+
+strSQL = "Select * from dbo_admCampos where Controle = '" & strCadastro & "' and Ativo = -1 Order by Descricao"
+
+Set rstControle = CurrentDb.OpenRecordset(strSQL)
+
+strSQL = ""
+
+While Not rstControle.EOF
+
+    'Ler controles ocultos
+    For Each obj In Me.Controls
+        If obj.Visible = False Then
+            If TypeOf obj Is TextBox Then
+                If rstControle.Fields("TipoControle") = "TextBox" Then
+                    If Right(obj.Name, Len(obj.Name) - 3) = rstControle.Fields("Descricao") Then
+                        With obj
+                            'Esquerda
+                            .Left = rstControle.Fields("Esquerda")
+                            'Topo
+                            .Top = rstControle.Fields("Topo")
+                            'Largura
+                            .Width = rstControle.Fields("Largura")
+                            'Altura
+                            .Height = rstControle.Fields("Altura")
+                            'Tamanho da Fonte
+                            .FontSize = rstControle.Fields("TamanhoDaFonte")
+                            'Fonte Em Negrito
+                            .FontBold = rstControle.Fields("FonteEmNegrito")
+                            'Aparência
+                            .SpecialEffect = 0
+                            'Estilo da borda
+                            .BorderStyle = rstControle.Fields("EstiloDaBorda")
+                            'Alinhamento do texto
+                            .TextAlign = rstControle.Fields("AlinhamentoDoTexto")
+                            'Visivel
+                            .Visible = rstControle.Fields("Visivel")
+                            'Bloqueado
+                            .Locked = rstControle.Fields("Bloqueado")
+                            'Parada De Tabulação
+                            .TabStop = IIf(IsNull(rstControle.Fields("Tabulacao")), True, rstControle.Fields("Tabulacao"))
+                            'Indice de Tabulação
+                            .TabIndex = rstControle.Fields("Classificacao")
+                        End With
+                    End If
+                End If
+            ElseIf TypeOf obj Is ComboBox Then
+                If rstControle.Fields("TipoControle") = "ComboBox" Then
+                    If Right(obj.Name, Len(obj.Name) - 3) = rstControle.Fields("Descricao") Then
+                        With obj
+                            'Esquerda
+                            .Left = rstControle.Fields("Esquerda")
+                            'Topo
+                            .Top = rstControle.Fields("Topo")
+                            'Largura
+                            .Width = rstControle.Fields("Largura")
+                            'Altura
+                            .Height = rstControle.Fields("Altura")
+                            'Origem
+                            .RowSource = rstControle("Origem")
+                            'Tamanho da Fonte
+                            .FontSize = rstControle.Fields("TamanhoDaFonte")
+                            'Fonte Em Negrito
+                            .FontBold = rstControle.Fields("FonteEmNegrito")
+                            'Aparência
+                            .SpecialEffect = 0
+                            'Estilo da borda
+                            .BorderStyle = rstControle.Fields("EstiloDaBorda")
+                            'Visivel
+                            .Visible = rstControle.Fields("Visivel")
+                            'Bloqueado
+                            .Locked = rstControle.Fields("Bloqueado")
+                            'Parada De Tabulação
+                            .TabStop = IIf(IsNull(rstControle.Fields("Tabulacao")), True, rstControle.Fields("Tabulacao"))
+                            'Indice de Tabulação
+                            .TabIndex = rstControle.Fields("Classificacao")
+                            'Limitar A Uma Lista
+                            .LimitToList = True
+                        End With
+                    End If
+                End If
+            ElseIf TypeOf obj Is Label Then
+                If rstControle.Fields("TipoControle") = "Label" Then
+                    If Right(obj.Name, Len(obj.Name) - 3) = rstControle.Fields("Descricao") Then
+                        With obj
+                            'Esquerda
+                            .Left = rstControle.Fields("Esquerda")
+                            'Topo
+                            .Top = rstControle.Fields("Topo")
+                            'Largura
+                            .Width = rstControle.Fields("Largura")
+                            'Altura
+                            .Height = rstControle.Fields("Altura")
+                            'Descrição
+                            .Caption = rstControle.Fields("Descricao")
+                            'Tamanho da Fonte
+                            .FontSize = rstControle.Fields("TamanhoDaFonte")
+                            'Fonte Em Negrito
+                            .FontBold = rstControle.Fields("FonteEmNegrito")
+                            'Aparência
+                            .SpecialEffect = 0
+                            'Estilo da borda
+                            .BorderStyle = rstControle.Fields("EstiloDaBorda")
+                            'Alinhamento do texto
+                            .TextAlign = rstControle.Fields("AlinhamentoDoTexto")
+                            'Visivel
+                            .Visible = rstControle.Fields("Visivel")
+                        End With
+                    End If
+                End If
+            ElseIf TypeOf obj Is CommandButton Then
+                If rstControle.Fields("TipoControle") = "CommandButton" Then
+                    If Right(obj.Name, Len(obj.Name) - 3) = rstControle.Fields("Descricao") Then
+                        With obj
+                            'Esquerda
+                            .Left = rstControle.Fields("Esquerda")
+                            'Topo
+                            .Top = rstControle.Fields("Topo")
+                            'Largura
+                            .Width = rstControle.Fields("Largura")
+                            'Altura
+                            .Height = rstControle.Fields("Altura")
+                            'Tamanho da Fonte
+                            .FontSize = rstControle.Fields("TamanhoDaFonte")
+                            'Fonte Em Negrito
+                            .FontBold = rstControle.Fields("FonteEmNegrito")
+                            'Visivel
+                            .Visible = rstControle.Fields("Visivel")
+                            'Parada De Tabulação
+                            .TabStop = IIf(IsNull(rstControle.Fields("Tabulacao")), True, rstControle.Fields("Tabulacao"))
+                            'Indice de Tabulação
+                            .TabIndex = rstControle.Fields("Classificacao")
+                        End With
+                    End If
+                End If
+            End If
+        End If
+    Next
+
+    rstControle.MoveNext
+
+Wend
+
+rstControle.Close
+
+Set rstControle = Nothing
+
+End Function
+

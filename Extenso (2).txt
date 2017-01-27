@@ -1,0 +1,334 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ExportarParaExcel(ssql As String, Modelo As String)
+
+On Error GoTo Err_ExportarParaExcel
+
+Dim DB As DAO.Database
+Dim Rd As DAO.Recordset
+
+Dim rRelatorios As DAO.Recordset
+
+Dim XPlanilha As Object
+
+Dim iLinha As Integer
+Dim intCampos As Integer
+Dim I As Integer
+
+Dim Count As Long
+
+Dim sTemp As String
+Dim arqModelo As String
+
+Set DB = CurrentDb
+Set Rd = DB.OpenRecordset(ssql) ', dbOpenForwardOnly)
+
+Set rRelatorios = DB.OpenRecordset("Select * From admRelatorios where codRelatorio = " & CODREL & "")
+
+If Not Rd.EOF Then
+
+    Rd.MoveLast
+
+    Count = Rd.RecordCount
+
+    Rd.MoveFirst
+
+    If Count > 0 Then
+
+        DoEvents
+
+        Dim s As Variant
+        Dim c As Long
+
+        'Cria referencia ao EXCEL
+        Set XPlanilha = CreateObject("Excel.Application")
+
+        ''##################
+        ''Arquivo Modelo
+        ''##################
+
+            arqModelo = Application.CurrentProject.Path & "\" & Modelo
+
+            'Abre o arquivo modelo
+            XPlanilha.Workbooks.Open (arqModelo)
+
+            'Seleciona a primeira planilha
+            XPlanilha.Workbooks(1).Sheets(1).Select
+
+            'Incrementa a linha
+'            iLinha = 6
+
+        ''##################
+        ''Transfere os dados
+        ''##################
+
+            intCampos = Rd.Fields.Count
+
+            s = SysCmd(acSysCmdInitMeter, "Exportando " & Count & " Registros", Count)
+
+            Dim var As Variant
+
+            Do While Not Rd.EOF
+                iLinha = iLinha + 1 'incrementa a linha
+                I = 0
+
+                For I = 0 To intCampos - 1
+                    var = XPlanilha.Cells(iLinha, I + 1).Text
+                    If var = "" Then
+                        XPlanilha.Cells(iLinha, I + 1).value = Rd(I)
+                    End If
+                Next I
+
+                s = SysCmd(acSysCmdUpdateMeter, iLinha)
+                Rd.MoveNext
+
+            Loop
+
+            s = SysCmd(acSysCmdRemoveMeter)
+
+'            'Linhas a repetir na parte superior - "CONTROLE DE CABEÇALHO"
+'            XPlanilha.ActiveSheet.PageSetup.PrintTitleRows = "$1:$6"
+'
+'            'Área de Impressão - "CONTROLE DE COLUNAS"
+'            XPlanilha.ActiveSheet.PageSetup.PrintArea = "$A$1:$" & rRelatorios.Fields("ColunasLimite") & "$" & iLinha
+
+
+        ''##################
+        ''Formata Arquivo
+        ''##################
+
+            'Formata novo nome da planilha
+            sTemp = "C:\Tmp\Rel" & Format(Now, "ddmmyy_hhnn") & ".xls"
+            'Se o diretório não existe, cria
+            If Dir$("C:\Tmp", vbDirectory) = "" Then MkDir "C:\Tmp"
+            'Se o arquivo já existe, deleta
+            If Dir$(sTemp) <> "" Then Kill sTemp
+
+        ''##################
+        ''Salva
+        ''##################
+
+            XPlanilha.ActiveWorkbook.SaveAs Filename:=sTemp, _
+            FileFormat:=xlNormal, Password:="", WriteResPassword:="", _
+            ReadOnlyRecommended:=False, CreateBackup:=False
+
+        ''##################
+        ''Fecha o Excel
+        ''##################
+            XPlanilha.Quit
+
+        ''######################
+        ''Descarrega da memória
+        ''######################
+            Set XPlanilha = Nothing
+
+        MsgBox "A planilha foi gerada com êxito." & vbCrLf & "Está em " & sTemp, vbInformation, "ATENÇÃO"
+
+    Else
+
+        MsgBox "Não há dados para gerar a planilha.", vbInformation, "ATENÇÃO"
+
+    End If
+
+Else
+
+    MsgBox "Não há Registros!", vbOKOnly + vbInformation, "Exportar para Excel"
+
+End If
+
+Rd.Close
+rRelatorios.Close
+
+Set Rd = Nothing
+Set DB = Nothing
+Set rRelatorios = Nothing
+
+Exit_Err_ExportarParaExcel:
+    Exit Function
+
+Err_ExportarParaExcel:
+    XPlanilha.Quit
+    Rd.Close
+    rRelatorios.Close
+
+    MsgBox Err.Description
+    Resume Exit_Err_ExportarParaExcel
+
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ExportarParaExcel(ssql As String, Modelo As String)
+
+On Error GoTo Err_ExportarParaExcel
+
+Dim DB As DAO.Database
+Dim Rd As DAO.Recordset
+
+Dim rRelatorios As DAO.Recordset
+
+Dim XPlanilha As Object
+
+Dim iLinha As Integer
+Dim intCampos As Integer
+Dim I As Integer
+
+Dim Count As Long
+
+Dim sTemp As String
+Dim arqModelo As String
+
+Set DB = CurrentDb
+Set Rd = DB.OpenRecordset(ssql) ', dbOpenForwardOnly)
+
+Set rRelatorios = DB.OpenRecordset("Select * From admRelatorios where codRelatorio = " & CODREL & "")
+
+If Not Rd.EOF Then
+
+    Rd.MoveLast
+
+    Count = Rd.RecordCount
+
+    Rd.MoveFirst
+
+    If Count > 0 Then
+
+        DoEvents
+
+        Dim s As Variant
+        Dim c As Long
+
+        'Cria referencia ao EXCEL
+        Set XPlanilha = CreateObject("Excel.Application")
+
+        ''##################
+        ''Arquivo Modelo
+        ''##################
+
+            arqModelo = Application.CurrentProject.Path & "\" & Modelo
+
+            'Abre o arquivo modelo
+            XPlanilha.Workbooks.Open (arqModelo)
+
+            'Seleciona a primeira planilha
+            XPlanilha.Workbooks(1).Sheets(1).Select
+
+            'Incrementa a linha
+'            iLinha = 6
+
+        ''##################
+        ''Transfere os dados
+        ''##################
+
+            intCampos = Rd.Fields.Count
+
+            s = SysCmd(acSysCmdInitMeter, "Exportando " & Count & " Registros", Count)
+
+            Dim var As Variant
+
+            Do While Not Rd.EOF
+                iLinha = iLinha + 1 'incrementa a linha
+                I = 0
+
+                For I = 0 To intCampos - 1
+                    var = XPlanilha.Cells(iLinha, I + 1).Text
+                    If var = "" Then
+                        XPlanilha.Cells(iLinha, I + 1).value = Rd(I)
+                    End If
+                Next I
+
+                s = SysCmd(acSysCmdUpdateMeter, iLinha)
+                Rd.MoveNext
+
+            Loop
+
+            s = SysCmd(acSysCmdRemoveMeter)
+
+'            'Linhas a repetir na parte superior - "CONTROLE DE CABEÇALHO"
+'            XPlanilha.ActiveSheet.PageSetup.PrintTitleRows = "$1:$6"
+'
+'            'Área de Impressão - "CONTROLE DE COLUNAS"
+'            XPlanilha.ActiveSheet.PageSetup.PrintArea = "$A$1:$" & rRelatorios.Fields("ColunasLimite") & "$" & iLinha
+
+
+        ''##################
+        ''Formata Arquivo
+        ''##################
+
+            'Formata novo nome da planilha
+            sTemp = "C:\Tmp\Rel" & Format(Now, "ddmmyy_hhnn") & ".xls"
+            'Se o diretório não existe, cria
+            If Dir$("C:\Tmp", vbDirectory) = "" Then MkDir "C:\Tmp"
+            'Se o arquivo já existe, deleta
+            If Dir$(sTemp) <> "" Then Kill sTemp
+
+        ''##################
+        ''Salva
+        ''##################
+
+            XPlanilha.ActiveWorkbook.SaveAs Filename:=sTemp, _
+            FileFormat:=xlNormal, Password:="", WriteResPassword:="", _
+            ReadOnlyRecommended:=False, CreateBackup:=False
+
+        ''##################
+        ''Fecha o Excel
+        ''##################
+            XPlanilha.Quit
+
+        ''######################
+        ''Descarrega da memória
+        ''######################
+            Set XPlanilha = Nothing
+
+        MsgBox "A planilha foi gerada com êxito." & vbCrLf & "Está em " & sTemp, vbInformation, "ATENÇÃO"
+
+    Else
+
+        MsgBox "Não há dados para gerar a planilha.", vbInformation, "ATENÇÃO"
+
+    End If
+
+Else
+
+    MsgBox "Não há Registros!", vbOKOnly + vbInformation, "Exportar para Excel"
+
+End If
+
+Rd.Close
+rRelatorios.Close
+
+Set Rd = Nothing
+Set DB = Nothing
+Set rRelatorios = Nothing
+
+Exit_Err_ExportarParaExcel:
+    Exit Function
+
+Err_ExportarParaExcel:
+    XPlanilha.Quit
+    Rd.Close
+    rRelatorios.Close
+
+    MsgBox Err.Description
+    Resume Exit_Err_ExportarParaExcel
+
+
+End Function
+

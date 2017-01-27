@@ -1,0 +1,50 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function FormatarBordas(Selecao As String)
+Dim matriz As Variant
+
+    With Range(Selecao).Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    
+    matriz = Split(Selecao, ":")
+    
+    Range(matriz(0)).Select
+    
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function FormatarBordas(Selecao As String)
+Dim matriz As Variant
+
+    With Range(Selecao).Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    
+    matriz = Split(Selecao, ":")
+    
+    Range(matriz(0)).Select
+    
+End Function
+

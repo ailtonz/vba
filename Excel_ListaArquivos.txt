@@ -1,0 +1,124 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ListaArquivos(Optional sCaminho As String)
+On Error GoTo Numera_err
+
+Dim i As Integer
+Dim sNomeNovo As String
+Dim sNomeAntigo As String
+
+'#######################################
+' ATENÇÃO: Variavel preenchida p/ tst's
+
+sCaminho = "C:\Soft\Planilhas"
+
+'#######################################
+
+
+With Application.FileSearch
+    .NewSearch
+    .LookIn = sCaminho
+    .SearchSubFolders = True
+    .Filename = "*.xls"
+
+    If .Execute() > 0 Then
+        Set NewSheet = Sheets.Add(Type:=xlWorksheet)
+
+        NewSheet.Cells(1, 1).Value = "Caminho da Planilha"
+        NewSheet.Cells(1, 1).Font.Bold = True
+        NewSheet.Cells(1, 1).Font.ColorIndex = 5
+
+        For i = 2 To .FoundFiles.Count
+            sNomeAntigo = .FoundFiles(i)
+            NewSheet.Cells(i, 1).Value = sNomeAntigo
+        Next i
+
+        NewSheet.Name = "Arquivos - " & i
+        NewSheet.Columns(1).ColumnWidth = 100
+
+        MsgBox "Total de arquivos encontrados: " & i, vbOKOnly + vbInformation, "Concluido!"
+    Else
+        MsgBox "Não foi localizado nenhum arquivo do tipo indicado."
+    End If
+
+
+End With
+
+Numera_Fim:
+ Exit Function
+Numera_err:
+ MsgBox Err.Description
+ Resume Numera_Fim
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ListaArquivos(Optional sCaminho As String)
+On Error GoTo Numera_err
+
+Dim i As Integer
+Dim sNomeNovo As String
+Dim sNomeAntigo As String
+
+'#######################################
+' ATENÇÃO: Variavel preenchida p/ tst's
+
+sCaminho = "C:\Soft\Planilhas"
+
+'#######################################
+
+
+With Application.FileSearch
+    .NewSearch
+    .LookIn = sCaminho
+    .SearchSubFolders = True
+    .Filename = "*.xls"
+
+    If .Execute() > 0 Then
+        Set NewSheet = Sheets.Add(Type:=xlWorksheet)
+
+        NewSheet.Cells(1, 1).Value = "Caminho da Planilha"
+        NewSheet.Cells(1, 1).Font.Bold = True
+        NewSheet.Cells(1, 1).Font.ColorIndex = 5
+
+        For i = 2 To .FoundFiles.Count
+            sNomeAntigo = .FoundFiles(i)
+            NewSheet.Cells(i, 1).Value = sNomeAntigo
+        Next i
+
+        NewSheet.Name = "Arquivos - " & i
+        NewSheet.Columns(1).ColumnWidth = 100
+
+        MsgBox "Total de arquivos encontrados: " & i, vbOKOnly + vbInformation, "Concluido!"
+    Else
+        MsgBox "Não foi localizado nenhum arquivo do tipo indicado."
+    End If
+
+
+End With
+
+Numera_Fim:
+ Exit Function
+Numera_err:
+ MsgBox Err.Description
+ Resume Numera_Fim
+
+End Function
+

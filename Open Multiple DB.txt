@@ -1,0 +1,46 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Attribute VB_Name = "Module1"
+Option Compare Database
+Sub OpenDB()
+Dim wsJet As Workspace
+Dim wsODBC As Workspace
+Dim dbJet As Database
+Dim dbdBase As Database
+Dim dbODBC As Database
+Dim dbODBCDirect As Database
+Dim dbODBCDirect1 As Database
+Dim cn As Connection
+
+'Create workspace
+Set wsJet = DBEngine(0)
+Set wsODBC = DBEngine.CreateWorkspace("", strUsrName, strPwd, dbUseODBC)
+
+Debug.Print "Jet Database "; wsJet.Databases.Count & " - " & CurrentDb.Name
+
+'Open DB
+Set dbJet = wsJet.OpenDatabase("C:\Documents and Settings\ETRSGG1\My Documents\Projects\DB's\Fixed Income Accounts.mdb", True, False)
+Debug.Print "Jet Database "; wsJet.Databases.Count & " - " & dbJet.Name
+Set dbdBase = wsJet.OpenDatabase("C:\Documents and Settings\ETRSGG1\My Documents\Projects\DB's\New Client Database.mdb", True, False)
+Debug.Print "Database "; wsJet.Databases.Count & " - " & dbdBase.Name
+'Set dbODBC = wsJet.OpenDatabase("", dbDriverComplete, False, "ODBC; DATABASE=myDB; DSN=myDSN")
+'Debug.Print "Jet Database "; wsJet.Databases.Count & " - " & dbODBC.Name
+
+'Open Connections
+'Set cn = wsODBC.OpenConnection("", dbDriverComplete, False, "ODBC; DATABASE=myDB;DSN=myDSN")
+
+'Set References
+'Set dbODBCDirect = wsODBC.Databases(0)
+'Debug.Print "ODBCDirect Database "; wsODBC.Databases.Count & " - " & dbODBCDirect.Name
+'Set dbODBCDirect1 = wsODBC.OpenDatabase("", dbDriverComplete, False, "ODBC; DATABASE=myDB;DSN=myDSN")
+'Debug.Print "ODBCDIRECT Database "; wsODBC.Databases.Count & " - " & dbODBCDirect.Name
+End Sub
+

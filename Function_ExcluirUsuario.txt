@@ -1,0 +1,122 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ExcluirUsuario(codUsuario As Integer)
+
+Dim rstUsuario As ADODB.Recordset
+Dim rORG_Permissoes As ADODB.Recordset
+Dim rORG_Conteudos As ADODB.Recordset
+
+Set rstUsuario = New ADODB.Recordset
+
+Set rORG_Permissoes = New ADODB.Recordset
+Set rORG_Conteudos = New ADODB.Recordset
+
+rstUsuario.Open "Select * from dbo_admUsuarios where codUsuario = " & codUsuario, CurrentProject.Connection, , adLockPessimistic
+
+If Not rstUsuario.EOF Then
+    rstUsuario.Delete
+    rstUsuario.Update
+    rstUsuario.Close
+Else
+    rstUsuario.Close
+End If
+
+BeginTrans
+
+rORG_Permissoes.Open "Select * from dbo_admUsuPermissoes where codUsuario = " & codUsuario, CurrentProject.Connection, , adLockPessimistic
+
+While Not rORG_Permissoes.EOF
+
+    Dim intCodPermissao As Integer
+    intCodPermissao = rORG_Permissoes.Fields("codPermissao")
+    rORG_Conteudos.Open "Select * from dbo_admUsuConteudos where codPermissao = " & intCodPermissao, CurrentProject.Connection, , adLockPessimistic
+    
+    While Not rORG_Conteudos.EOF
+        rORG_Conteudos.Delete
+        rORG_Conteudos.Update
+        rORG_Conteudos.MoveNext
+    Wend
+    
+    rORG_Permissoes.Delete
+    rORG_Permissoes.Update
+
+    rORG_Conteudos.Close
+    rORG_Permissoes.MoveNext
+Wend
+
+rORG_Permissoes.Close
+
+
+CommitTrans
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ExcluirUsuario(codUsuario As Integer)
+
+Dim rstUsuario As ADODB.Recordset
+Dim rORG_Permissoes As ADODB.Recordset
+Dim rORG_Conteudos As ADODB.Recordset
+
+Set rstUsuario = New ADODB.Recordset
+
+Set rORG_Permissoes = New ADODB.Recordset
+Set rORG_Conteudos = New ADODB.Recordset
+
+rstUsuario.Open "Select * from dbo_admUsuarios where codUsuario = " & codUsuario, CurrentProject.Connection, , adLockPessimistic
+
+If Not rstUsuario.EOF Then
+    rstUsuario.Delete
+    rstUsuario.Update
+    rstUsuario.Close
+Else
+    rstUsuario.Close
+End If
+
+BeginTrans
+
+rORG_Permissoes.Open "Select * from dbo_admUsuPermissoes where codUsuario = " & codUsuario, CurrentProject.Connection, , adLockPessimistic
+
+While Not rORG_Permissoes.EOF
+
+    Dim intCodPermissao As Integer
+    intCodPermissao = rORG_Permissoes.Fields("codPermissao")
+    rORG_Conteudos.Open "Select * from dbo_admUsuConteudos where codPermissao = " & intCodPermissao, CurrentProject.Connection, , adLockPessimistic
+    
+    While Not rORG_Conteudos.EOF
+        rORG_Conteudos.Delete
+        rORG_Conteudos.Update
+        rORG_Conteudos.MoveNext
+    Wend
+    
+    rORG_Permissoes.Delete
+    rORG_Permissoes.Update
+
+    rORG_Conteudos.Close
+    rORG_Permissoes.MoveNext
+Wend
+
+rORG_Permissoes.Close
+
+
+CommitTrans
+
+End Function
+

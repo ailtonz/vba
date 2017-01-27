@@ -1,0 +1,30 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function GetFileName(path As String)
+'Retrieve the script File name
+    GetName = Right(path, Len(path) - InStrRev(path, "\"))
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function GetFileName(path As String)
+'Retrieve the script File name
+    GetName = Right(path, Len(path) - InStrRev(path, "\"))
+End Function
+

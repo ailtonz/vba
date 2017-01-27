@@ -1,0 +1,32 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+sub NovaGuia()
+	Dim Guia As Variant
+	Set Guia = Sheets.Add(Type:=xlWorksheet)
+	Guia.Name = "Nova Guia"
+end sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+sub NovaGuia()
+	Dim Guia As Variant
+	Set Guia = Sheets.Add(Type:=xlWorksheet)
+	Guia.Name = "Nova Guia"
+end sub
+

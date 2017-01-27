@@ -1,0 +1,38 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Dim xlApp, WshShell
+set WshShell = WScript.CreateObject("WScript.Shell")
+Set xlApp = CreateObject("Excel.Application")
+xlApp.Workbooks.Add
+xlApp.Visible = True
+WshShell.SendKeys "%{f11}"
+Set WshShell = nothing
+Set xlApp = Nothing
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Dim xlApp, WshShell
+set WshShell = WScript.CreateObject("WScript.Shell")
+Set xlApp = CreateObject("Excel.Application")
+xlApp.Workbooks.Add
+xlApp.Visible = True
+WshShell.SendKeys "%{f11}"
+Set WshShell = nothing
+Set xlApp = Nothing
+

@@ -1,0 +1,1092 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Option Compare Database
+Option Explicit
+
+Public strViagem As String
+Public strTarefa As String
+
+
+Private Sub cmdReagendamentoColoca_Click()
+Dim intCurrentRow As Integer
+Dim lstItens As ListBox
+
+Set lstItens = Me.lstColoca
+
+DoCmd.Hourglass True
+
+
+SysCmd acSysCmdInitMeter, "Reagendando Coloca", lstItens.ListCount - 1
+
+For intCurrentRow = 1 To lstItens.ListCount - 1
+    SysCmd acSysCmdUpdateMeter, intCurrentRow
+    DoEvents
+
+    If Not IsNull(lstItens.Column(0, intCurrentRow)) Then
+        ReagendamentoColoca lstItens.Column(0, intCurrentRow)
+    End If
+
+Next intCurrentRow
+
+SysCmd acSysCmdRemoveMeter
+
+DoCmd.Hourglass False
+
+
+lstItens.Requery
+
+End Sub
+
+Private Sub cmdReagendamentoRetira_Click()
+Dim intCurrentRow As Integer
+Dim lstItens As ListBox
+
+Set lstItens = Me.lstRetira
+
+DoCmd.Hourglass True
+
+SysCmd acSysCmdInitMeter, "Reagendando Retira", lstItens.ListCount - 1
+
+For intCurrentRow = 1 To lstItens.ListCount - 1
+    SysCmd acSysCmdUpdateMeter, intCurrentRow
+    DoEvents
+
+    If Not IsNull(lstItens.Column(0, intCurrentRow)) Then
+        ReagendamentoRetira lstItens.Column(0, intCurrentRow)
+    End If
+
+Next intCurrentRow
+
+SysCmd acSysCmdRemoveMeter
+
+DoCmd.Hourglass False
+
+lstItens.Requery
+End Sub
+
+Private Sub cmdReagendamentoTroca_Click()
+Dim intCurrentRow As Integer
+Dim lstItens As ListBox
+
+Set lstItens = Me.lstTroca
+
+DoCmd.Hourglass True
+
+
+SysCmd acSysCmdInitMeter, "Reagendando Troca", lstItens.ListCount - 1
+
+For intCurrentRow = 1 To lstItens.ListCount - 1
+    SysCmd acSysCmdUpdateMeter, intCurrentRow
+    DoEvents
+
+    If Not IsNull(lstItens.Column(0, intCurrentRow)) Then
+        ReagendamentoTroca lstItens.Column(0, intCurrentRow)
+    End If
+
+Next intCurrentRow
+
+SysCmd acSysCmdRemoveMeter
+
+DoCmd.Hourglass False
+
+lstItens.Requery
+End Sub
+
+Private Sub cmdSalvar_Click()
+On Error GoTo Err_cmdSalvar_Click
+
+    DoCmd.DoMenuItem acFormBar, acRecordsMenu, acSaveRecord, , acMenuVer70
+    DoCmd.Close
+    
+
+Exit_cmdSalvar_Click:
+    Exit Sub
+
+Err_cmdSalvar_Click:
+    If Not (err.Number = 2046 Or err.Number = 0) Then MsgBox err.Description
+    DoCmd.Close
+    Resume Exit_cmdSalvar_Click
+End Sub
+
+Private Sub cmdFechar_Click()
+On Error GoTo Err_cmdFechar_Click
+
+    DoCmd.DoMenuItem acFormBar, acEditMenu, acUndo, , acMenuVer70
+    DoCmd.CancelEvent
+    DoCmd.Close
+    Pesquisar 5
+
+Exit_cmdFechar_Click:
+    Exit Sub
+
+Err_cmdFechar_Click:
+    If Not (err.Number = 2046 Or err.Number = 0) Then MsgBox err.Description
+    DoCmd.Close
+    Resume Exit_cmdFechar_Click
+End Sub
+
+Private Sub cmdFiltroColoca_Click()
+Dim sqlOriginal As String
+Dim sqlNovo As String
+Dim lstPesquisa As ListBox
+Dim txtPesquisa As TextBox
+
+sqlOriginal = "SELECT qryRoteirosColoca.codLigacao, qryRoteirosColoca.codCadastro, qryRoteirosColoca.codObra, qryRoteirosColoca.OBRA, qryRoteirosColoca.BAIRRO, qryRoteirosColoca.QTD, qryRoteirosColoca.PRIORIDADE, qryRoteirosColoca.DATA_TAREFA FROM qryRoteirosColoca WHERE (((qryRoteirosColoca.DATA_TAREFA)=[forms]![Roteiros]![DTRoteiro])) ORDER BY  qryRoteirosColoca.PRIORIDADE DESC ,qryRoteirosColoca.OBRA;"
+
+Set lstPesquisa = Me.lstColoca
+Set txtPesquisa = Me.txtFiltroColoca
+
+If txtPesquisa <> "" Then
+
+    sqlNovo = left(sqlOriginal, Len(sqlOriginal) - 1) & " "
+    
+    lstPesquisa.RowSource = "Select * from (" & sqlNovo & ") as tmp where tmp.obra like '*" & txtPesquisa & "*'"
+    
+    lstPesquisa.Requery
+
+Else
+
+    lstPesquisa.RowSource = sqlOriginal
+    lstPesquisa.Requery
+
+End If
+
+End Sub
+
+Private Sub cmdFiltroTroca_Click()
+Dim sqlOriginal As String
+Dim sqlNovo As String
+Dim lstPesquisa As ListBox
+Dim txtPesquisa As TextBox
+
+sqlOriginal = "SELECT qryRoteirosTroca.codLigacao, qryRoteirosTroca.codCadastro, qryRoteirosTroca.codObra, qryRoteirosTroca.OBRA, qryRoteirosTroca.BAIRRO, qryRoteirosTroca.QTD, qryRoteirosTroca.PRIORIDADE, qryRoteirosTroca.DATA_TAREFA FROM qryRoteirosTroca WHERE (((qryRoteirosTroca.DATA_TAREFA)=[forms]![Roteiros]![DTRoteiro])) ORDER BY qryRoteirosTroca.PRIORIDADE DESC, qryRoteirosTroca.OBRA;"
+
+Set lstPesquisa = Me.lstTroca
+Set txtPesquisa = Me.txtFiltroTroca
+
+If txtPesquisa <> "" Then
+
+    sqlNovo = left(sqlOriginal, Len(sqlOriginal) - 1) & " "
+    
+    lstPesquisa.RowSource = "Select * from (" & sqlNovo & ") as tmp where tmp.obra like '*" & txtPesquisa & "*'"
+    
+    lstPesquisa.Requery
+
+Else
+
+    lstPesquisa.RowSource = sqlOriginal
+    lstPesquisa.Requery
+
+End If
+
+End Sub
+
+Private Sub cmdFiltroRetira_Click()
+Dim sqlOriginal As String
+Dim sqlNovo As String
+Dim lstPesquisa As ListBox
+Dim txtPesquisa As TextBox
+
+sqlOriginal = "SELECT qryRoteirosRetira.codLigacao, qryRoteirosRetira.codCadastro, qryRoteirosRetira.codObra, qryRoteirosRetira.OBRA, qryRoteirosRetira.BAIRRO, qryRoteirosRetira.QTD, qryRoteirosRetira.PRIORIDADE, qryRoteirosRetira.DATA_TAREFA FROM qryRoteirosRetira WHERE (((qryRoteirosRetira.DATA_TAREFA)=[forms]![Roteiros]![DTRoteiro])) ORDER BY qryRoteirosRetira.PRIORIDADE DESC, qryRoteirosRetira.OBRA;"
+
+Set lstPesquisa = Me.lstRetira
+Set txtPesquisa = Me.txtFiltroRetira
+
+If txtPesquisa <> "" Then
+
+    sqlNovo = left(sqlOriginal, Len(sqlOriginal) - 1) & " "
+    
+    lstPesquisa.RowSource = "Select * from (" & sqlNovo & ") as tmp where tmp.obra like '*" & txtPesquisa & "*'"
+    
+    lstPesquisa.Requery
+
+Else
+
+    lstPesquisa.RowSource = sqlOriginal
+    lstPesquisa.Requery
+
+End If
+End Sub
+
+
+Private Sub ctlTarefas_Change()
+
+    If Me.ctlTarefas.value = 0 Then
+        strTarefa = "C"
+        Me.lstColoca.Requery
+
+    ElseIf Me.ctlTarefas.value = 1 Then
+        strTarefa = "T"
+        Me.lstTroca.Requery
+
+    ElseIf Me.ctlTarefas.value = 2 Then
+        strTarefa = "R"
+        Me.lstRetira.Requery
+
+    End If
+
+End Sub
+
+Private Sub ctlViagens_Change()
+
+    If Me.ctlViagens.value = 0 Then
+        strViagem = "1"
+        Me.subRoteirosViagem01.Requery
+
+    ElseIf Me.ctlViagens.value = 1 Then
+        strViagem = "2"
+        Me.subRoteirosViagem02.Requery
+
+    ElseIf Me.ctlViagens.value = 2 Then
+        strViagem = "3"
+        Me.subRoteirosViagem03.Requery
+
+    ElseIf Me.ctlViagens.value = 3 Then
+        strViagem = "4"
+        Me.subRoteirosViagem04.Requery
+
+    ElseIf Me.ctlViagens.value = 4 Then
+        strViagem = "5"
+        Me.subRoteirosViagem05.Requery
+
+    End If
+
+End Sub
+
+Private Sub Form_AfterInsert()
+
+DoCmd.Maximize
+
+End Sub
+
+Private Sub Form_BeforeInsert(Cancel As Integer)
+
+Me.DTRoteiro = Format(Now() + 1, "DD/MM/YYYY")
+
+DoCmd.Maximize
+
+End Sub
+
+Private Sub Form_Load()
+
+strViagem = "1"
+strTarefa = "C"
+DoCmd.Maximize
+
+End Sub
+
+Private Sub lstColoca_DblClick(Cancel As Integer)
+Dim intCurrentRow As Integer
+Dim lstLista As ListBox
+
+DoCmd.DoMenuItem acFormBar, acRecordsMenu, acSaveRecord, , acMenuVer70
+
+Set lstLista = Me.lstColoca
+
+For intCurrentRow = 0 To lstLista.ListCount - 1
+    DoEvents
+
+    If lstLista.Selected(intCurrentRow) Then
+        If Not IsNull(lstLista.Column(0, intCurrentRow)) Then
+
+            CadastrarViagem Me.codRoteiro, _
+                            lstLista.Column(0, intCurrentRow), _
+                            lstLista.Column(1, intCurrentRow), _
+                            lstLista.Column(2, intCurrentRow), _
+                            lstLista.Column(7, intCurrentRow), _
+                            lstLista.Column(5, intCurrentRow), _
+                            strViagem
+
+
+            lstLista.Selected(intCurrentRow) = False
+        End If
+    End If
+
+Next intCurrentRow
+
+
+If Me.ctlViagens.value = 0 Then
+    Me.subRoteirosViagem01.Requery
+
+ElseIf Me.ctlViagens.value = 1 Then
+    Me.subRoteirosViagem02.Requery
+
+ElseIf Me.ctlViagens.value = 2 Then
+    Me.subRoteirosViagem03.Requery
+
+ElseIf Me.ctlViagens.value = 3 Then
+    Me.subRoteirosViagem04.Requery
+
+ElseIf Me.ctlViagens.value = 4 Then
+    Me.subRoteirosViagem05.Requery
+
+End If
+
+'SaidaDeLog lstLista.RowSource, "lstLista.log"
+
+End Sub
+
+Private Sub lstTroca_DblClick(Cancel As Integer)
+Dim intCurrentRow As Integer
+Dim lstLista As ListBox
+
+DoCmd.DoMenuItem acFormBar, acRecordsMenu, acSaveRecord, , acMenuVer70
+
+Set lstLista = Me.lstTroca
+
+For intCurrentRow = 0 To lstLista.ListCount - 1
+    DoEvents
+
+    If lstLista.Selected(intCurrentRow) Then
+        If Not IsNull(lstLista.Column(0, intCurrentRow)) Then
+
+            CadastrarViagem Me.codRoteiro, _
+                            lstLista.Column(0, intCurrentRow), _
+                            lstLista.Column(1, intCurrentRow), _
+                            lstLista.Column(2, intCurrentRow), _
+                            lstLista.Column(7, intCurrentRow), _
+                            lstLista.Column(5, intCurrentRow), _
+                            strViagem
+
+
+            lstLista.Selected(intCurrentRow) = False
+        End If
+    End If
+
+Next intCurrentRow
+
+If Me.ctlViagens.value = 0 Then
+    Me.subRoteirosViagem01.Requery
+
+ElseIf Me.ctlViagens.value = 1 Then
+    Me.subRoteirosViagem02.Requery
+
+ElseIf Me.ctlViagens.value = 2 Then
+    Me.subRoteirosViagem03.Requery
+
+ElseIf Me.ctlViagens.value = 3 Then
+    Me.subRoteirosViagem04.Requery
+
+ElseIf Me.ctlViagens.value = 4 Then
+    Me.subRoteirosViagem05.Requery
+
+End If
+
+End Sub
+
+Private Sub lstRetira_DblClick(Cancel As Integer)
+Dim intCurrentRow As Integer
+Dim lstLista As ListBox
+
+DoCmd.DoMenuItem acFormBar, acRecordsMenu, acSaveRecord, , acMenuVer70
+
+Set lstLista = Me.lstRetira
+
+For intCurrentRow = 0 To lstLista.ListCount - 1
+    DoEvents
+
+    If lstLista.Selected(intCurrentRow) Then
+        If Not IsNull(lstLista.Column(0, intCurrentRow)) Then
+
+            CadastrarViagem Me.codRoteiro, _
+                            lstLista.Column(0, intCurrentRow), _
+                            lstLista.Column(1, intCurrentRow), _
+                            lstLista.Column(2, intCurrentRow), _
+                            lstLista.Column(7, intCurrentRow), _
+                            lstLista.Column(5, intCurrentRow), _
+                            strViagem
+
+
+            lstLista.Selected(intCurrentRow) = False
+        End If
+    End If
+
+Next intCurrentRow
+
+
+If Me.ctlViagens.value = 0 Then
+    Me.subRoteirosViagem01.Requery
+
+ElseIf Me.ctlViagens.value = 1 Then
+    Me.subRoteirosViagem02.Requery
+
+ElseIf Me.ctlViagens.value = 2 Then
+    Me.subRoteirosViagem03.Requery
+
+ElseIf Me.ctlViagens.value = 3 Then
+    Me.subRoteirosViagem04.Requery
+
+ElseIf Me.ctlViagens.value = 4 Then
+    Me.subRoteirosViagem05.Requery
+
+End If
+
+
+End Sub
+
+Function CadastrarViagem(codRoteiro As Long, _
+                         codLigacao As Long, _
+                         codCadastro As Long, _
+                         codObra As Long, _
+                         strData As String, _
+                         strTrabalho As String, _
+                         strViagem As String)
+
+Dim rstRoteiroViagem As DAO.Recordset
+Dim rstOrdem As DAO.Recordset
+
+Set rstRoteiroViagem = CurrentDb.OpenRecordset("Select * from RoteirosItens Where codRoteiro = " & codRoteiro & " and codLigacao = " & codLigacao & " and Viagem =" & strViagem & "")
+Set rstOrdem = CurrentDb.OpenRecordset("Select iif(isnull(max(Ordem)),1,max(Ordem)+1) as strOrdem from RoteirosItens Where codRoteiro = " & codRoteiro & " and Viagem =" & strViagem & "")
+
+If rstRoteiroViagem.EOF Then
+    rstRoteiroViagem.AddNew
+    rstRoteiroViagem.Fields("codRoteiro") = codRoteiro
+    rstRoteiroViagem.Fields("codLigacao") = codLigacao
+    rstRoteiroViagem.Fields("codCadastro") = codCadastro
+    rstRoteiroViagem.Fields("codObra") = codObra
+    rstRoteiroViagem.Fields("Viagem") = strViagem
+    rstRoteiroViagem.Fields("Ordem") = rstOrdem.Fields("strOrdem")
+
+    If strTarefa = "C" Then
+        rstRoteiroViagem.Fields("C") = strTrabalho
+    ElseIf strTarefa = "T" Then
+        rstRoteiroViagem.Fields("T") = strTrabalho
+    ElseIf strTarefa = "R" Then
+        rstRoteiroViagem.Fields("R") = strTrabalho
+    End If
+
+Else
+    rstRoteiroViagem.Edit
+
+    If strTarefa = "C" Then
+        rstRoteiroViagem.Fields("C") = rstRoteiroViagem.Fields("C") + strTrabalho
+    ElseIf strTarefa = "T" Then
+        rstRoteiroViagem.Fields("T") = rstRoteiroViagem.Fields("T") + strTrabalho
+    ElseIf strTarefa = "R" Then
+        rstRoteiroViagem.Fields("R") = rstRoteiroViagem.Fields("R") + strTrabalho
+    End If
+
+End If
+
+    
+
+    rstRoteiroViagem.Fields("Data") = strData
+
+
+    rstRoteiroViagem.Update
+    rstRoteiroViagem.Close
+
+    ExecutarConsulta "AtualizarEnderecosDeViagens"
+
+
+End Function
+
+Private Sub cmdRoteiro_Click()
+On Error GoTo Err_cmdRoteiro_Click
+
+    Dim stDocName As String
+
+    stDocName = "Roteiros"
+    DoCmd.OpenReport stDocName, acPreview, , "codRoteiro = " & Me.codRoteiro
+
+Exit_cmdRoteiro_Click:
+    Exit Sub
+
+Err_cmdRoteiro_Click:
+    MsgBox err.Description
+    Resume Exit_cmdRoteiro_Click
+
+End Sub
+Private Sub cmdPedidos_Click()
+On Error GoTo Err_cmdPedidos_Click
+
+    Dim stDocName As String
+
+    stDocName = "Pedidos"
+    DoCmd.OpenReport stDocName, acPreview, , "codRoteiro = " & Me.codRoteiro
+
+Exit_cmdPedidos_Click:
+    Exit Sub
+
+Err_cmdPedidos_Click:
+    MsgBox err.Description
+    Resume Exit_cmdPedidos_Click
+
+End Sub
+Private Sub cmdCTR_Click()
+On Error GoTo Err_cmdCTR_Click
+
+    Dim stDocName As String
+
+    stDocName = "CTR"
+    DoCmd.OpenReport stDocName, acPreview, , "codRoteiro = " & Me.codRoteiro
+
+Exit_cmdCTR_Click:
+    Exit Sub
+
+Err_cmdCTR_Click:
+    MsgBox err.Description
+    Resume Exit_cmdCTR_Click
+
+End Sub
+
+Private Sub Motorista_Click()
+    Me.codCadastro.value = Me.Motorista.Column(1)
+End Sub
+
+
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Option Compare Database
+Option Explicit
+
+Public strViagem As String
+Public strTarefa As String
+
+
+Private Sub cmdReagendamentoColoca_Click()
+Dim intCurrentRow As Integer
+Dim lstItens As ListBox
+
+Set lstItens = Me.lstColoca
+
+DoCmd.Hourglass True
+
+
+SysCmd acSysCmdInitMeter, "Reagendando Coloca", lstItens.ListCount - 1
+
+For intCurrentRow = 1 To lstItens.ListCount - 1
+    SysCmd acSysCmdUpdateMeter, intCurrentRow
+    DoEvents
+
+    If Not IsNull(lstItens.Column(0, intCurrentRow)) Then
+        ReagendamentoColoca lstItens.Column(0, intCurrentRow)
+    End If
+
+Next intCurrentRow
+
+SysCmd acSysCmdRemoveMeter
+
+DoCmd.Hourglass False
+
+
+lstItens.Requery
+
+End Sub
+
+Private Sub cmdReagendamentoRetira_Click()
+Dim intCurrentRow As Integer
+Dim lstItens As ListBox
+
+Set lstItens = Me.lstRetira
+
+DoCmd.Hourglass True
+
+SysCmd acSysCmdInitMeter, "Reagendando Retira", lstItens.ListCount - 1
+
+For intCurrentRow = 1 To lstItens.ListCount - 1
+    SysCmd acSysCmdUpdateMeter, intCurrentRow
+    DoEvents
+
+    If Not IsNull(lstItens.Column(0, intCurrentRow)) Then
+        ReagendamentoRetira lstItens.Column(0, intCurrentRow)
+    End If
+
+Next intCurrentRow
+
+SysCmd acSysCmdRemoveMeter
+
+DoCmd.Hourglass False
+
+lstItens.Requery
+End Sub
+
+Private Sub cmdReagendamentoTroca_Click()
+Dim intCurrentRow As Integer
+Dim lstItens As ListBox
+
+Set lstItens = Me.lstTroca
+
+DoCmd.Hourglass True
+
+
+SysCmd acSysCmdInitMeter, "Reagendando Troca", lstItens.ListCount - 1
+
+For intCurrentRow = 1 To lstItens.ListCount - 1
+    SysCmd acSysCmdUpdateMeter, intCurrentRow
+    DoEvents
+
+    If Not IsNull(lstItens.Column(0, intCurrentRow)) Then
+        ReagendamentoTroca lstItens.Column(0, intCurrentRow)
+    End If
+
+Next intCurrentRow
+
+SysCmd acSysCmdRemoveMeter
+
+DoCmd.Hourglass False
+
+lstItens.Requery
+End Sub
+
+Private Sub cmdSalvar_Click()
+On Error GoTo Err_cmdSalvar_Click
+
+    DoCmd.DoMenuItem acFormBar, acRecordsMenu, acSaveRecord, , acMenuVer70
+    DoCmd.Close
+    
+
+Exit_cmdSalvar_Click:
+    Exit Sub
+
+Err_cmdSalvar_Click:
+    If Not (err.Number = 2046 Or err.Number = 0) Then MsgBox err.Description
+    DoCmd.Close
+    Resume Exit_cmdSalvar_Click
+End Sub
+
+Private Sub cmdFechar_Click()
+On Error GoTo Err_cmdFechar_Click
+
+    DoCmd.DoMenuItem acFormBar, acEditMenu, acUndo, , acMenuVer70
+    DoCmd.CancelEvent
+    DoCmd.Close
+    Pesquisar 5
+
+Exit_cmdFechar_Click:
+    Exit Sub
+
+Err_cmdFechar_Click:
+    If Not (err.Number = 2046 Or err.Number = 0) Then MsgBox err.Description
+    DoCmd.Close
+    Resume Exit_cmdFechar_Click
+End Sub
+
+Private Sub cmdFiltroColoca_Click()
+Dim sqlOriginal As String
+Dim sqlNovo As String
+Dim lstPesquisa As ListBox
+Dim txtPesquisa As TextBox
+
+sqlOriginal = "SELECT qryRoteirosColoca.codLigacao, qryRoteirosColoca.codCadastro, qryRoteirosColoca.codObra, qryRoteirosColoca.OBRA, qryRoteirosColoca.BAIRRO, qryRoteirosColoca.QTD, qryRoteirosColoca.PRIORIDADE, qryRoteirosColoca.DATA_TAREFA FROM qryRoteirosColoca WHERE (((qryRoteirosColoca.DATA_TAREFA)=[forms]![Roteiros]![DTRoteiro])) ORDER BY  qryRoteirosColoca.PRIORIDADE DESC ,qryRoteirosColoca.OBRA;"
+
+Set lstPesquisa = Me.lstColoca
+Set txtPesquisa = Me.txtFiltroColoca
+
+If txtPesquisa <> "" Then
+
+    sqlNovo = left(sqlOriginal, Len(sqlOriginal) - 1) & " "
+    
+    lstPesquisa.RowSource = "Select * from (" & sqlNovo & ") as tmp where tmp.obra like '*" & txtPesquisa & "*'"
+    
+    lstPesquisa.Requery
+
+Else
+
+    lstPesquisa.RowSource = sqlOriginal
+    lstPesquisa.Requery
+
+End If
+
+End Sub
+
+Private Sub cmdFiltroTroca_Click()
+Dim sqlOriginal As String
+Dim sqlNovo As String
+Dim lstPesquisa As ListBox
+Dim txtPesquisa As TextBox
+
+sqlOriginal = "SELECT qryRoteirosTroca.codLigacao, qryRoteirosTroca.codCadastro, qryRoteirosTroca.codObra, qryRoteirosTroca.OBRA, qryRoteirosTroca.BAIRRO, qryRoteirosTroca.QTD, qryRoteirosTroca.PRIORIDADE, qryRoteirosTroca.DATA_TAREFA FROM qryRoteirosTroca WHERE (((qryRoteirosTroca.DATA_TAREFA)=[forms]![Roteiros]![DTRoteiro])) ORDER BY qryRoteirosTroca.PRIORIDADE DESC, qryRoteirosTroca.OBRA;"
+
+Set lstPesquisa = Me.lstTroca
+Set txtPesquisa = Me.txtFiltroTroca
+
+If txtPesquisa <> "" Then
+
+    sqlNovo = left(sqlOriginal, Len(sqlOriginal) - 1) & " "
+    
+    lstPesquisa.RowSource = "Select * from (" & sqlNovo & ") as tmp where tmp.obra like '*" & txtPesquisa & "*'"
+    
+    lstPesquisa.Requery
+
+Else
+
+    lstPesquisa.RowSource = sqlOriginal
+    lstPesquisa.Requery
+
+End If
+
+End Sub
+
+Private Sub cmdFiltroRetira_Click()
+Dim sqlOriginal As String
+Dim sqlNovo As String
+Dim lstPesquisa As ListBox
+Dim txtPesquisa As TextBox
+
+sqlOriginal = "SELECT qryRoteirosRetira.codLigacao, qryRoteirosRetira.codCadastro, qryRoteirosRetira.codObra, qryRoteirosRetira.OBRA, qryRoteirosRetira.BAIRRO, qryRoteirosRetira.QTD, qryRoteirosRetira.PRIORIDADE, qryRoteirosRetira.DATA_TAREFA FROM qryRoteirosRetira WHERE (((qryRoteirosRetira.DATA_TAREFA)=[forms]![Roteiros]![DTRoteiro])) ORDER BY qryRoteirosRetira.PRIORIDADE DESC, qryRoteirosRetira.OBRA;"
+
+Set lstPesquisa = Me.lstRetira
+Set txtPesquisa = Me.txtFiltroRetira
+
+If txtPesquisa <> "" Then
+
+    sqlNovo = left(sqlOriginal, Len(sqlOriginal) - 1) & " "
+    
+    lstPesquisa.RowSource = "Select * from (" & sqlNovo & ") as tmp where tmp.obra like '*" & txtPesquisa & "*'"
+    
+    lstPesquisa.Requery
+
+Else
+
+    lstPesquisa.RowSource = sqlOriginal
+    lstPesquisa.Requery
+
+End If
+End Sub
+
+
+Private Sub ctlTarefas_Change()
+
+    If Me.ctlTarefas.value = 0 Then
+        strTarefa = "C"
+        Me.lstColoca.Requery
+
+    ElseIf Me.ctlTarefas.value = 1 Then
+        strTarefa = "T"
+        Me.lstTroca.Requery
+
+    ElseIf Me.ctlTarefas.value = 2 Then
+        strTarefa = "R"
+        Me.lstRetira.Requery
+
+    End If
+
+End Sub
+
+Private Sub ctlViagens_Change()
+
+    If Me.ctlViagens.value = 0 Then
+        strViagem = "1"
+        Me.subRoteirosViagem01.Requery
+
+    ElseIf Me.ctlViagens.value = 1 Then
+        strViagem = "2"
+        Me.subRoteirosViagem02.Requery
+
+    ElseIf Me.ctlViagens.value = 2 Then
+        strViagem = "3"
+        Me.subRoteirosViagem03.Requery
+
+    ElseIf Me.ctlViagens.value = 3 Then
+        strViagem = "4"
+        Me.subRoteirosViagem04.Requery
+
+    ElseIf Me.ctlViagens.value = 4 Then
+        strViagem = "5"
+        Me.subRoteirosViagem05.Requery
+
+    End If
+
+End Sub
+
+Private Sub Form_AfterInsert()
+
+DoCmd.Maximize
+
+End Sub
+
+Private Sub Form_BeforeInsert(Cancel As Integer)
+
+Me.DTRoteiro = Format(Now() + 1, "DD/MM/YYYY")
+
+DoCmd.Maximize
+
+End Sub
+
+Private Sub Form_Load()
+
+strViagem = "1"
+strTarefa = "C"
+DoCmd.Maximize
+
+End Sub
+
+Private Sub lstColoca_DblClick(Cancel As Integer)
+Dim intCurrentRow As Integer
+Dim lstLista As ListBox
+
+DoCmd.DoMenuItem acFormBar, acRecordsMenu, acSaveRecord, , acMenuVer70
+
+Set lstLista = Me.lstColoca
+
+For intCurrentRow = 0 To lstLista.ListCount - 1
+    DoEvents
+
+    If lstLista.Selected(intCurrentRow) Then
+        If Not IsNull(lstLista.Column(0, intCurrentRow)) Then
+
+            CadastrarViagem Me.codRoteiro, _
+                            lstLista.Column(0, intCurrentRow), _
+                            lstLista.Column(1, intCurrentRow), _
+                            lstLista.Column(2, intCurrentRow), _
+                            lstLista.Column(7, intCurrentRow), _
+                            lstLista.Column(5, intCurrentRow), _
+                            strViagem
+
+
+            lstLista.Selected(intCurrentRow) = False
+        End If
+    End If
+
+Next intCurrentRow
+
+
+If Me.ctlViagens.value = 0 Then
+    Me.subRoteirosViagem01.Requery
+
+ElseIf Me.ctlViagens.value = 1 Then
+    Me.subRoteirosViagem02.Requery
+
+ElseIf Me.ctlViagens.value = 2 Then
+    Me.subRoteirosViagem03.Requery
+
+ElseIf Me.ctlViagens.value = 3 Then
+    Me.subRoteirosViagem04.Requery
+
+ElseIf Me.ctlViagens.value = 4 Then
+    Me.subRoteirosViagem05.Requery
+
+End If
+
+'SaidaDeLog lstLista.RowSource, "lstLista.log"
+
+End Sub
+
+Private Sub lstTroca_DblClick(Cancel As Integer)
+Dim intCurrentRow As Integer
+Dim lstLista As ListBox
+
+DoCmd.DoMenuItem acFormBar, acRecordsMenu, acSaveRecord, , acMenuVer70
+
+Set lstLista = Me.lstTroca
+
+For intCurrentRow = 0 To lstLista.ListCount - 1
+    DoEvents
+
+    If lstLista.Selected(intCurrentRow) Then
+        If Not IsNull(lstLista.Column(0, intCurrentRow)) Then
+
+            CadastrarViagem Me.codRoteiro, _
+                            lstLista.Column(0, intCurrentRow), _
+                            lstLista.Column(1, intCurrentRow), _
+                            lstLista.Column(2, intCurrentRow), _
+                            lstLista.Column(7, intCurrentRow), _
+                            lstLista.Column(5, intCurrentRow), _
+                            strViagem
+
+
+            lstLista.Selected(intCurrentRow) = False
+        End If
+    End If
+
+Next intCurrentRow
+
+If Me.ctlViagens.value = 0 Then
+    Me.subRoteirosViagem01.Requery
+
+ElseIf Me.ctlViagens.value = 1 Then
+    Me.subRoteirosViagem02.Requery
+
+ElseIf Me.ctlViagens.value = 2 Then
+    Me.subRoteirosViagem03.Requery
+
+ElseIf Me.ctlViagens.value = 3 Then
+    Me.subRoteirosViagem04.Requery
+
+ElseIf Me.ctlViagens.value = 4 Then
+    Me.subRoteirosViagem05.Requery
+
+End If
+
+End Sub
+
+Private Sub lstRetira_DblClick(Cancel As Integer)
+Dim intCurrentRow As Integer
+Dim lstLista As ListBox
+
+DoCmd.DoMenuItem acFormBar, acRecordsMenu, acSaveRecord, , acMenuVer70
+
+Set lstLista = Me.lstRetira
+
+For intCurrentRow = 0 To lstLista.ListCount - 1
+    DoEvents
+
+    If lstLista.Selected(intCurrentRow) Then
+        If Not IsNull(lstLista.Column(0, intCurrentRow)) Then
+
+            CadastrarViagem Me.codRoteiro, _
+                            lstLista.Column(0, intCurrentRow), _
+                            lstLista.Column(1, intCurrentRow), _
+                            lstLista.Column(2, intCurrentRow), _
+                            lstLista.Column(7, intCurrentRow), _
+                            lstLista.Column(5, intCurrentRow), _
+                            strViagem
+
+
+            lstLista.Selected(intCurrentRow) = False
+        End If
+    End If
+
+Next intCurrentRow
+
+
+If Me.ctlViagens.value = 0 Then
+    Me.subRoteirosViagem01.Requery
+
+ElseIf Me.ctlViagens.value = 1 Then
+    Me.subRoteirosViagem02.Requery
+
+ElseIf Me.ctlViagens.value = 2 Then
+    Me.subRoteirosViagem03.Requery
+
+ElseIf Me.ctlViagens.value = 3 Then
+    Me.subRoteirosViagem04.Requery
+
+ElseIf Me.ctlViagens.value = 4 Then
+    Me.subRoteirosViagem05.Requery
+
+End If
+
+
+End Sub
+
+Function CadastrarViagem(codRoteiro As Long, _
+                         codLigacao As Long, _
+                         codCadastro As Long, _
+                         codObra As Long, _
+                         strData As String, _
+                         strTrabalho As String, _
+                         strViagem As String)
+
+Dim rstRoteiroViagem As DAO.Recordset
+Dim rstOrdem As DAO.Recordset
+
+Set rstRoteiroViagem = CurrentDb.OpenRecordset("Select * from RoteirosItens Where codRoteiro = " & codRoteiro & " and codLigacao = " & codLigacao & " and Viagem =" & strViagem & "")
+Set rstOrdem = CurrentDb.OpenRecordset("Select iif(isnull(max(Ordem)),1,max(Ordem)+1) as strOrdem from RoteirosItens Where codRoteiro = " & codRoteiro & " and Viagem =" & strViagem & "")
+
+If rstRoteiroViagem.EOF Then
+    rstRoteiroViagem.AddNew
+    rstRoteiroViagem.Fields("codRoteiro") = codRoteiro
+    rstRoteiroViagem.Fields("codLigacao") = codLigacao
+    rstRoteiroViagem.Fields("codCadastro") = codCadastro
+    rstRoteiroViagem.Fields("codObra") = codObra
+    rstRoteiroViagem.Fields("Viagem") = strViagem
+    rstRoteiroViagem.Fields("Ordem") = rstOrdem.Fields("strOrdem")
+
+    If strTarefa = "C" Then
+        rstRoteiroViagem.Fields("C") = strTrabalho
+    ElseIf strTarefa = "T" Then
+        rstRoteiroViagem.Fields("T") = strTrabalho
+    ElseIf strTarefa = "R" Then
+        rstRoteiroViagem.Fields("R") = strTrabalho
+    End If
+
+Else
+    rstRoteiroViagem.Edit
+
+    If strTarefa = "C" Then
+        rstRoteiroViagem.Fields("C") = rstRoteiroViagem.Fields("C") + strTrabalho
+    ElseIf strTarefa = "T" Then
+        rstRoteiroViagem.Fields("T") = rstRoteiroViagem.Fields("T") + strTrabalho
+    ElseIf strTarefa = "R" Then
+        rstRoteiroViagem.Fields("R") = rstRoteiroViagem.Fields("R") + strTrabalho
+    End If
+
+End If
+
+    
+
+    rstRoteiroViagem.Fields("Data") = strData
+
+
+    rstRoteiroViagem.Update
+    rstRoteiroViagem.Close
+
+    ExecutarConsulta "AtualizarEnderecosDeViagens"
+
+
+End Function
+
+Private Sub cmdRoteiro_Click()
+On Error GoTo Err_cmdRoteiro_Click
+
+    Dim stDocName As String
+
+    stDocName = "Roteiros"
+    DoCmd.OpenReport stDocName, acPreview, , "codRoteiro = " & Me.codRoteiro
+
+Exit_cmdRoteiro_Click:
+    Exit Sub
+
+Err_cmdRoteiro_Click:
+    MsgBox err.Description
+    Resume Exit_cmdRoteiro_Click
+
+End Sub
+Private Sub cmdPedidos_Click()
+On Error GoTo Err_cmdPedidos_Click
+
+    Dim stDocName As String
+
+    stDocName = "Pedidos"
+    DoCmd.OpenReport stDocName, acPreview, , "codRoteiro = " & Me.codRoteiro
+
+Exit_cmdPedidos_Click:
+    Exit Sub
+
+Err_cmdPedidos_Click:
+    MsgBox err.Description
+    Resume Exit_cmdPedidos_Click
+
+End Sub
+Private Sub cmdCTR_Click()
+On Error GoTo Err_cmdCTR_Click
+
+    Dim stDocName As String
+
+    stDocName = "CTR"
+    DoCmd.OpenReport stDocName, acPreview, , "codRoteiro = " & Me.codRoteiro
+
+Exit_cmdCTR_Click:
+    Exit Sub
+
+Err_cmdCTR_Click:
+    MsgBox err.Description
+    Resume Exit_cmdCTR_Click
+
+End Sub
+
+Private Sub Motorista_Click()
+    Me.codCadastro.value = Me.Motorista.Column(1)
+End Sub
+
+
+

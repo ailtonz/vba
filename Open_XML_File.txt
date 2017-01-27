@@ -1,0 +1,42 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub Open_XML_File()
+
+Dim oWX As Workbook
+Dim caminho As String
+
+caminho = "C:\Documents and Settings\user\Desktop\Duplicata.xml"
+
+Set oWX = Workbooks.OpenXML(caminho)
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub Open_XML_File()
+
+Dim oWX As Workbook
+Dim caminho As String
+
+caminho = "C:\Documents and Settings\user\Desktop\Duplicata.xml"
+
+Set oWX = Workbooks.OpenXML(caminho)
+
+End Sub
+

@@ -1,0 +1,510 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ImprimirPedido(codPedido As Integer)
+Dim Pedido As DAO.Recordset
+Dim ItensDoPedido  As DAO.Recordset
+Dim TiposDePedidos As DAO.Recordset
+Dim Produtos As DAO.Recordset
+Dim Cadastro As DAO.Recordset
+Dim CondicaoDePagamento As DAO.Recordset
+Dim FormaDePagamento As DAO.Recordset
+Dim Caminho As String
+
+Dim sPedido As String
+Dim sItensDoPedido As String
+Dim sTiposDePedidos As String
+Dim sCadastro As String
+Dim sCondicao As String
+Dim sForma As String
+
+sPedido = "Select * from Pedidos where codPedido = " & codPedido
+
+Set Pedido = CurrentDb.OpenRecordset(sPedido)
+
+sItensDoPedido = "Select * from ItensdosPedidos where codPedido = " & codPedido
+sTiposDePedidos = "Select * from TiposDePedidos where codTipoDePedido = " & Pedido.Fields("codTipoDePedido")
+sCadastro = "Select * from Cadastros where codCadastro = " & Pedido.Fields("codCadastro")
+sCondicao = "Select * from CondicoesDePagamentos where codCondicao = " & Pedido.Fields("codCondicao")
+sForma = "Select * from FormasDePagamento where codForma = " & Pedido.Fields("codForma")
+
+Set ItensDoPedido = CurrentDb.OpenRecordset(sItensDoPedido)
+Set TiposDePedidos = CurrentDb.OpenRecordset(sTiposDePedidos)
+Set Produtos = CurrentDb.OpenRecordset("Produtos", dbOpenSnapshot)
+Set Cadastro = CurrentDb.OpenRecordset(sCadastro)
+
+If Not IsNull(TiposDePedidos.Fields("GerarTitulos")) Then
+    Set CondicaoDePagamento = CurrentDb.OpenRecordset(sCondicao)
+    Set FormaDePagamento = CurrentDb.OpenRecordset(sForma)
+End If
+
+Caminho = Application.CurrentProject.Path
+
+Documents.Add Template:=Caminho & "\Pedidos.dot", newtemplate:=False
+
+'==============
+'   Pedido
+'==============
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Pedido"
+    Selection.TypeText TiposDePedidos.Fields("TipoDePedido")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Numero"
+    Selection.TypeText Format(Pedido.Fields("codPedido"), "000000")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Emissao"
+    Selection.TypeText Format(Pedido.Fields("DataDeEmissao"), "dd/mm/yyyy")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Conclusao"
+    Selection.TypeText Format(Pedido.Fields("DataDeConclusao"), "dd/mm/yyyy")
+    
+    If Pedido.Fields("codResponsavel") > 0 Then
+        Selection.GoTo what:=wdGoToBookmark, Name:="Responsavel"
+        Selection.TypeText NomeDoResponsavel(Pedido.Fields("codResponsavel"))
+    End If
+    
+'================
+'   Dados Gerais
+'================
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Cadastro"
+    Selection.TypeText Cadastro.Fields("Nome")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Contato"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("Contato")), Pedido.Fields("Contato"), "")
+   
+    If Pedido.Fields("codMedico") > 0 Then
+       Selection.GoTo what:=wdGoToBookmark, Name:="Medico"
+       Selection.TypeText NomeDoMedico(Pedido.Fields("codMedico"))
+    End If
+
+'================
+'   Acordos
+'================
+    
+    If Not IsNull(TiposDePedidos.Fields("GerarTitulos")) Then
+
+        If CondicaoDePagamento.Fields("Condicao") > 0 Then
+           Selection.GoTo what:=wdGoToBookmark, Name:="CondicaoDePag"
+           Selection.TypeText CondicaoDePagamento.Fields("Condicao")
+        End If
+        
+        If FormaDePagamento.Fields("Forma") > 0 Then
+           Selection.GoTo what:=wdGoToBookmark, Name:="FormaDePag"
+           Selection.TypeText FormaDePagamento.Fields("Forma")
+        End If
+    
+    End If
+    
+'================
+'  Transporte
+'================
+
+    If Not IsNull(Pedido.Fields("FretePorConta")) Then
+        Selection.GoTo what:=wdGoToBookmark, Name:="FretePorConta"
+        Selection.TypeText IIf(Pedido.Fields("FretePorConta") = 1, "Emitente", "Destinatário")
+    End If
+        
+    If Pedido.Fields("codTransportadora") > 0 Then
+       Selection.GoTo what:=wdGoToBookmark, Name:="Transportadora"
+       Selection.TypeText NomeDaTransportadora(Pedido.Fields("codTransportadora"))
+    End If
+    
+    
+'================
+'   Observacoes
+'================
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Observacao"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("Obsercacoes")), Pedido.Fields("Obsercacoes"), "")
+
+'====================
+'   Dados adicionais
+'====================
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional01"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_1")), Pedido.Fields("DadoAdicional_1"), "")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional02"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_2")), Pedido.Fields("DadoAdicional_2"), "")
+    
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional03"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_3")), Pedido.Fields("DadoAdicional_3"), "")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional04"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_4")), Pedido.Fields("DadoAdicional_4"), "")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional05"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_5")), Pedido.Fields("DadoAdicional_5"), "")
+    
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional06"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_6")), Pedido.Fields("DadoAdicional_6"), "")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional07"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_7")), Pedido.Fields("DadoAdicional_7"), "")
+    
+'====================
+'   Itens
+'====================
+
+Dim Inicio As Integer
+Dim ContaItens As Integer
+Dim PuloDeLinha As Integer
+Dim SomaTotalDoItem As Currency
+Dim SomaTotalGeral As Currency
+
+
+Inicio = 1
+PuloDeLinha = 2
+
+ItensDoPedido.MoveLast
+ItensDoPedido.MoveFirst
+
+        
+If Not ItensDoPedido.EOF Then
+
+    Do While Not ItensDoPedido.EOF
+
+        SomaTotalDoItem = 0
+
+        Produtos.MoveLast
+        Produtos.FindFirst "codProduto = " & ItensDoPedido.Fields("codProduto")
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "DescricaoDoProduto0", "DescricaoDoProduto") & Inicio
+        Selection.TypeText Produtos.Fields("DescricaoDoProduto")
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "QuantidadeDoProduto0", "QuantidadeDoProduto") & Inicio
+        Selection.TypeText ItensDoPedido.Fields("Quantidade")
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "ValorUnitarioDoProduto0", "ValorUnitarioDoProduto") & Inicio
+        Selection.TypeText FormatNumber(ItensDoPedido.Fields("ValorUnitario"))
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "DescontoDoProduto0", "DescontoDoProduto") & Inicio
+        Selection.TypeText FormatNumber(ItensDoPedido.Fields("Desconto"))
+
+        SomaTotalDoItem = ItensDoPedido.Fields("Quantidade") * ItensDoPedido.Fields("ValorUnitario") - ItensDoPedido.Fields("Desconto")
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "ValorTotalDoProduto0", "ValorTotalDoProduto") & Inicio
+        Selection.TypeText FormatNumber(SomaTotalDoItem)
+
+        SomaTotalGeral = SomaTotalGeral + SomaTotalDoItem
+        
+        Inicio = Inicio + 1
+        
+        ItensDoPedido.MoveNext
+
+    Loop
+
+
+    Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "DescricaoDoProduto0", "DescricaoDoProduto") & Inicio + PuloDeLinha
+    Selection.Font.Bold = True
+    Selection.TypeText "Valor total dos produtos: "
+
+    Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "ValorTotalDoProduto0", "ValorTotalDoProduto") & Inicio + PuloDeLinha
+    Selection.Font.Bold = True
+    Selection.TypeText FormatNumber(SomaTotalGeral)
+
+    Inicio = Inicio + 1
+
+
+    If Pedido.Fields("DescontoTotal") > 0 Then
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "DescricaoDoProduto0", "DescricaoDoProduto") & Inicio + PuloDeLinha
+        Selection.Font.Bold = True
+        Selection.TypeText "Desconto geral do pedido: "
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "ValorTotalDoProduto0", "ValorTotalDoProduto0") & Inicio + PuloDeLinha
+        Selection.Font.Bold = True
+        Selection.TypeText FormatNumber(Pedido.Fields("DescontoTotal"))
+
+        Inicio = Inicio + 1
+        SomaTotalGeral = SomaTotalGeral - Pedido.Fields("DescontoTotal")
+
+    End If
+
+    Inicio = Inicio + PuloDeLinha
+
+    Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "DescricaoDoProduto0", "DescricaoDoProduto") & Inicio
+    Selection.Font.Bold = True
+    Selection.TypeText "Valor Total do Pedido: "
+
+    Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "ValorTotalDoProduto0", "ValorTotalDoProduto") & Inicio
+    Selection.Font.Bold = True
+    Selection.TypeText FormatCurrency(SomaTotalGeral)
+
+
+ End If
+ 
+Pedido.Close
+ItensDoPedido.Close
+Cadastro.Close
+
+If Not IsNull(TiposDePedidos.Fields("GerarTitulos")) Then
+    CondicaoDePagamento.Close
+    FormaDePagamento.Close
+End If
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ImprimirPedido(codPedido As Integer)
+Dim Pedido As DAO.Recordset
+Dim ItensDoPedido  As DAO.Recordset
+Dim TiposDePedidos As DAO.Recordset
+Dim Produtos As DAO.Recordset
+Dim Cadastro As DAO.Recordset
+Dim CondicaoDePagamento As DAO.Recordset
+Dim FormaDePagamento As DAO.Recordset
+Dim Caminho As String
+
+Dim sPedido As String
+Dim sItensDoPedido As String
+Dim sTiposDePedidos As String
+Dim sCadastro As String
+Dim sCondicao As String
+Dim sForma As String
+
+sPedido = "Select * from Pedidos where codPedido = " & codPedido
+
+Set Pedido = CurrentDb.OpenRecordset(sPedido)
+
+sItensDoPedido = "Select * from ItensdosPedidos where codPedido = " & codPedido
+sTiposDePedidos = "Select * from TiposDePedidos where codTipoDePedido = " & Pedido.Fields("codTipoDePedido")
+sCadastro = "Select * from Cadastros where codCadastro = " & Pedido.Fields("codCadastro")
+sCondicao = "Select * from CondicoesDePagamentos where codCondicao = " & Pedido.Fields("codCondicao")
+sForma = "Select * from FormasDePagamento where codForma = " & Pedido.Fields("codForma")
+
+Set ItensDoPedido = CurrentDb.OpenRecordset(sItensDoPedido)
+Set TiposDePedidos = CurrentDb.OpenRecordset(sTiposDePedidos)
+Set Produtos = CurrentDb.OpenRecordset("Produtos", dbOpenSnapshot)
+Set Cadastro = CurrentDb.OpenRecordset(sCadastro)
+
+If Not IsNull(TiposDePedidos.Fields("GerarTitulos")) Then
+    Set CondicaoDePagamento = CurrentDb.OpenRecordset(sCondicao)
+    Set FormaDePagamento = CurrentDb.OpenRecordset(sForma)
+End If
+
+Caminho = Application.CurrentProject.Path
+
+Documents.Add Template:=Caminho & "\Pedidos.dot", newtemplate:=False
+
+'==============
+'   Pedido
+'==============
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Pedido"
+    Selection.TypeText TiposDePedidos.Fields("TipoDePedido")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Numero"
+    Selection.TypeText Format(Pedido.Fields("codPedido"), "000000")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Emissao"
+    Selection.TypeText Format(Pedido.Fields("DataDeEmissao"), "dd/mm/yyyy")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Conclusao"
+    Selection.TypeText Format(Pedido.Fields("DataDeConclusao"), "dd/mm/yyyy")
+    
+    If Pedido.Fields("codResponsavel") > 0 Then
+        Selection.GoTo what:=wdGoToBookmark, Name:="Responsavel"
+        Selection.TypeText NomeDoResponsavel(Pedido.Fields("codResponsavel"))
+    End If
+    
+'================
+'   Dados Gerais
+'================
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Cadastro"
+    Selection.TypeText Cadastro.Fields("Nome")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Contato"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("Contato")), Pedido.Fields("Contato"), "")
+   
+    If Pedido.Fields("codMedico") > 0 Then
+       Selection.GoTo what:=wdGoToBookmark, Name:="Medico"
+       Selection.TypeText NomeDoMedico(Pedido.Fields("codMedico"))
+    End If
+
+'================
+'   Acordos
+'================
+    
+    If Not IsNull(TiposDePedidos.Fields("GerarTitulos")) Then
+
+        If CondicaoDePagamento.Fields("Condicao") > 0 Then
+           Selection.GoTo what:=wdGoToBookmark, Name:="CondicaoDePag"
+           Selection.TypeText CondicaoDePagamento.Fields("Condicao")
+        End If
+        
+        If FormaDePagamento.Fields("Forma") > 0 Then
+           Selection.GoTo what:=wdGoToBookmark, Name:="FormaDePag"
+           Selection.TypeText FormaDePagamento.Fields("Forma")
+        End If
+    
+    End If
+    
+'================
+'  Transporte
+'================
+
+    If Not IsNull(Pedido.Fields("FretePorConta")) Then
+        Selection.GoTo what:=wdGoToBookmark, Name:="FretePorConta"
+        Selection.TypeText IIf(Pedido.Fields("FretePorConta") = 1, "Emitente", "Destinatário")
+    End If
+        
+    If Pedido.Fields("codTransportadora") > 0 Then
+       Selection.GoTo what:=wdGoToBookmark, Name:="Transportadora"
+       Selection.TypeText NomeDaTransportadora(Pedido.Fields("codTransportadora"))
+    End If
+    
+    
+'================
+'   Observacoes
+'================
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Observacao"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("Obsercacoes")), Pedido.Fields("Obsercacoes"), "")
+
+'====================
+'   Dados adicionais
+'====================
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional01"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_1")), Pedido.Fields("DadoAdicional_1"), "")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional02"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_2")), Pedido.Fields("DadoAdicional_2"), "")
+    
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional03"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_3")), Pedido.Fields("DadoAdicional_3"), "")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional04"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_4")), Pedido.Fields("DadoAdicional_4"), "")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional05"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_5")), Pedido.Fields("DadoAdicional_5"), "")
+    
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional06"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_6")), Pedido.Fields("DadoAdicional_6"), "")
+
+    Selection.GoTo what:=wdGoToBookmark, Name:="Adicional07"
+    Selection.TypeText IIf(Not IsNull(Pedido.Fields("DadoAdicional_7")), Pedido.Fields("DadoAdicional_7"), "")
+    
+'====================
+'   Itens
+'====================
+
+Dim Inicio As Integer
+Dim ContaItens As Integer
+Dim PuloDeLinha As Integer
+Dim SomaTotalDoItem As Currency
+Dim SomaTotalGeral As Currency
+
+
+Inicio = 1
+PuloDeLinha = 2
+
+ItensDoPedido.MoveLast
+ItensDoPedido.MoveFirst
+
+        
+If Not ItensDoPedido.EOF Then
+
+    Do While Not ItensDoPedido.EOF
+
+        SomaTotalDoItem = 0
+
+        Produtos.MoveLast
+        Produtos.FindFirst "codProduto = " & ItensDoPedido.Fields("codProduto")
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "DescricaoDoProduto0", "DescricaoDoProduto") & Inicio
+        Selection.TypeText Produtos.Fields("DescricaoDoProduto")
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "QuantidadeDoProduto0", "QuantidadeDoProduto") & Inicio
+        Selection.TypeText ItensDoPedido.Fields("Quantidade")
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "ValorUnitarioDoProduto0", "ValorUnitarioDoProduto") & Inicio
+        Selection.TypeText FormatNumber(ItensDoPedido.Fields("ValorUnitario"))
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "DescontoDoProduto0", "DescontoDoProduto") & Inicio
+        Selection.TypeText FormatNumber(ItensDoPedido.Fields("Desconto"))
+
+        SomaTotalDoItem = ItensDoPedido.Fields("Quantidade") * ItensDoPedido.Fields("ValorUnitario") - ItensDoPedido.Fields("Desconto")
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "ValorTotalDoProduto0", "ValorTotalDoProduto") & Inicio
+        Selection.TypeText FormatNumber(SomaTotalDoItem)
+
+        SomaTotalGeral = SomaTotalGeral + SomaTotalDoItem
+        
+        Inicio = Inicio + 1
+        
+        ItensDoPedido.MoveNext
+
+    Loop
+
+
+    Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "DescricaoDoProduto0", "DescricaoDoProduto") & Inicio + PuloDeLinha
+    Selection.Font.Bold = True
+    Selection.TypeText "Valor total dos produtos: "
+
+    Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "ValorTotalDoProduto0", "ValorTotalDoProduto") & Inicio + PuloDeLinha
+    Selection.Font.Bold = True
+    Selection.TypeText FormatNumber(SomaTotalGeral)
+
+    Inicio = Inicio + 1
+
+
+    If Pedido.Fields("DescontoTotal") > 0 Then
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "DescricaoDoProduto0", "DescricaoDoProduto") & Inicio + PuloDeLinha
+        Selection.Font.Bold = True
+        Selection.TypeText "Desconto geral do pedido: "
+
+        Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "ValorTotalDoProduto0", "ValorTotalDoProduto0") & Inicio + PuloDeLinha
+        Selection.Font.Bold = True
+        Selection.TypeText FormatNumber(Pedido.Fields("DescontoTotal"))
+
+        Inicio = Inicio + 1
+        SomaTotalGeral = SomaTotalGeral - Pedido.Fields("DescontoTotal")
+
+    End If
+
+    Inicio = Inicio + PuloDeLinha
+
+    Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "DescricaoDoProduto0", "DescricaoDoProduto") & Inicio
+    Selection.Font.Bold = True
+    Selection.TypeText "Valor Total do Pedido: "
+
+    Selection.GoTo what:=wdGoToBookmark, Name:=IIf(Inicio < 10, "ValorTotalDoProduto0", "ValorTotalDoProduto") & Inicio
+    Selection.Font.Bold = True
+    Selection.TypeText FormatCurrency(SomaTotalGeral)
+
+
+ End If
+ 
+Pedido.Close
+ItensDoPedido.Close
+Cadastro.Close
+
+If Not IsNull(TiposDePedidos.Fields("GerarTitulos")) Then
+    CondicaoDePagamento.Close
+    FormaDePagamento.Close
+End If
+
+End Function
+

@@ -1,0 +1,409 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Attribute VB_Name = "Util_2_1_1"
+Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
+Declare PtrSafe Function GetKeyState Lib "user32" (ByVal nVirtKey As Long) As Integer
+
+Public Enum enumState
+      sttNone = 0
+    sttInsert = 1
+        sttOk = 2
+    sttDelete = 3
+    sttSearch = 4
+    sttExport = 5
+    sttCancel = 6
+     sttClear = 7
+    sttUpdate = 8
+End Enum
+Public Enum enumLanguage
+        langUS_English = 0
+     langBR_Portuguese = 1
+End Enum
+Public Enum enTipo
+        tpInt = 0
+        tpStr = 1
+       tpBool = 2
+       tpDate = 3
+         tpFK = 4
+      tpFloat = 5
+       tpTime = 6
+End Enum
+
+Public Const MASTER_USER                    As String = "fp5738" '"xn4718"
+Public boolErrorHandler                     As Boolean
+Public boolAppendFile                       As Boolean
+Public Const VK_CONTROL                     As Integer = &H11
+Public Const NOME_PROJETO                   As String = "PAM_Adm"
+Public Const NOME_EMPRESA                   As String = "DuPont"
+Public Const TITULO_MSG                     As String = NOME_PROJETO & " :: " & NOME_EMPRESA
+Public Const STR_FORMAT_CURRENCY            As String = "#,##0.00;(#,##0.00);-"
+Public sql                                  As String
+Public i                                    As Integer
+Public j                                    As Integer
+Public sht                                  As New Worksheet
+
+
+Public Function MonthName(pMonthNumber As Integer, Optional pLanguage As enumLanguage) As String
+' ## ---------------------------------------------------------
+' ## Creator: Sidnei A. Graciolli Jr. (SP, Brazil)
+' ## Date: Mar/2012
+' ##
+' ## This function take an integer and returns the name of the
+' ##    corresponding month. Optionally, you can pass the language for return.
+' ## ---------------------------------------------------------
+    Dim strMonths As String
+    
+    If pMonthNumber < 1 Or pMonthNumber > 12 Then
+        MonthName = "#InvalidParameter"
+    Else
+        Select Case pLanguage
+            Case langUS_English:        strMonths = " January February March April May June July August September October November December"
+            Case langBR_Portuguese:     strMonths = " Janeiro Fevereiro Março Abril Maio Junho Julho Agosto Setembro Outubro Novembro Dezembro"
+            Case Else:                  strMonths = " January February March April May June July August September October November December"
+        End Select
+        
+        MonthName = Split(strMonths, " ")(pMonthNumber)
+    
+    End If
+End Function
+Public Function MonthNumber(pMonth As String, Optional pLanguage As enumLanguage) As String
+' ## ---------------------------------------------------------
+' ## Creator: Sidnei A. Graciolli Jr. (SP, Brazil)
+' ## Date: Mar/2012
+' ##
+' ## This function take the month name and returns a string of the integer value.
+' ##    Optionally, you can pass the language of the entry.
+' ## ---------------------------------------------------------
+
+    For i = 1 To 12
+        If UCase(pMonth) = UCase(MonthName(i, pLanguage)) Then
+            MonthNumber = CStr(Format(i, "00"))
+            Exit Function
+        End If
+    Next i
+    
+    MonthNumber = "#InvalidParameter"
+    
+End Function
+Public Function MonthComboBox(pComboBox As ComboBox, Optional pSelected As Integer, Optional pLanguage As enumLanguage)
+' ## ---------------------------------------------------------
+' ## Creator: Sidnei A. Graciolli Jr. (SP, Brazil)
+' ## Date: Mar/2012
+' ##
+' ## This function populate a ComboBox object with months.
+' ##    Optionally, you can pass the language for return, and the month that will stay selected.
+' ## ---------------------------------------------------------
+
+    With pComboBox
+        .Clear
+        For i = 1 To 12
+            .AddItem MonthName(i, pLanguage)
+        Next i
+        If pSelected <> 0 Then
+            .ListIndex = pSelected
+        Else
+            .Text = "Select..."
+        End If
+    End With
+End Function
+Public Function YearComboBox(pComboBox As ComboBox)
+' ## ---------------------------------------------------------
+' ## Creator: Sidnei A. Graciolli Jr. (SP, Brazil)
+' ## Date: Mar/2012
+' ##
+' ## This function populate a ComboBox object with years.
+' ## ---------------------------------------------------------
+
+    With pComboBox
+        .Clear
+        For i = 1 To 5
+            .AddItem (Year(Now) - 3) + i
+        Next i
+        .ListIndex = 2
+    End With
+    
+End Function
+Function ClearStatusBar()
+    ThisWorkbook.Application.StatusBar = vbNullString
+End Function
+Function statusFinal(pDate As Date)
+    ThisWorkbook.Application.StatusBar = "Relatório concluído! Tempo de execução: " & Format(Now - pDate, "hh:mm:ss")
+    'ShowProgress ThisWorkbook.Application.StatusBar
+    ThisWorkbook.Application.OnTime Now() + TimeValue("00:00:15"), "ClearStatusBar"
+End Function
+Public Function Greet() As String
+    Select Case Hour(Now)
+        Case 6 To 11:               Greet = "Bom dia"
+        Case 12 To 17:              Greet = "Boa tarde"
+        Case Else:                  Greet = "Boa noite"
+    End Select
+End Function
+Public Function Contains(pCollection As Collection, pKey As Variant) As Boolean
+Dim Obj As Variant
+    On Error GoTo err
+    Contains = True
+    Set Obj = pCollection.Item(CStr(pKey))
+    Exit Function
+err:
+    Contains = False
+End Function
+Public Function RaiseError(Optional pSource As String, Optional pDescription As String)
+    ThisWorkbook.Application.StatusBar = ""
+    With err
+        If pDescription = vbNullString Then
+            .Description = "Ocorreu um erro de sistema: " & .Description
+        Else
+            .Description = pDescription
+        End If
+        If pSource <> vbNullString Then .Source = pSource
+        'Debug.Print CStr(Time()) + "@" + .Source + " >> " + .Description
+        .Raise vbObjectError + 513
+    End With
+End Function
+Public Function ShowError()
+    Dim FileNumber As Integer
+    Dim strLog As String
+    Dim strSource As String
+    Dim strDescription As String
+    
+    ThisWorkbook.Application.StatusBar = ""
+    
+    With err
+        strSource = .Source
+        strDescription = .Description
+        
+        If clsBanco.possuiAcesso Then
+            strLog = Format(Now(), "dd_mm_yyyy HH:mm:ss") & " --> "
+            strLog = strLog & Left("@" & strSource & Space(25), 25)
+            strLog = strLog & Left("ERRO: " & strDescription & Space(100), 100)
+            strLog = strLog & Left("USER: " & Environ("UserName") & Space(30), 30)
+            strLog = strLog & Left("MÓDULO: " & NOME_PROJETO & Space(30), 30)
+        
+            FileNumber = FreeFile                                                ' Get unused file number
+            Open ThisWorkbook.Path & "\LOG_PAM.txt" For Append As #FileNumber    ' Connect to the file
+            Print #FileNumber, strLog: Close #FileNumber                         ' Append our string
+            
+            If MsgBox("Ocorreu um erro inesperado. Detalhes do erro:" & vbNewLine & vbNewLine & _
+                    vbTab & "-" & strSource & vbNewLine & vbTab & "-" & strDescription & vbNewLine & vbNewLine & _
+                    "Um log do erro foi criado em " & ThisWorkbook.Path & "\LOG_PAM.txt" & vbNewLine & vbNewLine & _
+                    "Deseja abrí-lo?", vbYesNo + vbDefaultButton2, TITULO_MSG) = vbYes Then
+
+                Shell "c:\WINDOWS\notepad.exe " & ThisWorkbook.Path & "\LOG_CLM.txt"
+            End If
+        Else
+            MsgBox "Ocorreu um erro inesperado. Detalhes do erro:" & vbNewLine & vbNewLine & _
+                    vbTab & "-" & strSource & vbNewLine & vbTab & "-" & strDescription & vbNewLine & vbNewLine & _
+                    "Um log do erro não pode ser criado.", vbOKOnly, TITULO_MSG
+        End If
+    End With
+End Function
+Function PickFolder(pPath As String, pTitle As String, Optional pSubFolder As String) As String
+    With Application.FileDialog(msoFileDialogFolderPicker)
+    .Title = pTitle
+    .InitialFileName = pPath
+    .Show
+        If .SelectedItems.Count > 0 Then
+            If Trim(pSubFolder) <> "" Then
+                If Dir(.SelectedItems(1) & pSubFolder, vbDirectory) = "" Then
+                    MkDir Path:=.SelectedItems(1) & pSubFolder
+                End If
+            End If
+            PickFolder = .SelectedItems(1) & pSubFolder
+        End If
+    End With
+    
+End Function
+Function PickFile(pTitle As String) As String
+    With Application.FileDialog(msoFileDialogFilePicker)
+    .Title = pTitle
+    .InitialFileName = ThisWorkbook.Path
+    .AllowMultiSelect = False
+    .Filters.Clear
+    .Filters.Add "Excel Files", "*.xls*"
+    .Show
+        If .SelectedItems.Count > 0 Then
+            PickFile = .SelectedItems(1)
+        End If
+    End With
+End Function
+Public Function DateToSql(pDateValue As Date) As String
+    DateToSql = "'" & Year(pDateValue) & "-" & Month(pDateValue) & "-" & Day(pDateValue) & "'"
+End Function
+Public Function TimeToSql(pValue As Date) As String
+    TimeToSql = "'" & Hour(pValue) & ":" & Minute(pValue) & ":" & Second(pValue) & "'"
+End Function
+Public Function StringToSql(pText As String, Optional pMaxLenght As Integer) As String
+    Dim iStrAux As String
+    iStrAux = Replace(pText, Chr(39), vbNullString)         ' Remove aspa simples: '
+    iStrAux = Replace(iStrAux, Chr(145), vbNullString)      ' Remove aspa simples: ‘
+    iStrAux = Replace(iStrAux, Chr(146), vbNullString)      ' Remove aspa simples: ’
+    
+    If pMaxLenght > 0 Then iStrAux = Left(iStrAux, pMaxLenght)
+    
+    If iStrAux = "" Then
+        StringToSql = "NULL"
+    Else
+        StringToSql = "'" & iStrAux & "'"
+    End If
+End Function
+Public Function NumberToSql(pNumber As Variant) As String
+    Dim i As Integer
+    Dim iStrSinal As String
+    Dim iStrAux As String
+    Dim iCaracteres As String
+    iCaracteres = "1234567890,.-"
+    iStrAux = vbNullString
+    iStrSinal = vbNullString
+    
+    pNumber = CStr(pNumber)
+    
+    If pNumber = vbNullString Then
+        NumberToSql = "NULL"
+    Else
+        For i = 1 To Len(pNumber)
+            If Mid(pNumber, i, 1) = "(" Then iStrSinal = "-"
+            If InStr(iCaracteres, Mid(pNumber, i, 1)) <> 0 Then
+                iStrAux = iStrAux & Mid(pNumber, i, 1)
+            End If
+        Next i
+        iStrAux = Replace(iStrAux, Chr(46), vbNullString)       ' Remove pontos
+        iStrAux = Replace(iStrAux, Chr(44), Chr(46))            ' Substitui vírgula por ponto
+        NumberToSql = iStrSinal & iStrAux
+        If Right(NumberToSql, 1) = "." Then NumberToSql = Left(NumberToSql, Len(NumberToSql) - 1)
+
+        If Not IsNumeric(NumberToSql) Then
+            Debug.Print Now & " -:- ERRO Function NumberToSql -:- Impossível formatar " & pNumber & ". Resultado não é um número válido: " & NumberToSql
+            NumberToSql = "0"
+        End If
+    End If
+End Function
+Public Function ValidateNumberField(ByRef pTextBox As Control, ByVal pKeyAscii As MSForms.ReturnInteger)
+    With pTextBox
+        Select Case pKeyAscii
+            Case Asc("0") To Asc("99")
+            Case Asc(","): pKeyAscii = 0
+                If InStr(1, .Text, ",") <= 0 Then
+                    If .Text = vbNullString Then
+                        .Text = "0,"
+                    Else
+                        .Text = .Text & ","
+                    End If
+                End If
+            Case Asc("-"): pKeyAscii = 0
+                If (Left(.Text, 1)) <> "-" Then .Text = "-" & .Text
+            Case Asc("+"): pKeyAscii = 0
+                If (Left(.Text, 1)) = "-" Then .Text = Right(.Text, Len(.Text) - 1)
+            Case Else: pKeyAscii = 0
+        End Select
+    End With
+End Function
+Public Function WriteTextFile(pFilePath As String, pText As String) As Boolean
+    Dim intFNumber As Integer
+    intFNumber = FreeFile
+    
+    On Error GoTo ErrorHandler
+    
+    If boolAppendFile Then
+        Open pFilePath For Output As #intFNumber
+        Print #intFNumber, pText
+        Close #intFNumber
+    End If
+    
+    On Error GoTo 0
+    WriteTextFile = True
+    Exit Function
+ErrorHandler:
+    MsgBox "Não foi possível salvar o arquivo." & vbNewLine & "Verifique o caminho informado e as permissões de acesso", vbInformation, "Criptografia - CLM Tech"
+End Function
+Public Function AppendTextFile(pFilePath As String, pText As String) As Boolean
+    Dim intFNumber As Integer
+    intFNumber = FreeFile
+    
+    On Error GoTo ErrorHandler
+    
+    If boolAppendFile Then
+        Open pFilePath For Append As #intFNumber
+        Print #intFNumber, pText
+        Close #intFNumber
+    End If
+    
+    On Error GoTo 0
+    
+    AppendTextFile = True
+    Exit Function
+ErrorHandler:
+    MsgBox "Não foi possível salvar o arquivo." & vbNewLine & "Verifique o caminho informado e as permissões de acesso", vbInformation, "Criptografia - CLM Tech"
+End Function
+Public Function LockScreen(pLock As Boolean)
+    With Application
+        .DisplayAlerts = Not (boolErrorHandler And pLock)
+        .EnableEvents = Not (boolErrorHandler And pLock)
+        .ScreenUpdating = Not (boolErrorHandler And pLock)
+    End With
+End Function
+Public Function ShowProgress(pText As String, Optional pLen As Double, Optional ptextAux As String, Optional pChar As String)
+    Dim strAux As String
+    strAux = pText
+    If Trim(ptextAux) <> "" Then
+        strAux = strAux & " " & WorksheetFunction.Rept(IIf(pChar = "", " ", pChar), pLen - Len(strAux)) & " " & ptextAux
+    End If
+    Application.StatusBar = Left("Atualizando... " & strAux, 255)
+    Debug.Print strAux
+End Function
+Public Function ShowProgressIE(pText As String, Optional pLen As Double, Optional ptextAux As String, Optional pChar As String)
+    Dim strAux As String
+    strAux = pText
+    If Trim(ptextAux) <> "" Then
+        strAux = strAux & " " & WorksheetFunction.Rept(IIf(pChar = "", " ", pChar), pLen - Len(strAux)) & " " & ptextAux
+    End If
+    UpdateIE strAux & "<br>"
+End Function
+Public Function LogError()
+    Debug.Print Format(Now(), "hh:MM:ss") & "@" & err.Source & " - " & err.Description
+End Function
+Public Function ClipBoardThis(pText As String)
+    Dim objData As New MSForms.DataObject
+    objData.SetText pText
+    objData.PutInClipboard
+End Function
+Public Function ColumnLetter(pNumber As Long) As String
+' ## ---------------------------------------------------------
+' ## Creator: brettdj (Melbourne, Australia) at http://stackoverflow.com/questions/12796973/vba-function-to-convert-column-number-to-letter
+' ## Date: Oct/2012
+' ##
+' ## Updated by: Sidnei A. Graciolli Jr. (SP, Brazil)
+' ## Date: Nov/2014
+' ## ---------------------------------------------------------
+    If pNumber > Columns.Count Then pNumber = pNumber Mod Columns.Count
+    ColumnLetter = Split(Cells(1, pNumber).Address(True, False), "$")(0)
+End Function
+Public Function SetErrorHandler()
+    boolErrorHandler = (GetKeyState(VK_CONTROL) >= 0)
+    If Not boolErrorHandler Then boolErrorHandler = MsgBox("Atenção! O Sistema identificou que a tecla CTRL estava pressionada ao clicar em Gerar Planilhas. Esta opção desabilita o tratamento de erros para debbugging e aumenta consideravelmente o tempo de geração das planilhas." & vbNewLine & vbNewLine & "A opção de debugging deve ser utilizada apenas para análise do código VBA. Deseja continuar? (Escolha NÃO para desabilitar o modo de debugging)", vbYesNo + vbDefaultButton2 + vbExclamation, "Debugging mode") = vbNo
+End Function
+Function IsOpen(pName As String) As Boolean
+    Dim iWb As Workbook
+    For Each iWb In Application.Workbooks
+        If iWb.Name = pName Then
+            IsOpen = True
+            Exit For
+        End If
+    Next
+End Function
+Function IsMasterUser() As Boolean
+    If (MASTER_USER = Environ("UserName")) Then
+        'MsgBox "MASTER_USER Verified!", vbOKOnly + vbExclamation, TITULO_MSG
+        IsMasterUser = True
+    Else
+        IsMasterUser = False
+    End If
+End Function
+

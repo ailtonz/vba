@@ -1,0 +1,172 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ExportarParaExcel(ssql As String)
+
+Dim DB As Database, iLinha As Integer, intCampos As Integer
+Dim i As Integer, XPlanilha As Object, sTemp As String
+Dim Rd As Recordset
+
+Set DB = CurrentDb
+Set Rd = DB.OpenRecordset(ssql, dbOpenForwardOnly)
+If Rd.RecordCount > 0 Then
+'cria referencia ao EXCEL
+    Set XPlanilha = CreateObject("Excel.Application")
+
+    'cria uma pasta de planilhas
+    XPlanilha.Workbooks.Add
+
+    'seleciona a primeira planilha
+    XPlanilha.Workbooks(1).Sheets(1).Select
+
+    'incrementa a linha
+    iLinha = iLinha + 1
+    
+    'insere texto e data  na  planilha
+    'XPlanilha.Range("A" & CStr(iLinha)).Value _
+    = "Intervalo de Pesquisa de " & sDataInicial & " a " & sDataFinal
+    'Aplica negrito
+    XPlanilha.Range("A" & CStr(iLinha)).Font.Bold = True
+    'Aplica cor azul
+    XPlanilha.Range("A" & CStr(iLinha)).Font.ColorIndex = 5
+    
+    intCampos = Rd.Fields.Count
+    
+    For i = 0 To intCampos - 1
+        'coloca o titulo dos campos na 2 linha
+        XPlanilha.Cells(2, i + 1).Value = Rd.Fields(i).Name
+        'aplica negrito
+        XPlanilha.Cells(2, i + 1).Font.Bold = True
+       Next i
+        
+    iLinha = iLinha + 1
+    
+    'transfere os dados
+    Do While Not Rd.EOF
+        iLinha = iLinha + 1 'incrementa a linha
+        i = 0
+        For i = 0 To intCampos - 1
+        XPlanilha.Cells(iLinha, i + 1).Value = Rd(i)
+        If IsDate(Rd(i)) Then
+        XPlanilha.Cells(iLinha, i + 1).NumberFormat = "dd/mm/YY"
+        End If
+        Next i
+        Rd.MoveNext
+    Loop
+
+    'formata novo nome da planilha
+    sTemp = "C:\Temp\Rel" & Format(Now, "ddmmyy_hhnn") & ".xls"
+    'se o diretório não existe, cria
+    If Dir$("C:\Temp", vbDirectory) = "" Then MkDir "C:\Temp"
+    'se o arquivo já existe, deleta
+    If Dir$(sTemp) <> "" Then Kill sTemp
+    
+    'salva a planilha
+    XPlanilha.ActiveWorkbook.SaveAs FileName:=sTemp, _
+    FileFormat:=xlNormal, Password:="", WriteResPassword:="", _
+    ReadOnlyRecommended:=False, CreateBackup:=False
+    'fecha o Excel
+    XPlanilha.Quit
+    'descarrega da memória
+    Set XPlanilha = Nothing
+End If
+Rd.Close
+Set Rd = Nothing
+Set DB = Nothing
+MsgBox "A planilha foi gerada com êxito." _
+        & vbCrLf & "Está em " & sTemp, vbInformation, "ATENÇÃO"
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ExportarParaExcel(ssql As String)
+
+Dim DB As Database, iLinha As Integer, intCampos As Integer
+Dim i As Integer, XPlanilha As Object, sTemp As String
+Dim Rd As Recordset
+
+Set DB = CurrentDb
+Set Rd = DB.OpenRecordset(ssql, dbOpenForwardOnly)
+If Rd.RecordCount > 0 Then
+'cria referencia ao EXCEL
+    Set XPlanilha = CreateObject("Excel.Application")
+
+    'cria uma pasta de planilhas
+    XPlanilha.Workbooks.Add
+
+    'seleciona a primeira planilha
+    XPlanilha.Workbooks(1).Sheets(1).Select
+
+    'incrementa a linha
+    iLinha = iLinha + 1
+    
+    'insere texto e data  na  planilha
+    'XPlanilha.Range("A" & CStr(iLinha)).Value _
+    = "Intervalo de Pesquisa de " & sDataInicial & " a " & sDataFinal
+    'Aplica negrito
+    XPlanilha.Range("A" & CStr(iLinha)).Font.Bold = True
+    'Aplica cor azul
+    XPlanilha.Range("A" & CStr(iLinha)).Font.ColorIndex = 5
+    
+    intCampos = Rd.Fields.Count
+    
+    For i = 0 To intCampos - 1
+        'coloca o titulo dos campos na 2 linha
+        XPlanilha.Cells(2, i + 1).Value = Rd.Fields(i).Name
+        'aplica negrito
+        XPlanilha.Cells(2, i + 1).Font.Bold = True
+       Next i
+        
+    iLinha = iLinha + 1
+    
+    'transfere os dados
+    Do While Not Rd.EOF
+        iLinha = iLinha + 1 'incrementa a linha
+        i = 0
+        For i = 0 To intCampos - 1
+        XPlanilha.Cells(iLinha, i + 1).Value = Rd(i)
+        If IsDate(Rd(i)) Then
+        XPlanilha.Cells(iLinha, i + 1).NumberFormat = "dd/mm/YY"
+        End If
+        Next i
+        Rd.MoveNext
+    Loop
+
+    'formata novo nome da planilha
+    sTemp = "C:\Temp\Rel" & Format(Now, "ddmmyy_hhnn") & ".xls"
+    'se o diretório não existe, cria
+    If Dir$("C:\Temp", vbDirectory) = "" Then MkDir "C:\Temp"
+    'se o arquivo já existe, deleta
+    If Dir$(sTemp) <> "" Then Kill sTemp
+    
+    'salva a planilha
+    XPlanilha.ActiveWorkbook.SaveAs FileName:=sTemp, _
+    FileFormat:=xlNormal, Password:="", WriteResPassword:="", _
+    ReadOnlyRecommended:=False, CreateBackup:=False
+    'fecha o Excel
+    XPlanilha.Quit
+    'descarrega da memória
+    Set XPlanilha = Nothing
+End If
+Rd.Close
+Set Rd = Nothing
+Set DB = Nothing
+MsgBox "A planilha foi gerada com êxito." _
+        & vbCrLf & "Está em " & sTemp, vbInformation, "ATENÇÃO"
+End Function
+

@@ -1,0 +1,38 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function MesAtual(intMes As Integer) As String
+Dim myMonth As Variant
+
+myMonth = Array("", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
+
+MesAtual = myMonth(intMes)
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function MesAtual(intMes As Integer) As String
+Dim myMonth As Variant
+
+myMonth = Array("", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
+
+MesAtual = myMonth(intMes)
+
+End Function
+

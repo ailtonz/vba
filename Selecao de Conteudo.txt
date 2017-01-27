@@ -1,0 +1,68 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub ScriptManutencao(arqScript As String)
+Dim strSQL As String
+
+
+Open arqScript For Input As #1
+
+DoCmd.SetWarnings False
+Dim l As Integer
+l = 1
+Do Until EOF(1)
+    Line Input #1, strSQL
+    l = l + 1
+    If strSQL <> "" Then DoCmd.RunSQL (strSQL)
+Loop
+
+DoCmd.SetWarnings True
+
+Close #1
+
+'apaga o arquivo temp
+'Kill arqScript
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub ScriptManutencao(arqScript As String)
+Dim strSQL As String
+
+
+Open arqScript For Input As #1
+
+DoCmd.SetWarnings False
+Dim l As Integer
+l = 1
+Do Until EOF(1)
+    Line Input #1, strSQL
+    l = l + 1
+    If strSQL <> "" Then DoCmd.RunSQL (strSQL)
+Loop
+
+DoCmd.SetWarnings True
+
+Close #1
+
+'apaga o arquivo temp
+'Kill arqScript
+
+End Sub
+

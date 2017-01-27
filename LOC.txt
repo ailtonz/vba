@@ -1,0 +1,30 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+=DESLOC(APOIO!$A$1;1;CORRESP(DADOS!B2;ETAPAS;0)-1;CONT.VALORES(INDIRETO("APOIO!"&ESQUERDA(ENDEREÇO(1;CORRESP(DADOS!B2;ETAPAS;0));2)&":"&ESQUERDA(ENDEREÇO(1;CORRESP(DADOS!B2;ETAPAS;0));2)))-1;1)
+
+
+http://www.contextures.com/Excel-VBA-ComboBox-Lists.html
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+=DESLOC(APOIO!$A$1;1;CORRESP(DADOS!B2;ETAPAS;0)-1;CONT.VALORES(INDIRETO("APOIO!"&ESQUERDA(ENDEREÇO(1;CORRESP(DADOS!B2;ETAPAS;0));2)&":"&ESQUERDA(ENDEREÇO(1;CORRESP(DADOS!B2;ETAPAS;0));2)))-1;1)
+
+
+http://www.contextures.com/Excel-VBA-ComboBox-Lists.html
+

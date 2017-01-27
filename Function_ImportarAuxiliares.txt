@@ -1,0 +1,148 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ImportarAuxiliares()
+Dim cn As New ADODB.Connection
+Dim rstRelacao As New ADODB.Recordset
+Dim rstAuxiliar As New ADODB.Recordset
+Dim rstDestino As DAO.Recordset
+
+'Pegar Parametros para Conecção
+PegarParametrosDeConeccao
+
+'Conectar
+cn.ConnectionString = "Provider=" & strDriver & ";Server=" & strServidor & ";database=" & strBaseDeDados & ";uid=" & strUsuario & ";pwd=" & strSenha
+cn.CursorLocation = adUseClient
+cn.ConnectionTimeout = 15
+cn.Open
+
+''Carrega Relacao de itens a serem importados
+strSQL = "Select Distinct Relacao from Categorias order by Relacao"
+rstRelacao.Open strSQL, cn, adOpenKeyset, adLockOptimistic
+strSQL = ""
+
+While Not rstRelacao.EOF
+
+    ''Carrega Relacao de itens a serem importados
+    strSQL = "Select Categoria,Relacao from Categorias where Relacao = '" & rstRelacao.Fields("Relacao") & "'"
+    rstAuxiliar.Open strSQL, cn, adOpenKeyset, adLockOptimistic
+    strSQL = ""
+    
+    'Abre Destino
+    Set rstDestino = CurrentDb.OpenRecordset("Select * from " & "cbo" & rstAuxiliar.Fields("Relacao"))
+    
+    'Limpa o Destino
+    LimparCadastro "cbo" & rstAuxiliar.Fields("Relacao")
+    
+    'Inicio de transferencia
+    BeginTrans
+    
+    While Not rstAuxiliar.EOF
+        rstDestino.AddNew
+        rstDestino.Fields(rstAuxiliar.Fields("Relacao")) = rstAuxiliar.Fields("Categoria")
+        rstDestino.Update
+        rstAuxiliar.MoveNext
+    Wend
+    
+    CommitTrans
+    
+    rstAuxiliar.Close
+    rstDestino.Close
+    rstRelacao.MoveNext
+
+Wend
+
+
+rstRelacao.Close
+
+cn.Close
+
+Set rstRelacao = Nothing
+Set rstAuxiliar = Nothing
+Set rstDestino = Nothing
+
+Set cn = Nothing
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ImportarAuxiliares()
+Dim cn As New ADODB.Connection
+Dim rstRelacao As New ADODB.Recordset
+Dim rstAuxiliar As New ADODB.Recordset
+Dim rstDestino As DAO.Recordset
+
+'Pegar Parametros para Conecção
+PegarParametrosDeConeccao
+
+'Conectar
+cn.ConnectionString = "Provider=" & strDriver & ";Server=" & strServidor & ";database=" & strBaseDeDados & ";uid=" & strUsuario & ";pwd=" & strSenha
+cn.CursorLocation = adUseClient
+cn.ConnectionTimeout = 15
+cn.Open
+
+''Carrega Relacao de itens a serem importados
+strSQL = "Select Distinct Relacao from Categorias order by Relacao"
+rstRelacao.Open strSQL, cn, adOpenKeyset, adLockOptimistic
+strSQL = ""
+
+While Not rstRelacao.EOF
+
+    ''Carrega Relacao de itens a serem importados
+    strSQL = "Select Categoria,Relacao from Categorias where Relacao = '" & rstRelacao.Fields("Relacao") & "'"
+    rstAuxiliar.Open strSQL, cn, adOpenKeyset, adLockOptimistic
+    strSQL = ""
+    
+    'Abre Destino
+    Set rstDestino = CurrentDb.OpenRecordset("Select * from " & "cbo" & rstAuxiliar.Fields("Relacao"))
+    
+    'Limpa o Destino
+    LimparCadastro "cbo" & rstAuxiliar.Fields("Relacao")
+    
+    'Inicio de transferencia
+    BeginTrans
+    
+    While Not rstAuxiliar.EOF
+        rstDestino.AddNew
+        rstDestino.Fields(rstAuxiliar.Fields("Relacao")) = rstAuxiliar.Fields("Categoria")
+        rstDestino.Update
+        rstAuxiliar.MoveNext
+    Wend
+    
+    CommitTrans
+    
+    rstAuxiliar.Close
+    rstDestino.Close
+    rstRelacao.MoveNext
+
+Wend
+
+
+rstRelacao.Close
+
+cn.Close
+
+Set rstRelacao = Nothing
+Set rstAuxiliar = Nothing
+Set rstDestino = Nothing
+
+Set cn = Nothing
+
+End Function
+

@@ -1,0 +1,50 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub RemoveDuplicados()
+
+Worksheets("plan1").Range("A2").Sort key1:=Worksheets("plan1").Range("A1")
+Set currentCell = Worksheets("plan1").Range("A1")
+
+Do While Not IsEmpty(currentCell)
+    Set nextCell = currentCell.Offset(1, 0)
+    If nextCell.Value = currentCell.Value Then
+        currentCell.EntireRow.Delete
+    End If
+    Set currentCell = nextCell
+Loop
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub RemoveDuplicados()
+
+Worksheets("plan1").Range("A2").Sort key1:=Worksheets("plan1").Range("A1")
+Set currentCell = Worksheets("plan1").Range("A1")
+
+Do While Not IsEmpty(currentCell)
+    Set nextCell = currentCell.Offset(1, 0)
+    If nextCell.Value = currentCell.Value Then
+        currentCell.EntireRow.Delete
+    End If
+    Set currentCell = nextCell
+Loop
+
+End Sub
+

@@ -1,0 +1,108 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Attribute VB_Name = "ReconcileOpenClosed"
+
+'Written by: Gleb Gudzenko
+'Date: April 6, 2007
+'Description: This program compares the first two sheets and reports the differences.
+'                   The assumption is that the first sheet is always the old file and the second
+'                   sheet of the workbook is the new file. The program essentially loops twice, comparing sheet 1 against sheet 2, then compares sheet 2 to sheet 1.
+'
+
+
+Const rowStart = 2
+Public xOldSht, xNewSht, xPasteSht As Worksheet
+Dim lastsheet As Long
+Sub reconcile()
+
+Dim p As Worksheet
+Dim acctnum As Variant
+Dim xOCount, xNCount, xYCount, xSCount, tmpCount As Long
+Dim xPCount As Long
+Dim numShts As Long
+Dim FindAcct, PasteFind As Range
+Dim tmpName As String
+Dim openorclosed As Boolean 'if its set to false that means we are checking for closed accounts, true means we are checking for open accounts.
+openorclosed = False
+lastsheet = ActiveWorkbook.Sheets.count
+numShts = Sheets.count - 1
+
+For xYCount = 1 To 2 'This loop is designed to loop through the entire program twice, once for closed accounts and a second time for opened accounts
+    If xYCount = 2 Then
+        numShts = numShts + 1
+    End If
+    For xNCount = 1 To numShts
+     xPCount = xNCount
+        Call addshts(xPCount, openorclosed)
+        xSCount = 1
+            For xOCount = rowStart To xOldSht.Range("A65536").End(xlUp).Row
+                If xOldSht.Cells(xOCount, 1).Borders.Color <> RGB(255, 0, 0) And xOldSht.Cells(xOCount, 1).Borders.Color <> RGB(0, 255, 0) Then
+                    acctnum = xOldSht.Cells(xOCount, 1).Value
+                    xNewSht.Activate
+                    
+                    Set FindAcct = Range(Cells(rowStart, 1), Cells(xNewSht.Range("A65536").End(xlUp).Row, 1)). _
+                                            Find(acctnum, LookIn:=xlValues, Lookat:=xlPart, SearchOrder:=xlByRows)
+                    
+                    If FindAcct Is Nothing Then
+                        Debug.Print "............................."
+                        Debug.Print xOldSht.Name
+                        Debug.Print "Searching sheet... " & xNewSht.Name
+                        Debug.Print "Account #:           " & acctnum & " Not found!!"
+                
+                        If openorclosed = False Then
+                             xOldSht.Cells(xOCount, 1).Borders.Color = RGB(255, 0, 0)
+                        ElseIf openorclosed = True Then
+                             xOldSht.Cells(xOCount, 1).Borders.Color = RGB(0, 255, 0)
+                        End If
+                        xOldSht.Cells(xOCount, 1).EntireRow.Copy Destination:=xPasteSht.Range("A65536").End(xlUp).Offset(xSCount, 0).EntireRow
+                         Debug.Print
+                         Debug.Print "                        .... Acct #: " & acctnum
+                         Debug.Print "                        .... Copied to sheet: " & xPasteSht.Name
+                         Debug.Print "                        .... To cell: " & xPasteSht.Range("A65536").End(xlUp).Offset(xSCount, 0).Address
+                    Else
+                        Debug.Print "............................."
+                        Debug.Print xOldSht.Name
+                        Debug.Print "Searching sheet... " & xNewSht.Name
+                        Debug.Print "Account #:           " & acctnum & " found"
+                    End If
+                End If
+    
+            Next
+    Next
+    openorclosed = True
+
+Next
+End Sub
+
+Function addshts(xPCount As Long, openorclosed As Boolean)
+If openorclosed = False Then
+Sheets.Add after:=Worksheets(lastsheet)
+ActiveSheet.Name = Sheets(xPCount + 1).Name & " Closed"
+  
+        Set xPasteSht = ActiveSheet
+        Set xOldSht = Worksheets(xPCount)
+        Set xNewSht = Worksheets(xPCount + 1)
+
+ElseIf openorclosed = True Then
+
+Sheets.Add after:=Worksheets(lastsheet + 1)
+ActiveSheet.Name = Sheets(xPCount + 1).Name & " Opened"
+        Set xPasteSht = ActiveSheet
+        Set xOldSht = Worksheets(xPCount + 1)
+        Set xNewSht = Worksheets(xPCount)
+End If
+
+End Function
+
+
+
+
+

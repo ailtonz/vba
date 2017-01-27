@@ -1,0 +1,92 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function LinhasMarcadas(iColuna As Integer, Optional sPlanilha As String)
+On Error GoTo Err_ContarLinhas
+
+Dim cont As Long
+Dim Linha As Long
+
+'Testa se o nome da planilha esta vasio
+If sPlanilha <> "" Then Sheets(sPlanilha).Activate
+
+'Conta as linhas marcadas
+For Linha = 1 To Rows.Count
+    If Cells(Linha, iColuna) <> "" Then
+        cont = cont + 1
+
+        Range("A" & Linha & ",C" & Linha & ",D" & Linha).Select
+        Selection.Copy
+        Sheets("Plan2").Select
+        Range("A" & cont).Select
+        ActiveSheet.Paste
+
+    End If
+Next
+
+
+
+LinhasMarcadas = cont
+
+Exit_ContarLinhas:
+    Exit Function
+Err_ContarLinhas:
+'    If Err.Number = 9 Then MsgBox "A planilha: " & sPlanilha & " não existe.", vbExclamation
+    MsgBox Err.Description
+    Resume Exit_ContarLinhas
+    
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function LinhasMarcadas(iColuna As Integer, Optional sPlanilha As String)
+On Error GoTo Err_ContarLinhas
+
+Dim cont As Long
+Dim Linha As Long
+
+'Testa se o nome da planilha esta vasio
+If sPlanilha <> "" Then Sheets(sPlanilha).Activate
+
+'Conta as linhas marcadas
+For Linha = 1 To Rows.Count
+    If Cells(Linha, iColuna) <> "" Then
+        cont = cont + 1
+
+        Range("A" & Linha & ",C" & Linha & ",D" & Linha).Select
+        Selection.Copy
+        Sheets("Plan2").Select
+        Range("A" & cont).Select
+        ActiveSheet.Paste
+
+    End If
+Next
+
+
+
+LinhasMarcadas = cont
+
+Exit_ContarLinhas:
+    Exit Function
+Err_ContarLinhas:
+'    If Err.Number = 9 Then MsgBox "A planilha: " & sPlanilha & " não existe.", vbExclamation
+    MsgBox Err.Description
+    Resume Exit_ContarLinhas
+    
+End Function
+

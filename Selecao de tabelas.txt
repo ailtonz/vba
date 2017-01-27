@@ -1,0 +1,78 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub SelecaoDeConteudo()
+
+Dim Origem As String
+Dim Destino As String
+Dim Linha As Variant
+Dim Parametro1 As String
+Dim Parametro2 As String
+
+Origem = "C:\Origem.txt"
+Destino = "C:\Destino.txt"
+
+Parametro1 = "Form:"
+Parametro2 = "Access Rights:"
+
+Open Destino For Output Shared As #2
+Open Origem For Input As #1
+    Do Until EOF(1)
+           Line Input #1, Linha
+           If Left(Linha, 5) = Parametro1 Then
+                Print #2, Linha
+           ElseIf Left(Linha, 14) = Parametro2 Then
+                Print #2, Linha
+           End If
+    Loop
+Close #1
+Close #2
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub SelecaoDeConteudo()
+
+Dim Origem As String
+Dim Destino As String
+Dim Linha As Variant
+Dim Parametro1 As String
+Dim Parametro2 As String
+
+Origem = "C:\Origem.txt"
+Destino = "C:\Destino.txt"
+
+Parametro1 = "Form:"
+Parametro2 = "Access Rights:"
+
+Open Destino For Output Shared As #2
+Open Origem For Input As #1
+    Do Until EOF(1)
+           Line Input #1, Linha
+           If Left(Linha, 5) = Parametro1 Then
+                Print #2, Linha
+           ElseIf Left(Linha, 14) = Parametro2 Then
+                Print #2, Linha
+           End If
+    Loop
+Close #1
+Close #2
+
+End Sub
+

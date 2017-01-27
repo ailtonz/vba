@@ -1,0 +1,64 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function Impressao(sArquivo As String, Linha As Integer, Coluna As Integer, Texto As String)
+Dim cLinha As Integer
+Dim cColuna As Integer
+Dim cont As Integer
+
+Open sArquivo For Output As #1 'o caminho lpt1 pode ser alterado para caminho de rede (lpt2,com1,etc)
+    DoEvents
+       
+    If cLinha < Linha Then
+        For cont = 1 To Linha
+            Print #1, 'salta uma linha
+        Next
+        Print #1, Chr(27) & Chr(15) + Texto 'Imprime caracter Comprimido para matriciais Epson
+    Else
+        Print #1, Chr(27) & Chr(15) + Texto 'Imprime caracter Comprimido para matriciais Epson
+    End If
+    
+    Print #1, Chr(12) 'avança uma página (código de impressora matricial Epson)
+Close #1
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function Impressao(sArquivo As String, Linha As Integer, Coluna As Integer, Texto As String)
+Dim cLinha As Integer
+Dim cColuna As Integer
+Dim cont As Integer
+
+Open sArquivo For Output As #1 'o caminho lpt1 pode ser alterado para caminho de rede (lpt2,com1,etc)
+    DoEvents
+       
+    If cLinha < Linha Then
+        For cont = 1 To Linha
+            Print #1, 'salta uma linha
+        Next
+        Print #1, Chr(27) & Chr(15) + Texto 'Imprime caracter Comprimido para matriciais Epson
+    Else
+        Print #1, Chr(27) & Chr(15) + Texto 'Imprime caracter Comprimido para matriciais Epson
+    End If
+    
+    Print #1, Chr(12) 'avança uma página (código de impressora matricial Epson)
+Close #1
+
+End Function
+

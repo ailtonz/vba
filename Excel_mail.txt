@@ -1,0 +1,68 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub mail()
+Dim oOutlook As Object
+Dim oMailItem As Object
+Dim oRecipient As Object
+Dim oNameSpace As Object
+
+Set oOutlook = CreateObject("Outlook.Application")
+Set oNameSpace = oOutlook.GetNameSpace("MAPI")
+
+oNameSpace.Logon , , True
+
+Set oMailItem = oOutlook.CreateItem(0)
+Set oRecipient = oMailItem.Recipients.Add(Range("F1").Value)
+
+oRecipient.Type = 1
+
+With oMailItem
+    .Subject = "ATENÇÃO!"
+    .Body = "Já passaram mais de 3 dias! Contacte o Serviço com urgência! """
+    .Display
+End With
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub mail()
+Dim oOutlook As Object
+Dim oMailItem As Object
+Dim oRecipient As Object
+Dim oNameSpace As Object
+
+Set oOutlook = CreateObject("Outlook.Application")
+Set oNameSpace = oOutlook.GetNameSpace("MAPI")
+
+oNameSpace.Logon , , True
+
+Set oMailItem = oOutlook.CreateItem(0)
+Set oRecipient = oMailItem.Recipients.Add(Range("F1").Value)
+
+oRecipient.Type = 1
+
+With oMailItem
+    .Subject = "ATENÇÃO!"
+    .Body = "Já passaram mais de 3 dias! Contacte o Serviço com urgência! """
+    .Display
+End With
+
+End Sub
+
