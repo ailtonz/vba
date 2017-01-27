@@ -1,0 +1,30 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+function AbrirArquivo(sTitulo as string,sDecricao as string,sTipo as string, SelecaoMultipla as boolean) as string
+
+
+    Dim fd As Office.FileDialog
+    Dim objAccess As Object
+
+	
+    Set objAccess = CreateObject("Access.Application")
+    
+    Set fd = Application.FileDialog(msoFileDialogFilePicker)
+    
+    fd.Title = sTitulo
+	fd.Filters.Add sDecricao, sTipo
+    fd.AllowMultiSelect = SelecaoMultipla
+    
+    If fd.Show = -1 Then
+        AbrirArquivo = fd.SelectedItems(1)
+    End If
+
+end function

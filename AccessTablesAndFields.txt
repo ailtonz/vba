@@ -1,0 +1,158 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Option Compare Database
+Option Explicit
+
+Private strReport As String
+Private dbs As DAO.Database
+Private rst As DAO.Recordset
+Private strSQL As String
+Private strTable As String
+Private fld As DAO.Field
+Private flds As DAO.Fields
+Private strFieldName As String
+ 
+Public Function AccessTablesAndFields()
+On Error Resume Next
+
+   Dim strTableName As String
+   Dim tdf As DAO.TableDef
+
+   'Clear data from tables
+   DoCmd.SetWarnings False
+   strSQL = "DELETE * FROM " & strTable
+   DoCmd.RunSQL strSQL
+  
+
+   strTable = "zsrptTableAndFieldNames"
+   strReport = "zsrptTableAndFieldNames"
+'   strSQL = "DELETE * FROM " & strTable
+'   DoCmd.RunSQL strSQL
+
+   'Fill table with table and field names
+   Set dbs = CurrentDb
+   Set rst = dbs.OpenRecordset(strTable, dbOpenTable)
+ 
+
+   For Each tdf In dbs.TableDefs
+      strTableName = tdf.Name
+      If Left(strTableName, 3) = "tbl" Then
+         Set flds = tdf.Fields
+         For Each fld In flds
+            strFieldName = fld.Name
+            With rst
+               .AddNew
+               !TableName = strTableName
+               !FieldName = strFieldName
+               !DataType = fld.Type
+               !ValidationRule = fld.ValidationRule
+               !Required = fld.Required
+               .Update
+            End With
+         Next fld
+      End If
+   Next tdf
+
+   rst.Close
+   DoCmd.OpenReport strReport
+   DoCmd.OpenTable strTable
+
+ErrorHandlerExit:
+
+   Exit Function
+
+ErrorHandler:
+
+   MsgBox "Error No: " & Err.Number _
+      & "; Description: " & Err.Description
+
+   Resume ErrorHandlerExit
+
+End Function
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Option Compare Database
+Option Explicit
+
+Private strReport As String
+Private dbs As DAO.Database
+Private rst As DAO.Recordset
+Private strSQL As String
+Private strTable As String
+Private fld As DAO.Field
+Private flds As DAO.Fields
+Private strFieldName As String
+ 
+Public Function AccessTablesAndFields()
+On Error Resume Next
+
+   Dim strTableName As String
+   Dim tdf As DAO.TableDef
+
+   'Clear data from tables
+   DoCmd.SetWarnings False
+   strSQL = "DELETE * FROM " & strTable
+   DoCmd.RunSQL strSQL
+  
+
+   strTable = "zsrptTableAndFieldNames"
+   strReport = "zsrptTableAndFieldNames"
+'   strSQL = "DELETE * FROM " & strTable
+'   DoCmd.RunSQL strSQL
+
+   'Fill table with table and field names
+   Set dbs = CurrentDb
+   Set rst = dbs.OpenRecordset(strTable, dbOpenTable)
+ 
+
+   For Each tdf In dbs.TableDefs
+      strTableName = tdf.Name
+      If Left(strTableName, 3) = "tbl" Then
+         Set flds = tdf.Fields
+         For Each fld In flds
+            strFieldName = fld.Name
+            With rst
+               .AddNew
+               !TableName = strTableName
+               !FieldName = strFieldName
+               !DataType = fld.Type
+               !ValidationRule = fld.ValidationRule
+               !Required = fld.Required
+               .Update
+            End With
+         Next fld
+      End If
+   Next tdf
+
+   rst.Close
+   DoCmd.OpenReport strReport
+   DoCmd.OpenTable strTable
+
+ErrorHandlerExit:
+
+   Exit Function
+
+ErrorHandler:
+
+   MsgBox "Error No: " & Err.Number _
+      & "; Description: " & Err.Description
+
+   Resume ErrorHandlerExit
+
+End Function

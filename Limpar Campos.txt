@@ -1,0 +1,26 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Private Function LimparCampos()
+Dim obj As Variant
+
+For Each obj In Me.Controls
+    If obj.Visible = True Then
+        If TypeOf obj Is TextBox Then
+            obj.Value = ""
+        ElseIf TypeOf obj Is ComboBox Then
+            If obj.Name <> "cboTipoProduto" Then
+                obj.Value = ""
+            End If
+        End If
+    End If
+Next
+
+End Function

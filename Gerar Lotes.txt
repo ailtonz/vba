@@ -1,0 +1,27 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function GerarLotes(strAno As String)
+
+Open Application.CurrentProject.Path & "\" & "Lotes.txt" For Append As #1
+
+For x = 1 To 99
+    If x <= 9 Then
+        Print #1, "0" & x & "/" & strAno
+    Else
+        Print #1, x & "/" & strAno
+    End If
+Next
+
+Close #1
+
+MsgBox "Ok!"
+
+End Function

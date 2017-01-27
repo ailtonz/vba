@@ -1,0 +1,94 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Attribute VB_Name = "Funcao76"
+'por: HELIO CANDIDO
+
+'Funções melhoradas e adaptadas por mim
+
+'Estas funções localizam qualquer arquivo no HD, ou um conjunto de arquivos, inclusive
+'todos os arquivos que você possuir no HD.
+
+'Para usar a função de procura utilize a função abaixo INICIAR
+
+Private QuantTotal As Long
+
+Public Sub IniciarProcura(DriveLoc As String, Arquivo As String, Resultado As String, Optional TotalArquivos As Long)
+Dim start_dir As String
+Dim pattern As String
+Dim file_list As String
+Dim Arquivos As Long
+
+    start_dir = Trim$(DriveLoc)
+    If Right$(start_dir, 1) = "\" Then _
+        start_dir = _
+            Left$(start_dir, Len(start_dir) - 1)
+    pattern = Trim$(Arquivo)
+    ListFiles start_dir, pattern, file_list, Arquivos
+    
+    Resultado = Trim(file_list)
+    TotalArquivos = Arquivos
+End Sub
+' *********************************************
+' List all files below the directory that
+' match the pattern.
+' *********************************************
+Public Sub ListFiles(ByVal start_dir As String, ByVal pattern As String, file_list As String, Optional TotalArq As Long)
+Dim dir_names() As String
+Dim num_dirs As Integer
+Dim i As Integer
+Dim fname As String
+Dim new_files As String
+Dim attr As Integer
+
+
+    ' Protects against such things as
+    ' GetAttr("C:\pagefile.sys").
+    On Error Resume Next
+    
+    ' Get the matching files in this directory.
+    fname = Dir(start_dir & "\" & pattern, vbNormal)
+    'QuantTotal = quantototal + 1
+    Do While fname <> ""
+        QuantTotal = QuantTotal + 1
+        new_files = new_files & start_dir & _
+            "\" & fname & vbCrLf
+        fname = Dir()
+    Loop
+    file_list = file_list & new_files
+    
+    ' Optionally display the newlist here.
+    
+    ' Get the list of subdirectories.
+    fname = Dir(start_dir & "\*.*", vbDirectory)
+    Do While fname <> ""
+        ' Skip this dir and its parent.
+        'QuantTotal = QuantTotal + 1
+        attr = 0    ' In case there's an error.
+        attr = GetAttr(start_dir & "\" & fname)
+        If fname <> "." And fname <> ".." And _
+            (attr And vbDirectory) <> 0 _
+        Then
+            num_dirs = num_dirs + 1
+            ReDim Preserve dir_names(1 To num_dirs)
+            dir_names(num_dirs) = fname
+        End If
+        fname = Dir()
+    Loop
+    
+    ' Search the other directories.
+    'QuantTotal = QuantTotal + 1
+    For i = 1 To num_dirs
+        'QuantTotal = QuantTotal + 1
+        ListFiles start_dir & "\" & dir_names(i), pattern, file_list
+    Next i
+    
+    TotalArq = QuantTotal
+End Sub

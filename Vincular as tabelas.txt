@@ -1,0 +1,109 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Private Sub Form_Open(Cancel As Integer)
+Dim db As Database, rs As Recordset, X As Boolean
+On Error GoTo ErrHandler:
+Set db = CurrentDb() 'abre o mdb front-end na estação de trabalho
+Set rs = db.OpenRecordset("Tabela") 'testa vínculo com qualquer tabela vinculada
+Cancel = True 'se tudo bem, fecha o form e prossegue
+Set rs = Nothing 'libera memória
+Set db = Nothing
+DoCmd.OpenForm "Seu Form Principal" 'inicia o aplicativo
+Exit Sub
+
+Reatch:
+CommonDialog1.CancelError = True 'Permite tratar o erro de cancelamento
+CommonDialog1.Flags = &H4 'Esconde a check box Somente leitura
+CommonDialog1.DialogTitle = "Selecione o caminho do Arquivo: ''MDBNaRede_be.mdb''"
+CommonDialog1.Filter = "Arquivo MDBNaRede_be.mdb|MDBNaRede_be.mdb"
+CommonDialog1.maxfilesize = 1024
+CommonDialog1.FilterIndex = 1
+CommonDialog1.ShowOpen 'mostra a caixa de diálogo Abrir
+Screen.MousePointer = 11 'muda o ponteiro do mouse para ampulheta
+X = AtualizarVínculos(CommonDialog1.filename) 'chama a função AtualizarVínculos
+Screen.MousePointer = 0 'volta o cursor ao normal (seta)
+If X = False Then GoTo ErrAttach:
+Cancel = True
+DoCmd.OpenForm "Seu Form Principal"
+Exit Sub
+
+ErrAttach:
+Screen.MousePointer = 0
+'Não foi possível vincular as tabelas
+MsgBox "O arquivo selecionado não é válido!" & Chr(10) & Chr(13) _
+& "Este aplicativo será finalizado.", vbOKOnly + vbCritical, "Sistema de Material"
+Cancel = True
+Application.Quit acQuitPrompt 'finaliza o aplicativo e fecha o Access
+Exit Sub
+
+ErrHandler:
+Select Case Err.Number
+Case 3024, 3044 'Erros de arquivo não encontrado
+MsgBox "Arquivo MDBNaRede_be.mdb não encontrado" & Chr(10) & Chr(13) _
+& "Verifique a conexão com a rede", vbInformation
+Resume Reatch:
+Case 32755 'Erro devido a clicar no botão Cancelar da CommonDialog
+Resume ErrAttach
+Case Else 'Reporta outros casos de erro
+MsgBox "Erro: " & Err.Number & ": " & Err.Description
+Resume ErrAttach
+End Select
+
+End Sub
+
+Insira a função abaixo em um módulo do front-end:
+
+Option Compare Database
+Option Explicit
+
+' Esta Função pública é chamada no form inicial do mdb front-end, para atualizar os
+' vínculos às tabelas do mdb da rede (back-end).
+' Desenvolvido por JR (rodrigue@linkexpress.com.br)
+
+Function AtualizarVínculos(NomeDoArq As String) As Boolean
+' Atualiza vínculos ao banco de dados fornecido.
+' Retorna True se bem sucedida.
+
+Dim dbfront As DATABASE, tdf As TableDef, Conttdf As Integer
+Dim StatusTexto As String
+Screen.MousePointer = 11 'muda cursor para ampulheta
+
+Set dbfront = CurrentDb()
+Conttdf = 1 'ajusta contador de tabelas = 1
+
+'inicia a barra de progresso - conta o total de tabelas vinculadas
+StatusTexto = "Atualizando vínculos com " & Right(NomeDoArq, 12) & "..."
+SysCmd acSysCmdInitMeter, StatusTexto, dbfront.TableDefs.Count
+
+' Loop através de todas as tabelas do banco de dados.
+For Each tdf In dbfront.TableDefs
+SysCmd acSysCmdUpdateMeter, Conttdf 'atualiza o progresso
+Conttdf = Conttdf + 1
+If (tdf.Attributes = dbAttachedTable) Then
+tdf.Connect = "MS Access;DATABASE=" & NomeDoArq & ";pwd=EscrevaASenha"
+On Error GoTo Err_Atualiza
+tdf.RefreshLink ' Atualiza vínculos.
+End If
+Next tdf
+AtualizarVínculos = True ' Revinculação completa.
+
+Sai:
+SysCmd acSysCmdRemoveMeter
+Set tdf = Nothing 'libera memória
+Set dbfront = Nothing
+Screen.MousePointer = 0
+Exit Function
+
+Err_Atualiza:
+AtualizarVínculos = False
+Resume Sai
+
+End Function

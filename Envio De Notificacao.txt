@@ -1,0 +1,38 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub EnvioDeNotificacao(eMail As String, Assunto As String, EmTeste As Boolean)
+
+Dim sConteudo As String
+Dim Planilha As String
+Dim aspas As String: aspas = """"
+Dim X As Integer
+Dim arqEnvio As String: arqEnvio = "c:\tmp\envio.bat"
+Dim retval
+
+Dim strMSG As String
+Dim strTitulo As String
+
+
+Planilha = CaminhoCompleto
+
+If Dir(arqEnvio) <> "" Then Kill arqEnvio
+    If EmTeste Then
+        strMSG = "TESTE: Envio De Notificacao. " & Chr(10) & Chr(13) & Chr(13) & Assunto
+        strTitulo = "Envio De Notificacao - TESTES!"
+
+        MsgBox strMSG, vbInformation + vbOKOnly, strTitulo
+    Else
+        sConteudo = "perl c:\tmp\envio4e.pl  " & aspas & Assunto & aspas & " " & aspas & eMail & aspas
+        ExtrairDados sConteudo, "envio.bat", "c:\tmp"
+        retval = Shell(arqEnvio, vbHide)
+
+    End If
+End Sub

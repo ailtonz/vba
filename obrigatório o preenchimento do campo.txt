@@ -1,0 +1,61 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+'====================================================\\\====================================================
+'Função:    TestaCampos()
+'=======
+'
+'Objetivo:
+'=========
+'   Para exigir que os dados de alguns (ou todos) campos de um formulário sejam preenchidos, a forma mais
+'   eficiente de se fazê-lo é impedindo que o registro seja salvo, colocando-se uma função que critica todos
+'   os campos desejados no evento BeforeUpdate do formulário.
+'
+'Como Funciona ? :
+'=================
+'   Faz um loop por todos os controles do formulário, pesquisando a propriedade TAG(ou marca) dos controles.
+'   Se controle possuir o valor -1 colocado nesta propriedade TAG, ele será verificado quanto ao seu
+'   preenchimento. caso esteja nulo, o usuário receberá uma mensagem de erro exigindo o seu preencimento,
+'   e o controle nulo passará a obter o foco do sistema.
+'
+'============
+'* ATENÇÃO *
+'============
+'
+'   Ñ ESQUECER: No evento BeforeUpdate do formulário, você coloca o seguinte teste, antes de qualquer outro.
+'
+'   if Not TestaCampos() then
+'       Cancel = true
+'       Exit Sub
+'   end if
+'
+'====================================================\\\====================================================
+Function TestaCampos() As Integer
+Dim i As Integer
+Dim strMsg As String
+Dim strTitle As String
+
+    TestaCampos = True
+    
+    For i = 0 To Me.Count - 1
+        If Me(i).Tag = "-1" Then
+            If IsNull(Me(i)) Then
+                strMsg = "É obrigatório o preenchimento do campo '" & Me(i).Name & "'!"
+                strTitle = "Registro Inconsistente"
+                
+                MsgBox strMsg, vbExclamation, strTitle
+                Me(i).SetFocus
+                TestaCampos = False
+                Exit Function
+            End If
+        End If
+    Next i
+    
+End Function

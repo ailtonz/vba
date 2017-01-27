@@ -1,0 +1,33 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+cmdEnviaEmail_Click()
+
+ 
+
+Dim appOutlook As New Outlook.Application
+Dim msg As Outlook.MailItem
+Dim strBody As String
+Dim strSubject As String
+Dim strTo As String
+
+
+strTo = Me![txtTo].Value
+strSubject = Me![txtSubject].Value
+strBody = Me![txtBody].Value
+'Cria uma nova mensagem para o destinatário
+Set msg = appOutlook.CreateItem(olMailItem)
+With msg
+  .To = strTo
+  .Subject = strSubject
+  .Body = strBody
+  .Display 'para enviar sem mostrar troque Display por Send
+End With
+End Sub

@@ -1,0 +1,21 @@
+###
+###
+###
+### Category1 : Report
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function Zebrar(rpt As Report)
+Static fCinza As Boolean
+Const conCinza = 15198183
+Const conBranco = 16777215
+
+On Error Resume Next
+
+    rpt.Section(0).BackColor = IIf(fCinza, conCinza, conBranco)
+    fCinza = Not fCinza
+
+End Function

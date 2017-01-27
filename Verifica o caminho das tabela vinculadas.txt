@@ -1,0 +1,47 @@
+###
+###
+###
+### Category1 : Function
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function VERIFICA()
+'Verifica o caminho das tabela vinculadas
+Dim BD As Database
+Dim Tbs As TableDefs
+Dim NConta As Variant
+Dim NConta2, POSI As Single
+Dim CAMINHO As String
+Dim Coneccao As String
+Dim Comparacao As String
+Set BD = CurrentDb
+Set Tbs = BD.TableDefs
+
+NConta2 = 0
+CAMINHO = "CaminhoDoBD"
+
+For Each NConta In Tbs
+If IsNull(Tbs(NConta2).Name) Or IsEmpty(Tbs(NConta2).Name) Then Exit Function
+If Tbs(NConta2).Connect = "" Then GoTo PULO
+If Mid(Tbs(NConta2).Connect, 11, 28) = "CaminhoDoBD" Then Exit Function
+
+POSI = InStr(Tbs(NConta2).Connect, CAMINHO)
+' Caminho e uma variavel de sistema que indica qual caminho a ser atualizado
+
+If POSI = 0 Then
+Comparacao = Mid(Tbs(NConta2).Connect, 11, 28)
+If StrComp(UCase(Comparacao), UCase(CAMINHO), 1) = 0 Then GoTo PULO
+End If
+
+Coneccao = ";DATABASE=" & Trim(CAMINHO)
+Tbs(NConta2).Connect = Coneccao
+Tbs(NConta2).RefreshLink
+
+PULO:
+NConta2 = NConta2 + 1
+Next NConta
+
+End Function

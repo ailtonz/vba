@@ -1,0 +1,57 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Private Function LayoutFiltro(ctrl As Control, strCadastro As String, strPesquisa As String)
+
+Dim rstLayout As DAO.Recordset
+
+Dim strSQL As String
+
+'Layout da Pesquisa
+strSQL = "Select * from admCampos where Controle = '" & strCadastro & "' and TipoControle = 'ListBox' and Descricao = '" & strPesquisa & "' and Ativo = -1 Order by Classificacao"
+Set rstLayout = CurrentDb.OpenRecordset(strSQL)
+
+While Not rstLayout.EOF
+    
+    'Posicionar Listagem de pesqisa na tela
+    With ctrl
+        'Tipo De Origem Da Linha
+        .RowSourceType = "Table/Query"
+        'Esquerda
+        .Left = rstLayout.Fields("Esquerda")
+        'Altura
+        .Height = rstLayout.Fields("Altura")
+        'Topo
+        .Top = rstLayout.Fields("Topo")
+        'Largura
+        .Width = rstLayout.Fields("Largura")
+        'Tamanho da Fonte
+        .FontSize = rstLayout.Fields("TamanhoDaFonte")
+        'Fonte Em Negrito
+        .FontBold = rstLayout.Fields("FonteEmNegrito")
+        'Aparência
+        .SpecialEffect = rstLayout.Fields("Aparencia")
+        'Estilo da borda
+        .BorderStyle = rstLayout.Fields("EstiloDaBorda")
+        'Parada De Tabulação
+        .TabStop = IIf(IsNull(rstLayout.Fields("Tabulacao")), True, rstLayout.Fields("Tabulacao"))
+        'Visível
+        .Visible = True
+    End With
+
+    rstLayout.MoveNext
+
+Wend
+
+rstLayout.Close
+
+Set rstLayout = Nothing
+
+End Function

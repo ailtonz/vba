@@ -1,0 +1,77 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Option Compare Database
+Option Explicit
+
+Private strReport As String
+Private dbs As DAO.Database
+Private rst As DAO.Recordset
+Private strSQL As String
+Private strTable As String
+Private fld As DAO.Field
+Private flds As DAO.Fields
+Private strFieldName As String
+
+Public Function AccessQueriesAndFields()
+On Error Resume Next
+
+Dim strQueryName As String
+Dim qdf As DAO.QueryDef
+   
+
+   'Clear data from table
+
+   strTable = "zstblQueryAndFieldNames"
+   strReport = "zsrptQueryAndFieldNames"
+   DoCmd.SetWarnings False
+   strSQL = "DELETE * FROM " & strTable
+   DoCmd.RunSQL strSQL
+
+   'Fill table with table and field names
+   Set dbs = CurrentDb
+   Set rst = dbs.OpenRecordset(strTable, dbOpenTable)
+
+   For Each qdf In dbs.QueryDefs
+      strQueryName = qdf.Name
+      Debug.Print "Query name: " & strQueryName
+      If Left(strQueryName, 3) = "qry" Then
+         Set flds = qdf.Fields
+         For Each fld In flds
+            strFieldName = fld.Name
+            With rst
+               .AddNew
+               !QueryName = strQueryName
+               !FieldName = strFieldName
+               !DataType = fld.Type
+               !Required = fld.Required
+               .Update
+            End With
+         Next fld
+      End If
+   Next qdf
+   
+  rst.Close
+
+   DoCmd.OpenReport strReport
+   DoCmd.OpenTable strTable
+
+ErrorHandlerExit:
+
+   Exit Function
+
+ErrorHandler:
+
+   MsgBox "Error No: " & Err.Number _
+    & "; Description: " & Err.Description
+
+   Resume ErrorHandlerExit
+
+End Function

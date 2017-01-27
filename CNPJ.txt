@@ -1,0 +1,100 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function DVCGC(CGC As String) As String
+
+'Rotina alterada por Dalvo Aragão Junior
+'Data: 15/02/98
+'Site: www.virtualand.net/estoque/access/exemplos.html
+
+Dim intSoma, intSoma1, intSoma2, intInteiro As Long
+Dim intNumero, intMais, i, intResto As Integer
+Dim intDig1, intDig2 As Integer
+Dim strcampo, strCaracter, StrConf, strCGC, strDigVer As String
+Dim dblDivisao As Double
+intSoma = 0
+intSoma1 = 0
+intSoma2 = 0
+intNumero = 0
+intMais = 0
+
+strDigVer = Right(CGC, 2)
+strcampo = Left(CGC, 8)
+strCGC = Right(CGC, 6)
+strCGC = Left(strCGC, 4)
+strcampo = Right(strcampo, 4) & strCGC
+
+For i = 2 To 9
+    strCaracter = Right(strcampo, i - 1)
+    intNumero = Left(strCaracter, 1)
+    intMais = intNumero * i
+    intSoma1 = intSoma1 + intMais
+Next i
+'Separa os 4 primeiros dígitos do CGC
+strcampo = Left(CGC, 4)
+For i = 2 To 5
+    strCaracter = Right(strcampo, i - 1)
+    intNumero = Left(strCaracter, 1)
+    intMais = intNumero * i
+    intSoma2 = intSoma2 + intMais
+Next i
+intSoma = intSoma1 + intSoma2
+dblDivisao = intSoma / 11
+intInteiro = Int(dblDivisao) * 11
+intResto = intSoma - intInteiro
+If intResto = 0 Or intResto = 1 Then
+    intDig1 = 0
+Else
+    intDig1 = 11 - intResto
+End If
+intSoma = 0
+intSoma1 = 0
+intSoma2 = 0
+intNumero = 0
+intMais = 0
+
+strcampo = Left(CGC, 8)
+strCGC = Right(CGC, 6)
+strCGC = Left(strCGC, 4)
+strcampo = Right(strcampo, 3) & strCGC & intDig1
+
+For i = 2 To 9
+    strCaracter = Right(strcampo, i - 1)
+    intNumero = Left(strCaracter, 1)
+    intMais = intNumero * i
+    intSoma1 = intSoma1 + intMais
+Next i
+strcampo = Left(CGC, 5)
+For i = 2 To 6
+    strCaracter = Right(strcampo, i - 1)
+    intNumero = Left(strCaracter, 1)
+    intMais = intNumero * i
+    intSoma2 = intSoma2 + intMais
+Next i
+intSoma = intSoma1 + intSoma2
+dblDivisao = intSoma / 11
+intInteiro = Int(dblDivisao) * 11
+intResto = intSoma - intInteiro
+If intResto = 0 Or intResto = 1 Then
+    intDig2 = 0
+Else
+    intDig2 = 11 - intResto
+End If
+StrConf = intDig1 & intDig2
+DVCGC = StrConf
+
+If DVCGC = strDigVer Then
+   MsgBox "CNPJ válido!", vbInformation, Me.Caption
+
+Else
+   MsgBox "CNPJ inválido", vbCritical, Me.Caption
+   DoCmd.CancelEvent
+End If
+End Function

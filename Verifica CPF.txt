@@ -1,0 +1,91 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function DVCPF(Cpf As String) As String
+
+Dim lngSoma, lngInteiro As Long
+Dim intNumero, intMais, i, intResto As Integer
+Dim intDig1, intDig2 As Integer
+Dim strDigVer, strcampo, strCaracter, StrConf As String
+Dim dblDivisao As Double
+lngSoma = 0
+intNumero = 0
+intMais = 0
+strcampo = Left(Cpf, 9)
+strDigVer = Right(Cpf, 2)
+For i = 2 To 10
+    strCaracter = Right(strcampo, i - 1)
+    intNumero = Left(strCaracter, 1)
+    intMais = intNumero * i
+    lngSoma = lngSoma + intMais
+Next i
+dblDivisao = lngSoma / 11
+lngInteiro = Int(dblDivisao) * 11
+intResto = lngSoma - lngInteiro
+If intResto = 0 Or intResto = 1 Then
+    intDig1 = 0
+Else
+    intDig1 = 11 - intResto
+End If
+strcampo = strcampo & intDig1
+lngSoma = 0
+intNumero = 0
+intMais = 0
+For i = 2 To 11
+    strCaracter = Right(strcampo, i - 1)
+    intNumero = Left(strCaracter, 1)
+    intMais = intNumero * i
+    lngSoma = lngSoma + intMais
+Next i
+dblDivisao = lngSoma / 11
+lngInteiro = Int(dblDivisao) * 11
+intResto = lngSoma - lngInteiro
+If intResto = 0 Or intResto = 1 Then
+    intDig2 = 0
+Else
+    intDig2 = 11 - intResto
+End If
+StrConf = intDig1 & intDig2
+DVCPF = StrConf
+
+If DVCPF = strDigVer Then
+   MsgBox "CPF válido!", vbInformation, Me.Caption
+
+Else
+   MsgBox "CPF inválido", vbCritical, Me.Caption
+   DoCmd.CancelEvent
+End If
+
+End Function
+
+Function VerificaCpf(Cpf As String) As Boolean
+'Enviada ao grupo de discussão por Cesar Werneck.
+'cwerneck@usa.net
+'Retorna true se o DV do CPF estiver correto; false, se incorreto.
+'Alterado por JR - accessjr@hotmail.com
+
+Dim i As Integer, a As Integer, b As Integer, dv1 As Integer, dv2 As Integer
+
+For i = 1 To 9
+a = a + Mid(Cpf, i, 1) * (11 - i)
+b = b + Mid(Cpf, i, 1) * (12 - i)
+Next i
+
+dv1 = IIf((11 - (a Mod 11)) >= 10, 0, (11 - (a Mod 11)))
+b = b + (dv1 * 2)
+dv2 = IIf((11 - (b Mod 11)) >= 10, 0, (11 - (b Mod 11)))
+VerificaCpf = (Mid(Cpf, 10, 2) = dv1 & dv2)
+    If VerificaCpf Then
+        MsgBox "CPF válido!", vbInformation, Me.Caption
+    Else
+        MsgBox "CPF inválido", vbCritical, Me.Caption
+        DoCmd.CancelEvent
+    End If
+End Function

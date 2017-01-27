@@ -1,0 +1,34 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Você pode compactar outro mdb, o back-end por exemplo, usando a instrução shell:
+
+Shell SysCmd(acSysCmdAccessDir) & "MsAccess.Exe ""C:\pasta\bd.mdb"" /compact"
+
+ou usando DAO (recomendável, na minha opinião):
+
+Dim Dbe as DAO.DbEngine
+Dim strOriginal as string
+Dim strTemporário as string
+
+strOriginal = "C:\pasta\bd.mdb"
+strTemporário = "c:\pasta\temp.mdb"
+
+Set Dbe = DbEngine(0)(0)
+On Error resume Next
+dbe.Compact strOriginal, strTemporário 
+
+If Err.Number = 0 Then
+   'Compactou OK
+   Kill strOriginal 'deleta o original
+   Name strTemporário, strOriginal ' e renomeia a cópia compactada
+Else
+   MsgBox "Humberto, temos um problema!"
+End if

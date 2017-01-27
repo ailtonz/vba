@@ -1,0 +1,79 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub CreateAfile()
+    Set fs = CreateObject("Scripting.FileSystemObject")
+    Set a = fs.CreateTextFile("c:\arqteste.txt", True)
+    a.WriteLine ("Isto  um teste.")
+    a.Close
+End Sub
+
+
+Sub OpenTextFileTest()
+    Dim fs, f, S
+    Set fs = CreateObject("Scripting.FileSystemObject")
+    Set f = fs.OpenTextFile("c:\arqteste.txt", ForAppending)
+    f.Write "Ol mundo!"
+    f.Close
+End Sub
+
+
+Sub ReadFile()
+Dim inStream As TextStream
+Dim fs As New FileSystemObject
+
+Set fs = CreateObject("Scripting.FileSystemObject")
+Set inStream = fs.OpenTextFile("c:\arqteste.txt", ForReading)
+
+While inStream.AtEndOfStream = False
+    tline = inStream.ReadLine
+    txt = txt & tline & vbCrLf
+Wend
+
+MsgBox txt
+Set inStream = Nothing
+
+End Sub
+
+Public Function ArquivoTexto(sCaminhoDoArquivo As String, sOperacao As String)
+
+Dim fso As New FileSystemObject
+Dim Arquivo As TextStream
+
+If sOperacao = "CriarArquivo" Then
+ Set Arquivo = fso.CreateTextFile(sCaminhoDoArquivo)
+ 
+ElseIf sOperacao = "AbrirArquivoLer" Then
+ Set Arquivo = fso.OpenTextFile("c:\teste.txt", ForReading, True)
+ 'MsgBox arq.Read(2) 'mostrando o conteúdo do arquivo
+ 
+End If
+
+Arquivo.Close
+
+End Function
+
+Public Function ArquivoTexto(sCaminhoDoArquivo As String, sOperacao As String)
+
+Dim fso As New FileSystemObject
+Dim Arquivo As TextStream
+
+If sOperacao = "CriarArquivo" Then
+ Set Arquivo = fso.CreateTextFile(sCaminhoDoArquivo)
+ 
+ElseIf sOperacao = "AbrirArquivoLer" Then
+ Set Arquivo = fso.OpenTextFile("c:\teste.txt", ForReading, True)
+ 'MsgBox arq.Read(2) 'mostrando o conteúdo do arquivo
+ 
+End If
+
+Arquivo.Close
+
+End Function

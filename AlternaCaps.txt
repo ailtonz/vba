@@ -1,0 +1,73 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : Permite que vc altere a capitalização das letras de uma determinada frase, fazendo com que apenas a primeira letra de cada palavra da frase fique em maiúscula.
+###
+###
+###
+'====================================================\\\====================================================
+'Função:    AlternaCaps()
+'=======
+'
+'Objetivo:
+'=========
+'   Permite que vc altere a capitalização das letras de uma determinada frase, fazendo com que apenas
+'   a primeira letra de cada palavra da frase fique em maiúscula.
+'
+'============
+'* ATENÇÃO *
+'============
+'
+'   Ñ ESQUECER: Esta é uma boa função para ser colocada em um evento AfterUpdate() - (Depois de Atualizar)
+'   de uma caixa de texto
+'
+'====================================================\\\====================================================
+Function AlternaCaps(varNome As Variant) As String
+Dim intInicio As Integer
+Dim intProxEspaco As Integer
+Dim intComprimento As Integer
+Dim fPodeSair As Integer
+Dim strNome As String
+Dim strProxNome As String
+
+strNome = CStr(LCase(Trim(varNome)))
+intInicio = 1
+
+Do
+    intProxEspaco = InStr(intInicio, strNome, Chr$(32))
+    If intProxEspaco Then
+        intComprimento = intProxEspaco - intInicio
+    Else
+        intComprimento = Len(strNome) - intInicio + 1
+        fPodeSair = True
+    End If
+    
+    If intComprimento Then
+        strProxNome = Mid(strNome, intInicio, intComprimento)
+        Call TestaNome(strProxNome)
+        Mid(strNome, intInicio, intComprimento) = strProxNome
+        intInicio = intProxEspaco + 1
+    Else
+        strNome = Left(strNome, intInicio - 1) + Mid(strNome, intInicio + 1, Len(strNome))
+        intInicio = intProxEspaco
+    End If
+    
+Loop Until fPodeSair
+
+AlternaCaps = strNome
+
+End Function
+
+Sub TestaNome(strProxNome As String)
+    strProxNome = Trim(strProxNome)
+    If Len(strProxNome) Then
+        Select Case strProxNome
+            Case Is = "e", "das", "de", "do", "dos"
+            Case Else
+                Mid(strProxNome, 1, 1) = UCase(Mid(strProxNome, 1, 1))
+        End Select
+    End If
+End Sub

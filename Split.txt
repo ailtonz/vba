@@ -1,0 +1,56 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+'        txt = txt & tline & vbCrLf
+
+Function teste()
+
+Dim linha As String
+
+linha = "Ailton;Zacarias"
+arytst = Split(linha, ";")
+
+For x = 0 To UBound(arytst)
+    MsgBox arytst(x)
+Next
+
+End Function
+
+Function apelido(tot)
+    
+    For I = 0 To Len(tot) - 1
+        Var = Var & Mid(tot, Len(tot) - I, 1)
+    Next I
+    apelido = Right(tot, InStr(Var, " "))
+End Function
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub tst_split()
+
+Dim Valor As String
+Dim matriz As Variant
+
+matriz = Array()
+
+Valor = "30;60;90;0"
+
+matriz = Split(Valor, ";")
+
+MsgBox matriz()
+
+End Sub

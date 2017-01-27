@@ -1,0 +1,28 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function AbrirModeloExcel(Modelo As String)
+
+    Dim XPlanilha As Object
+
+    Set XPlanilha = CreateObject("Excel.Application")
+
+    arqModelo = Application.CurrentProject.Path & "\" & Modelo
+
+    'Abre o arquivo modelo
+    XPlanilha.Workbooks.Open (arqModelo)
+
+    'Seleciona a primeira planilha
+    XPlanilha.Workbooks(1).Sheets(1).Select
+
+
+    XPlanilha.Quit
+
+End Function

@@ -1,0 +1,47 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub SetPrinter(strFormname As String)
+
+    DoCmd.OpenForm FormName:=strFormname, View:=acDesign, _
+                   datamode:=acFormEdit, windowmode:=acHidden
+    
+    With Forms(form1).Printer
+    
+        .TopMargin = 1440
+        .BottomMargin = 1440
+        .LeftMargin = 1440
+        .RightMargin = 1440
+    
+        .ColumnSpacing = 360
+        .RowSpacing = 360
+    
+        .ColorMode = acPRCMColor
+        .DataOnly = False
+        .DefaultSize = False
+        .ItemSizeHeight = 2880
+        .ItemSizeWidth = 2880
+        .ItemLayout = acPRVerticalColumnLayout
+        .ItemsAcross = 6
+    
+        .Copies = 1
+        .Orientation = acPRORLandscape
+        .Duplex = acPRDPVertical
+        .PaperBin = acPRBNAuto
+        .PaperSize = acPRPSLetter
+        .PrintQuality = acPRPQMedium
+    
+    End With
+    
+    DoCmd.Close objecttype:=acForm, objectname:=strFormname, _
+                Save:=acSaveYes
+
+
+End Sub

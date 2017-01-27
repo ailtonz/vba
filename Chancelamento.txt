@@ -1,0 +1,25 @@
+###
+###
+###
+### Category1 : Function
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function Chancelamento(Inicio As Integer, Final As Integer) As String
+
+Dim ch_X As Boolean
+Dim Texto As String
+
+ch_X = True
+
+For Inicio = 1 To Final
+    Texto = Texto + IIf(ch_X, "x", "-")
+    ch_X = Not ch_X
+Next
+
+Chancelamento = Texto
+
+End Function

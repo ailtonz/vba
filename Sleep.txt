@@ -1,0 +1,15 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Declare Sub Sleep Lib "kernel32" Alias "Sleep" (ByVal dwMilliseconds As Long)
+
+coloca isso no codigo, e depois e so chamar com o tempo em Milisegundos para a pausa.
+
+Sleep(5000) '5 segundos!

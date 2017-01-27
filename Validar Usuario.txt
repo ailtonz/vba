@@ -1,0 +1,38 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ValidarUsuario(Usuario As String, Senha As String) As Boolean
+
+Dim cn As New ADODB.Connection
+Dim rstUsuarios As New ADODB.Recordset
+Dim strSQL As String
+
+'Pegar Parametros para Conecção
+PegarParametrosDeConeccao
+
+'Conectar
+cn.ConnectionString = "Provider=" & strDriver & ";Server=" & strServidor & ";database=" & strBaseDeDados & ";uid=" & strUsuario & ";pwd=" & strSenha
+cn.CursorLocation = adUseClient
+cn.ConnectionTimeout = 15
+cn.Open
+
+strSQL = "Select * from admUsuarios where no_Usuario = '" & Usuario & "' and no_Senha = '" & Senha & "'"
+rstUsuarios.Open strSQL, cn, adOpenKeyset, adLockOptimistic
+strSQL = ""
+
+ValidarUsuario = rstUsuarios.Fields("fl_Ativo")
+
+rstUsuarios.Close
+cn.Close
+
+Set rstUsuarios = Nothing
+Set cn = Nothing
+
+End Function

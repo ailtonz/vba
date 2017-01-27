@@ -1,0 +1,15 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub testEtiqueta()
+
+MsgBox right("admAilton", Len("admAilton") - 3), vbInformation + vbOKOnly, "testEtiqueta"
+
+End Sub

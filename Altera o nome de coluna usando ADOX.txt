@@ -1,0 +1,236 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+'Fórum Access - Coluna de Dicas - Luiz Cláudio C. V. Rocha
+
+'***********************************
+'Altera o nome de coluna usando ADOX
+'BD atual
+'Early Binding
+
+Sub sAlteraCampo(sTabela As String, sNomeAtual _
+As String, sNomeNovo As String)
+'Altera o nome de campo na tabela
+Dim cnn As ADODB.Connection
+Dim cat As ADOX.Catalog
+Dim tbl As ADOX.Table
+Dim col As ADOX.Column
+
+On Error GoTo ErrHandler
+
+'Banco de dados atual
+Set cnn = CurrentProject.Connection
+Set cat = New ADOX.Catalog
+cat.ActiveConnection = cnn
+
+'Tabela
+Set tbl = cat.Tables(sTabela)
+
+'Campo
+Set col = tbl.Columns(sNomeAtual)
+
+'Altera o nome do campo
+col.Name = sNomeNovo
+
+ExitHere:
+Exit Sub
+
+ErrHandler:
+MsgBox Err.Description
+Resume ExitHere
+End Sub
+
+
+'***********************************
+'Altera o nome de coluna usando ADOX
+'BD Externo
+'Early Binding
+
+Sub sAlteraCampo(sTabela As String, sNomeAtual _
+As String, sNomeNovo As String)
+'Altera o nome de campo na tabela
+Dim cnn As ADODB.Connection
+Dim cat As ADOX.Catalog
+Dim tbl As ADOX.Table
+Dim col As ADOX.Column
+
+On Error GoTo ErrHandler
+
+'Banco de dados externo
+Set cnn = New ADODB.Connection
+cnn.Open "Provider=Microsoft.Jet.OLEDB.4.0;" & _
+"Data source=c:\NomeDaPasta\NomeDoArquivo.mdb"
+
+'Tabela
+Set tbl = cat.Tables(sTabela)
+
+'Campo
+Set col = tbl.Columns(sNomeAtual)
+
+'Altera o nome do campo
+col.Name = sNomeNovo
+
+ExitHere:
+Exit Sub
+
+ErrHandler:
+MsgBox Err.Description
+Resume ExitHere
+End Sub
+
+
+'***********************************
+'Altera o nome de coluna usando ADOX
+'BD atual
+'Late Binding
+
+Sub sAlteraCampo(sTabela As String, sNomeAtual _
+As String, sNomeNovo As String)
+'Altera o nome de campo na tabela
+Dim cnn As ADODB.Connection
+Dim cat As Object
+Dim tbl As Object
+Dim col As Object
+
+On Error GoTo ErrHandler
+
+'Banco de dados atual
+Set cnn = CurrentProject.Connection
+Set cat = CreateObject("ADOX.Catalog")
+cat.ActiveConnection = cnn
+
+'Tabela
+Set tbl = cat.Tables(sTabela)
+
+'Campo
+Set col = tbl.Columns(sNomeAtual)
+
+'Altera o nome do campo
+col.Name = sNomeNovo 
+
+
+ExitHere:
+Exit Sub
+
+ErrHandler:
+MsgBox Err.Description
+Resume ExitHere
+End Sub
+
+
+'***********************************
+'Altera o nome de coluna usando ADOX
+'BD externo
+'Late Binding
+
+Sub sAlteraCampo(sTabela As String, sNomeAtual _
+As String, sNomeNovo As String)
+'Altera o nome de campo na tabela
+Dim cnn As ADODB.Connection
+Dim cat As Object
+Dim tbl As Object
+Dim col As Object
+
+On Error GoTo ErrHandler
+
+'Banco de dados externo
+Set cnn = New ADODB.Connection
+cnn.Open "Provider=Microsoft.Jet.OLEDB.4.0;" & _
+"Data source=c:\NomeDaPasta\NomeDoArquivo.mdb"
+
+Set cat = CreateObject("ADOX.Catalog")
+cat.ActiveConnection = cnn
+
+'Tabela
+Set tbl = cat.Tables(sTabela)
+
+'Campo
+Set col = tbl.Columns(sNomeAtual)
+
+'Altera o nome do campo
+col.Name = sNomeNovo 
+
+
+ExitHere:
+Exit Sub
+
+ErrHandler:
+MsgBox Err.Description
+Resume ExitHere
+End Sub
+
+
+'***********************************
+'Altera o nome de coluna usando DAO
+'BD atual
+
+Sub sAlteraCampo(sTabela As String, sNomeAtual _
+As String, sNomeNovo As String)
+'Altera o nome de campo na tabela
+Dim db As DAO.Database
+Dim tbl As DAO.TableDef
+Dim fld As DAO.Field
+
+On Error GoTo ErrHandler
+
+'Banco de dados atual
+Set db = CurrentDb()
+
+'Tabela
+Set tbl = db.TableDefs(sTabela)
+
+'Campo
+Set fld = tbl.Fields(sNomeAtual)
+
+'Altera o nome do campo
+fld.Name = sNomeNovo
+
+ExitHere:
+Exit Sub
+
+ErrHandler:
+MsgBox Err.Description
+Resume ExitHere
+End Sub
+
+
+
+'***********************************
+'Altera o nome de coluna usando DAO
+'BD externo
+
+Sub sAlteraCampo(sTabela As String, sNomeAtual _
+As String, sNomeNovo As String)
+'Altera o nome de campo na tabela
+Dim db As DAO.Database
+Dim tbl As DAO.TableDef
+Dim fld As DAO.Field
+
+On Error GoTo ErrHandler
+
+'Banco de dados externo
+Set db = OpenDatabase("c:\NomeDaPasta\NomeDoArquivo.mdb")
+
+'Tabela
+Set tbl = db.TableDefs(sTabela)
+
+'Campo
+Set fld = tbl.Fields(sNomeAtual)
+
+'Altera o nome do campo
+fld.Name = sNomeNovo
+
+ExitHere:
+Exit Sub
+
+ErrHandler:
+MsgBox Err.Description
+Resume ExitHere
+End Sub

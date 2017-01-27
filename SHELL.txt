@@ -1,0 +1,19 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub testeRun()
+
+Dim TextoRun As String
+
+Dim retval
+
+retval = Shell("C:\Perl\bin\perl.exe C:\Tmp\Procurar-v4.pl", 1)
+
+End Sub
