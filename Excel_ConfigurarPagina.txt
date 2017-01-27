@@ -1,0 +1,124 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub ConfigurarPagina()
+Dim MesAno As String
+Dim TMesAno As String
+Dim Titulo As String
+Dim TTitulo As String
+
+
+MesAno = UCase(Format(Now, "mmmm/yyyy"))
+TMesAno = 16
+Titulo = ""
+TTitulo = 0
+   
+''Área de Impressão
+'$A$2:$C$7
+
+    With ActiveSheet.PageSetup
+        .PrintTitleRows = ""
+        .PrintTitleColumns = ""
+    End With
+    ActiveSheet.PageSetup.PrintArea = ""
+    With ActiveSheet.PageSetup
+        .LeftHeader = ""
+        .CenterHeader = "&""Arial,Negrito""&" + TTitulo + Titulo
+        .RightHeader = "&""Arial,Negrito""&" + TMesAno + MesAno
+        .LeftFooter = ""
+        .CenterFooter = "&F" & Chr(10) & "&A"
+        .RightFooter = "&D - &T &P / &N"
+        .LeftMargin = Application.InchesToPoints(0.787401575)
+        .RightMargin = Application.InchesToPoints(0.787401575)
+        .TopMargin = Application.InchesToPoints(0.984251969)
+        .BottomMargin = Application.InchesToPoints(0.984251969)
+        .HeaderMargin = Application.InchesToPoints(0.492125985)
+        .FooterMargin = Application.InchesToPoints(0.492125985)
+        .PrintHeadings = False
+        .PrintGridlines = False
+        .PrintComments = xlPrintNoComments
+        .PrintQuality = 600
+        .CenterHorizontally = False
+        .CenterVertically = False
+        '.Orientation = xlPortrait
+        .Orientation = xlLandscape
+        .Draft = False
+        .PaperSize = xlPaperLetter
+        .FirstPageNumber = xlAutomatic
+        .Order = xlDownThenOver
+        .BlackAndWhite = False
+        .Zoom = 100
+        .PrintErrors = xlPrintErrorsDisplayed
+    End With
+End Sub
+
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub ConfigurarPagina()
+Dim MesAno As String
+Dim TMesAno As String
+Dim Titulo As String
+Dim TTitulo As String
+
+
+MesAno = UCase(Format(Now, "mmmm/yyyy"))
+TMesAno = 16
+Titulo = ""
+TTitulo = 0
+   
+''Área de Impressão
+'$A$2:$C$7
+
+    With ActiveSheet.PageSetup
+        .PrintTitleRows = ""
+        .PrintTitleColumns = ""
+    End With
+    ActiveSheet.PageSetup.PrintArea = ""
+    With ActiveSheet.PageSetup
+        .LeftHeader = ""
+        .CenterHeader = "&""Arial,Negrito""&" + TTitulo + Titulo
+        .RightHeader = "&""Arial,Negrito""&" + TMesAno + MesAno
+        .LeftFooter = ""
+        .CenterFooter = "&F" & Chr(10) & "&A"
+        .RightFooter = "&D - &T &P / &N"
+        .LeftMargin = Application.InchesToPoints(0.787401575)
+        .RightMargin = Application.InchesToPoints(0.787401575)
+        .TopMargin = Application.InchesToPoints(0.984251969)
+        .BottomMargin = Application.InchesToPoints(0.984251969)
+        .HeaderMargin = Application.InchesToPoints(0.492125985)
+        .FooterMargin = Application.InchesToPoints(0.492125985)
+        .PrintHeadings = False
+        .PrintGridlines = False
+        .PrintComments = xlPrintNoComments
+        .PrintQuality = 600
+        .CenterHorizontally = False
+        .CenterVertically = False
+        '.Orientation = xlPortrait
+        .Orientation = xlLandscape
+        .Draft = False
+        .PaperSize = xlPaperLetter
+        .FirstPageNumber = xlAutomatic
+        .Order = xlDownThenOver
+        .BlackAndWhite = False
+        .Zoom = 100
+        .PrintErrors = xlPrintErrorsDisplayed
+    End With
+End Sub
+
+

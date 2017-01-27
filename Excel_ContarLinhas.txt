@@ -1,0 +1,72 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function ContarLinhas(Optional sPlanilha As String)
+On Error GoTo Err_ContarLinhas
+
+Dim cont As Long
+
+
+If sPlanilha <> "" Then Sheets(sPlanilha).Activate
+
+For L = 1 To Rows.Count
+    If Cells(L, 1) <> "" Then
+        cont = cont + 1
+    ElseIf Cells(L, 1) = "" Then
+        Exit For
+    End If
+Next
+
+ContarLinhas = cont
+
+Exit_ContarLinhas:
+    Exit Function
+Err_ContarLinhas:
+    If Err.Number = 9 Then MsgBox "A planilha: " & sPlanilha & " não existe.", vbExclamation
+    Resume Exit_ContarLinhas
+    
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function ContarLinhas(Optional sPlanilha As String)
+On Error GoTo Err_ContarLinhas
+
+Dim cont As Long
+
+
+If sPlanilha <> "" Then Sheets(sPlanilha).Activate
+
+For L = 1 To Rows.Count
+    If Cells(L, 1) <> "" Then
+        cont = cont + 1
+    ElseIf Cells(L, 1) = "" Then
+        Exit For
+    End If
+Next
+
+ContarLinhas = cont
+
+Exit_ContarLinhas:
+    Exit Function
+Err_ContarLinhas:
+    If Err.Number = 9 Then MsgBox "A planilha: " & sPlanilha & " não existe.", vbExclamation
+    Resume Exit_ContarLinhas
+    
+End Function
+

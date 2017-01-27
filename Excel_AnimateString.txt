@@ -1,0 +1,72 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub Animate_String()
+Dim sTxt As String
+Dim x As Integer, y As Integer
+Dim Start, Delay
+
+sTxt = "Hi there!!"
+
+For y = 1 To 15                         '15 Loops through the scrolling
+    For x = 1 To 30                     'Index number of times
+        Start = Timer                   'Set start to internal timer
+        Delay = Start + 0.15            'Set delay for .15 secs
+
+        Do While Timer < Delay          'Do the display routine
+            [D6] = Space(x) & sTxt      'Show 1 str @ a time
+            DoEvents                    'do there things
+        Loop                            'Loop until delay is up
+        DoEvents
+        Start = Timer                   'and reset the timer
+        Delay = Start + 0.15            'and the delay
+    Next x                              'Show the next str
+Next y                                  'Do this again - 15
+
+[D6] = ""                               'Reset
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub Animate_String()
+Dim sTxt As String
+Dim x As Integer, y As Integer
+Dim Start, Delay
+
+sTxt = "Hi there!!"
+
+For y = 1 To 15                         '15 Loops through the scrolling
+    For x = 1 To 30                     'Index number of times
+        Start = Timer                   'Set start to internal timer
+        Delay = Start + 0.15            'Set delay for .15 secs
+
+        Do While Timer < Delay          'Do the display routine
+            [D6] = Space(x) & sTxt      'Show 1 str @ a time
+            DoEvents                    'do there things
+        Loop                            'Loop until delay is up
+        DoEvents
+        Start = Timer                   'and reset the timer
+        Delay = Start + 0.15            'and the delay
+    Next x                              'Show the next str
+Next y                                  'Do this again - 15
+
+[D6] = ""                               'Reset
+
+End Sub
+

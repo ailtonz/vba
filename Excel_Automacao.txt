@@ -1,0 +1,316 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+'Option Explicit
+
+''   Nome da Funcao    :  EssVConnect()
+''   Objetivo          :  Estabelece conexão com o servidor, aplicação e banco de dados.
+Declare Function EssVConnect Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal username As Variant, _
+                                                 ByVal password As Variant, ByVal server As Variant, _
+                                                 ByVal application As Variant, ByVal database As Variant) As Long
+                 
+''   Nome da Funcao    :  EssVRetrieve()
+''   Objetivo          :  Traz para a planilha os dados do Essbase
+Declare Function EssVRetrieve Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal Range As Variant, _
+                                                  ByVal lockFlag As Variant) As Long
+
+''   Nome da Funcao    :  EssVDisconnect()
+''   Objetivo          :  Fecha a conexão com o servidor, aplicação e banco de dados.
+Declare Function EssVDisconnect Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant) As Long
+
+
+Declare Function EssVZoomIn Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal Range As Variant, _
+                                                ByVal selection As Variant, ByVal level As Variant, _
+                                                ByVal across As Variant) As Long
+
+Declare Function EssVSetSheetOption Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal item As Variant, _
+                                                        ByVal sheetOption As Variant) As Long
+
+Public Sub CarregarDados()
+
+CAMINHO = ActiveWorkbook.Path
+Arquivo = ActiveWorkbook.Name
+
+For i = 1 To Sheets.Count
+    Call Conn("ailton", "essbase", "localhost", "Pda_Corp", "Flash")
+    Call SetSheet
+    Pasta = Sheets(i).Name
+    Call RetData(CAMINHO & "[" & Arquivo & "]" & Pasta)
+    Call ZoomData(CAMINHO & "[" & Arquivo & "]" & Pasta, "A4", False)
+    Call DisConn(CAMINHO & "[" & Arquivo & "]" & Pasta)
+Next i
+
+End Sub
+
+Public Function Conn(Usuario As Variant, Senha As Variant, Servidor As Variant, Aplicacao As Variant, BaseDeDados As Variant, Optional Planilha As Variant)
+''Parametros _
+    Usuario     : Nome do usuário cadastrado no Essbase. _
+    Senha       : Senha do usuário. _
+    Servidor    : Nome do servidor. _
+    Aplicacao   : Nome da aplicação - (Exemplos: SDG, Diarios, SDG_SP, OBZ...) _
+    BaseDeDados : Nome do banco de dados. _
+    Planilha    : Nome da planilha e nome da pasta - (Exemplo: "[Book.xls]Sheet", _
+        Se no nome da planilha estiver “Null” ou “Empty”, é utilizada a planilha ativa.)
+''Valor Retornado _
+    *  Zero em caso de sucesso. _
+    *  Valor negativo indica falha local. _
+    *  Valor positivo maior que zero indica falha no servidor.
+
+X = EssVConnect(Planilha, Usuario, Senha, Servidor, Aplicacao, BaseDeDados)
+
+End Function
+
+Public Function RetData(Planilha As String, Optional LinhasColunas As Variant = Null, Optional TravaDeBlocos As Variant = 1)
+''Parametros _
+    Planilha : Nome da planilha e nome da pasta - _
+        Exemplo: "[Book.xls]Sheet", Se no nome da planilha estiver "Null" ou "Empty", é utilizada a planilha ativa.) _
+    LinhasColunas : _
+        Se refere ao range (linhas/colunas) que serão utilizados como fonte para o "retrieve". Se o range _
+        for "Null" ou "Empty", a pasta inteira será utilizada. Normalmente, especificar como "Null" é a _
+        melhor maneira de atualizar os dados da sua planilha. Contudo, se você tiver uma planilha formatada e _
+        quiser selecionar um range, então este range precisa ser uma combinação contínua de células contendo _
+        os nomes das dimensões e os dados. Ou você especifica um range de células em branco para o Essbase _
+        preencher. O range que você especificar deverá ser grande o suficiente para mostrar todos os valores retornados. _
+    TravaDeBlocos : _
+        Número que indica a quantidade de blocos que devem ser travados ("locked") _
+        A tabela seguinte indica os valores válidos e as ações: _
+            1   Atualiza os dados e não trava as células. _
+            2   Trava as células no banco de dados e atualiza os dados. _
+            3   Trava as células no banco de dados mas não atualiza os dados. _
+            Atenção: Se o lockFlag for "Null" ou "Empty", é utlizado 1.
+''Valor Retornado _
+    *  Zero em caso de sucesso. _
+    *  Valor negativo indica falha local. _
+    *  Valor positivo maior que zero indica falha no servidor.
+
+'If X = 0 Then
+'    MsgBox ("Retrieve executado com sucesso.")
+'Else
+'    MsgBox ("Falha no Retrieve.")
+'End If
+
+'If IsNull(LinhasColunas) Then
+'    X = EssVRetrieve(Planilha, LinhasColunas, TravaDeBlocos)
+'Else
+'    X = EssVRetrieve(Planilha, Range(LinhasColunas), TravaDeBlocos)
+' End If
+
+X = EssVRetrieve(Planilha, LinhasColunas, TravaDeBlocos)
+
+End Function
+
+Public Sub DisConn(Planilha As String)
+''Parametros _
+    Planilha : Nome da planilha e nome da pasta - _
+        Exemplo: "[Book.xls]Sheet", Se no nome da planilha estiver "Null" ou "Empty", é utilizada a planilha ativa.
+''Valor Retornado _
+    *  Zero em caso de sucesso. _
+    *  Valor negativo indica falha local. _
+    *  Valor positivo maior que zero indica falha no servidor.
+
+X = EssVDisconnect(Planilha)
+
+End Sub
+
+Public Sub ZoomData(Planilha As String, Celula As String, Posicao As Boolean)
+''Valor Retornado _
+    *  Zero em caso de sucesso. _
+    *  Valor negativo indica falha local. _
+    *  Valor positivo maior que zero indica falha no servidor.
+
+'If X = 0 Then
+'   MsgBox ("Zoom successful.")
+'Else
+'   MsgBox ("Zoom failed.")
+'End If
+
+X = EssVZoomIn(Planilha, Null, Range(Celula), 1, Posicao)
+Y = EssVZoomIn(Planilha, Null, Range(Celula), 1, Posicao)
+Z = EssVZoomIn(Planilha, Null, Range(Celula), 1, Posicao)
+
+
+End Sub
+ 
+Public Sub SetSheet()
+''Valor Retornado _
+    *  Zero em caso de sucesso. _
+    *  Valor negativo indica falha local. _
+    *  Valor positivo maior que zero indica falha no servidor.
+
+'If X = 0 Then
+'   MsgBox ("#Missing values will appear. ")
+'Else
+'   MsgBox ("Error. #Missing option not set.")
+'End If
+
+V = EssVSetSheetOption(Null, 5, 1)
+X = EssVSetSheetOption(Null, 6, True)
+Y = EssVSetSheetOption(Null, 7, True)
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+'Option Explicit
+
+''   Nome da Funcao    :  EssVConnect()
+''   Objetivo          :  Estabelece conexão com o servidor, aplicação e banco de dados.
+Declare Function EssVConnect Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal username As Variant, _
+                                                 ByVal password As Variant, ByVal server As Variant, _
+                                                 ByVal application As Variant, ByVal database As Variant) As Long
+                 
+''   Nome da Funcao    :  EssVRetrieve()
+''   Objetivo          :  Traz para a planilha os dados do Essbase
+Declare Function EssVRetrieve Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal Range As Variant, _
+                                                  ByVal lockFlag As Variant) As Long
+
+''   Nome da Funcao    :  EssVDisconnect()
+''   Objetivo          :  Fecha a conexão com o servidor, aplicação e banco de dados.
+Declare Function EssVDisconnect Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant) As Long
+
+
+Declare Function EssVZoomIn Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal Range As Variant, _
+                                                ByVal selection As Variant, ByVal level As Variant, _
+                                                ByVal across As Variant) As Long
+
+Declare Function EssVSetSheetOption Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal item As Variant, _
+                                                        ByVal sheetOption As Variant) As Long
+
+Public Sub CarregarDados()
+
+CAMINHO = ActiveWorkbook.Path
+Arquivo = ActiveWorkbook.Name
+
+For i = 1 To Sheets.Count
+    Call Conn("ailton", "essbase", "localhost", "Pda_Corp", "Flash")
+    Call SetSheet
+    Pasta = Sheets(i).Name
+    Call RetData(CAMINHO & "[" & Arquivo & "]" & Pasta)
+    Call ZoomData(CAMINHO & "[" & Arquivo & "]" & Pasta, "A4", False)
+    Call DisConn(CAMINHO & "[" & Arquivo & "]" & Pasta)
+Next i
+
+End Sub
+
+Public Function Conn(Usuario As Variant, Senha As Variant, Servidor As Variant, Aplicacao As Variant, BaseDeDados As Variant, Optional Planilha As Variant)
+''Parametros _
+    Usuario     : Nome do usuário cadastrado no Essbase. _
+    Senha       : Senha do usuário. _
+    Servidor    : Nome do servidor. _
+    Aplicacao   : Nome da aplicação - (Exemplos: SDG, Diarios, SDG_SP, OBZ...) _
+    BaseDeDados : Nome do banco de dados. _
+    Planilha    : Nome da planilha e nome da pasta - (Exemplo: "[Book.xls]Sheet", _
+        Se no nome da planilha estiver “Null” ou “Empty”, é utilizada a planilha ativa.)
+''Valor Retornado _
+    *  Zero em caso de sucesso. _
+    *  Valor negativo indica falha local. _
+    *  Valor positivo maior que zero indica falha no servidor.
+
+X = EssVConnect(Planilha, Usuario, Senha, Servidor, Aplicacao, BaseDeDados)
+
+End Function
+
+Public Function RetData(Planilha As String, Optional LinhasColunas As Variant = Null, Optional TravaDeBlocos As Variant = 1)
+''Parametros _
+    Planilha : Nome da planilha e nome da pasta - _
+        Exemplo: "[Book.xls]Sheet", Se no nome da planilha estiver "Null" ou "Empty", é utilizada a planilha ativa.) _
+    LinhasColunas : _
+        Se refere ao range (linhas/colunas) que serão utilizados como fonte para o "retrieve". Se o range _
+        for "Null" ou "Empty", a pasta inteira será utilizada. Normalmente, especificar como "Null" é a _
+        melhor maneira de atualizar os dados da sua planilha. Contudo, se você tiver uma planilha formatada e _
+        quiser selecionar um range, então este range precisa ser uma combinação contínua de células contendo _
+        os nomes das dimensões e os dados. Ou você especifica um range de células em branco para o Essbase _
+        preencher. O range que você especificar deverá ser grande o suficiente para mostrar todos os valores retornados. _
+    TravaDeBlocos : _
+        Número que indica a quantidade de blocos que devem ser travados ("locked") _
+        A tabela seguinte indica os valores válidos e as ações: _
+            1   Atualiza os dados e não trava as células. _
+            2   Trava as células no banco de dados e atualiza os dados. _
+            3   Trava as células no banco de dados mas não atualiza os dados. _
+            Atenção: Se o lockFlag for "Null" ou "Empty", é utlizado 1.
+''Valor Retornado _
+    *  Zero em caso de sucesso. _
+    *  Valor negativo indica falha local. _
+    *  Valor positivo maior que zero indica falha no servidor.
+
+'If X = 0 Then
+'    MsgBox ("Retrieve executado com sucesso.")
+'Else
+'    MsgBox ("Falha no Retrieve.")
+'End If
+
+'If IsNull(LinhasColunas) Then
+'    X = EssVRetrieve(Planilha, LinhasColunas, TravaDeBlocos)
+'Else
+'    X = EssVRetrieve(Planilha, Range(LinhasColunas), TravaDeBlocos)
+' End If
+
+X = EssVRetrieve(Planilha, LinhasColunas, TravaDeBlocos)
+
+End Function
+
+Public Sub DisConn(Planilha As String)
+''Parametros _
+    Planilha : Nome da planilha e nome da pasta - _
+        Exemplo: "[Book.xls]Sheet", Se no nome da planilha estiver "Null" ou "Empty", é utilizada a planilha ativa.
+''Valor Retornado _
+    *  Zero em caso de sucesso. _
+    *  Valor negativo indica falha local. _
+    *  Valor positivo maior que zero indica falha no servidor.
+
+X = EssVDisconnect(Planilha)
+
+End Sub
+
+Public Sub ZoomData(Planilha As String, Celula As String, Posicao As Boolean)
+''Valor Retornado _
+    *  Zero em caso de sucesso. _
+    *  Valor negativo indica falha local. _
+    *  Valor positivo maior que zero indica falha no servidor.
+
+'If X = 0 Then
+'   MsgBox ("Zoom successful.")
+'Else
+'   MsgBox ("Zoom failed.")
+'End If
+
+X = EssVZoomIn(Planilha, Null, Range(Celula), 1, Posicao)
+Y = EssVZoomIn(Planilha, Null, Range(Celula), 1, Posicao)
+Z = EssVZoomIn(Planilha, Null, Range(Celula), 1, Posicao)
+
+
+End Sub
+ 
+Public Sub SetSheet()
+''Valor Retornado _
+    *  Zero em caso de sucesso. _
+    *  Valor negativo indica falha local. _
+    *  Valor positivo maior que zero indica falha no servidor.
+
+'If X = 0 Then
+'   MsgBox ("#Missing values will appear. ")
+'Else
+'   MsgBox ("Error. #Missing option not set.")
+'End If
+
+V = EssVSetSheetOption(Null, 5, 1)
+X = EssVSetSheetOption(Null, 6, True)
+Y = EssVSetSheetOption(Null, 7, True)
+
+End Sub
+

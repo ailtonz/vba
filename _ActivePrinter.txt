@@ -1,0 +1,14 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Este exemplo torna uma impressora HP LaserJet 4 local em LPT1 a impressora ativa.
+
+Application.ActivePrinter = "HP LaserJet 4 local on LPT1:"
+

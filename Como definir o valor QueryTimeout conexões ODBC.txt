@@ -1,0 +1,132 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+http://support.microsoft.com/kb/153756/pt
+
+
+Método 1
+
+Crie uma sub-rotina para definir a propriedade. 
+
+Criar e executar a sub-rotina seguinte quando você abre o banco de dados: 
+   Sub SetTimeout()
+      Dim Mydb as Database
+      Set Mydb=CurrentDB
+      MYdb.QueryTimeout=120
+  End Sub
+				
+
+Quando essa propriedade é definida, ela substitui qualquer valor de configuração ou padrão do registro do Windows. 
+
+Observação: Se você estiver tendo problemas com a propriedade QueryTimeout, talvez seja necessário fazer o upgrade para a versão mais recente do mecanismo de banco de dados do Microsoft Jet para sua versão do Microsoft Access. Até então, se você estiver tendo problemas com CurrentDB.QueryTimeout, você pode também tentar usar DBEngine (0)(0). No entanto, é recomendável que você tenha a versão atual do mecanismo de banco de dados Microsoft Jet. 
+
+Para obter informações sobre como obter o Microsoft Jet 3.51, consulte o seguinte artigo na Base de dados de Conhecimento da Microsoft: 
+
+172733 ACC97: Versão atualizada do Microsoft Jet 3.5 disponível para Download 
+Exemplo de uso DBEngine
+
+
+  Sub mytest()
+     Dim mydb As Database
+     Set mydb = DBEngine(0)(0)
+     mydb.QueryTimeout = 120
+     MsgBox mydb.QueryTimeout
+  End Sub
+				
+
+Método 2
+
+Defina a propriedade no registro. 
+
+Aviso: O uso incorreto do Editor do Registro pode causar problemas sérios que talvez exijam a reinstalação do Windows. A Microsoft não garante que problemas resultantes do uso incorreto do Editor do Registro possam ser solucionados. Use o Editor do registro sob seu próprio risco. 
+
+Para obter informações sobre como editar o registro, consulte o tópico da Ajuda online alterando chaves e valores no Editor do registro (Regedit.exe). Observe que você deve fazer uma cópia de backup dos arquivos do registro (System. dat e User. dat) antes de editar o registro.
+Usando o Microsoft Access 97
+
+
+Vá para a seguinte chave do registro: 
+     HKEY_LOCAL_MACHINE\Software\Microsoft\Jet\3.5\Engines\ODBC
+						
+Selecione QueryTimeout, clique em Editar e, em seguida, modifique. Altere o valor DWORD para sua configuração desejada. O valor representa o número de segundos de tempo limite.
+Usando o Microsoft Access version 7.0
+
+
+Crie a seguinte chave do registro: 
+    HKEY_LOCAL_MACHINE\Software\Microsoft\Access\7.0\Jet\3.0\Engines\ODBC
+						
+Clique em modificar e, em seguida, selecione o valor DWORD. Adicione QueryTimeout e defina o tempo limite para um valor inteiro. Esse valor representará o número de segundos de tempo limite.
+Observação: Se essa alteração no registro foi feita durante a execução do Microsoft Access, você deve primeiro fechar e reabrir o Microsoft Access antes de alterar é reconhecido.
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+http://support.microsoft.com/kb/153756/pt
+
+
+Método 1
+
+Crie uma sub-rotina para definir a propriedade. 
+
+Criar e executar a sub-rotina seguinte quando você abre o banco de dados: 
+   Sub SetTimeout()
+      Dim Mydb as Database
+      Set Mydb=CurrentDB
+      MYdb.QueryTimeout=120
+  End Sub
+				
+
+Quando essa propriedade é definida, ela substitui qualquer valor de configuração ou padrão do registro do Windows. 
+
+Observação: Se você estiver tendo problemas com a propriedade QueryTimeout, talvez seja necessário fazer o upgrade para a versão mais recente do mecanismo de banco de dados do Microsoft Jet para sua versão do Microsoft Access. Até então, se você estiver tendo problemas com CurrentDB.QueryTimeout, você pode também tentar usar DBEngine (0)(0). No entanto, é recomendável que você tenha a versão atual do mecanismo de banco de dados Microsoft Jet. 
+
+Para obter informações sobre como obter o Microsoft Jet 3.51, consulte o seguinte artigo na Base de dados de Conhecimento da Microsoft: 
+
+172733 ACC97: Versão atualizada do Microsoft Jet 3.5 disponível para Download 
+Exemplo de uso DBEngine
+
+
+  Sub mytest()
+     Dim mydb As Database
+     Set mydb = DBEngine(0)(0)
+     mydb.QueryTimeout = 120
+     MsgBox mydb.QueryTimeout
+  End Sub
+				
+
+Método 2
+
+Defina a propriedade no registro. 
+
+Aviso: O uso incorreto do Editor do Registro pode causar problemas sérios que talvez exijam a reinstalação do Windows. A Microsoft não garante que problemas resultantes do uso incorreto do Editor do Registro possam ser solucionados. Use o Editor do registro sob seu próprio risco. 
+
+Para obter informações sobre como editar o registro, consulte o tópico da Ajuda online alterando chaves e valores no Editor do registro (Regedit.exe). Observe que você deve fazer uma cópia de backup dos arquivos do registro (System. dat e User. dat) antes de editar o registro.
+Usando o Microsoft Access 97
+
+
+Vá para a seguinte chave do registro: 
+     HKEY_LOCAL_MACHINE\Software\Microsoft\Jet\3.5\Engines\ODBC
+						
+Selecione QueryTimeout, clique em Editar e, em seguida, modifique. Altere o valor DWORD para sua configuração desejada. O valor representa o número de segundos de tempo limite.
+Usando o Microsoft Access version 7.0
+
+
+Crie a seguinte chave do registro: 
+    HKEY_LOCAL_MACHINE\Software\Microsoft\Access\7.0\Jet\3.0\Engines\ODBC
+						
+Clique em modificar e, em seguida, selecione o valor DWORD. Adicione QueryTimeout e defina o tempo limite para um valor inteiro. Esse valor representará o número de segundos de tempo limite.
+Observação: Se essa alteração no registro foi feita durante a execução do Microsoft Access, você deve primeiro fechar e reabrir o Microsoft Access antes de alterar é reconhecido.
+

@@ -1,0 +1,34 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Attribute VB_Name = "basConnection"
+Public Function OpenConnection(strBanco As infBanco) As ADODB.connection
+'' Build the connection string depending on the source
+Dim connectionString As String
+    
+Select Case strBanco.strSource
+    Case "Access"
+        connectionString = "Provider=" & strBanco.strDriver & ";Data Source=" & strBanco.strDatabase
+    Case "Access2003"
+        connectionString = "Driver={" & strBanco.strDriver & "};Dbq=" & strBanco.strLocation & strBanco.strDatabase & ";Uid=" & strBanco.strUser & ";PWD=" & strBanco.strPassword & ""
+    Case "SQLite"
+        connectionString = "Driver={" & strBanco.strDriver & "};Database=" & strBanco.strDatabase
+    Case "MySQL"
+        connectionString = "Driver={" & strBanco.strDriver & "};Server=" & strBanco.strLocation & ";Database=" & strBanco.strDatabase & ";PORT=" & strBanco.strPort & ";UID=" & strBanco.strUser & ";PWD=" & strBanco.strPassword
+    Case "PostgreSQL"
+        connectionString = "Driver={" & strBanco.strDriver & "};Server=" & strBanco.strLocation & ";Database=" & strBanco.strDatabase & ";UID=" & strBanco.strUser & ";PWD=" & strBanco.strPassword
+End Select
+
+'' Create and open a new connection to the selected source
+Set OpenConnection = New ADODB.connection
+Call OpenConnection.Open(connectionString)
+   
+End Function
+

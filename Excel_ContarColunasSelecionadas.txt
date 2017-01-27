@@ -1,0 +1,52 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub ContarColunasSelecionadas()
+
+Worksheets("Plan1").Activate
+areaCount = Selection.Areas.Count
+If areaCount <= 1 Then
+    MsgBox "The selection contains " & _
+        Selection.Columns.Count & " columns."
+Else
+    For i = 1 To areaCount
+        MsgBox "Area " & i & " of the selection contains " & _
+            Selection.Areas(i).Columns.Count & " columns."
+    Next i
+End If
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub ContarColunasSelecionadas()
+
+Worksheets("Plan1").Activate
+areaCount = Selection.Areas.Count
+If areaCount <= 1 Then
+    MsgBox "The selection contains " & _
+        Selection.Columns.Count & " columns."
+Else
+    For i = 1 To areaCount
+        MsgBox "Area " & i & " of the selection contains " & _
+            Selection.Areas(i).Columns.Count & " columns."
+    Next i
+End If
+
+End Sub
+

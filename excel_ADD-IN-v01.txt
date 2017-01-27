@@ -1,0 +1,322 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub arq()
+
+Dim fd As Office.FileDialog
+Dim strArq As String
+
+'Diálogo de selecionar arquivo - Office
+Set fd = Application.FileDialog(msoFileDialogFilePicker)
+
+fd.Filters.Add "BDs do Access", "*.MDB;*.MDE"
+fd.Title = "Localize a fonte de dados"
+fd.AllowMultiSelect = False
+If fd.Show = -1 Then
+    strArq = fd.SelectedItems(1)
+    MsgBox strArq
+End If
+
+End Sub
+
+Public Function ProtegerPlanilha(ByVal Senha As String)
+Dim x As Long
+    
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Cells.Select
+    ActiveSheet.Protect Senha, DrawingObjects:=True, Contents:=True, Scenarios:=True
+    Range("A1").Select
+Next x
+
+Sheets(1).Select
+    
+End Function
+
+Public Sub DesProtegerPlanilha()
+Dim x As Long
+    
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Cells.Select
+    ActiveSheet.Unprotect Senha
+    Range("A1").Select
+Next x
+
+Sheets(1).Select
+    
+End Sub
+------------------
+
+
+Public Function ProtegerPlanilha(ByVal Senha As String)
+Dim x As Long
+    
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Cells.Select
+    ActiveSheet.Protect Senha, DrawingObjects:=True, Contents:=True, Scenarios:=True
+    Range("A1").Select
+Next x
+
+Sheets(1).Select
+    
+End Function
+
+Public Sub DesProtegerPlanilha()
+Dim x As Long
+    
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Cells.Select
+    ActiveSheet.Unprotect Senha
+    Range("A1").Select
+Next x
+
+Sheets(1).Select
+    
+End Sub
+
+'Sub AbrirArquivos_Essbase()
+'
+'
+'Dim sTemp As String
+'Dim sPlanilha As String
+'Dim sSheet As String
+'
+'sSheet = "Arquivos Essbase"
+'Worksheets(sSheet).Activate
+'cont = contador(sSheet, 1, 1)
+'sTemp = ActiveWorkbook.Path
+'sPlanilha = ActiveWorkbook.Name
+'
+'For x = 2 To cont
+'
+'    sTemp = sTemp & "\" & Cells(x, 1)
+'
+'    'Se o arquivo existe, Abre
+'    If Dir(sTemp) <> "" Then
+'        Workbooks.OpenText Filename:=sTemp, DataType:=xlDelimited, Tab:=True, Other:=True, OtherChar:="|"
+'    End If
+'
+'    Windows(sPlanilha).Activate
+'
+'    sTemp = ""
+'    sTemp = ActiveWorkbook.Path
+'
+'Next
+'
+'
+'End Sub
+'
+'Public Function contador(Pasta As String, lin As Integer, col As Long)
+'Dim i As Long
+'Dim x As Long
+'
+'i = lin
+'x = 0
+'While Worksheets(Pasta).Cells(i, col) <> ""
+'    i = i + 1
+'    x = x + 1
+'Wend
+'
+'contador = x
+'
+'End Function
+
+Public Function ProtegerPlanilha(ByVal Senha As String)
+Dim x As Long
+    
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Cells.Select
+    ActiveSheet.Protect Senha, DrawingObjects:=True, Contents:=True, Scenarios:=True
+    Range("A1").Select
+Next x
+
+Sheets(1).Select
+    
+End Function
+
+Public Sub DesProtegerPlanilha()
+Dim x As Long
+    
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Cells.Select
+    ActiveSheet.Unprotect Senha
+    Range("A1").Select
+Next x
+
+Sheets(1).Select
+    
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Sub arq()
+
+Dim fd As Office.FileDialog
+Dim strArq As String
+
+'Diálogo de selecionar arquivo - Office
+Set fd = Application.FileDialog(msoFileDialogFilePicker)
+
+fd.Filters.Add "BDs do Access", "*.MDB;*.MDE"
+fd.Title = "Localize a fonte de dados"
+fd.AllowMultiSelect = False
+If fd.Show = -1 Then
+    strArq = fd.SelectedItems(1)
+    MsgBox strArq
+End If
+
+End Sub
+
+Public Function ProtegerPlanilha(ByVal Senha As String)
+Dim x As Long
+    
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Cells.Select
+    ActiveSheet.Protect Senha, DrawingObjects:=True, Contents:=True, Scenarios:=True
+    Range("A1").Select
+Next x
+
+Sheets(1).Select
+    
+End Function
+
+Public Sub DesProtegerPlanilha()
+Dim x As Long
+    
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Cells.Select
+    ActiveSheet.Unprotect Senha
+    Range("A1").Select
+Next x
+
+Sheets(1).Select
+    
+End Sub
+------------------
+
+
+Public Function ProtegerPlanilha(ByVal Senha As String)
+Dim x As Long
+    
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Cells.Select
+    ActiveSheet.Protect Senha, DrawingObjects:=True, Contents:=True, Scenarios:=True
+    Range("A1").Select
+Next x
+
+Sheets(1).Select
+    
+End Function
+
+Public Sub DesProtegerPlanilha()
+Dim x As Long
+    
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Cells.Select
+    ActiveSheet.Unprotect Senha
+    Range("A1").Select
+Next x
+
+Sheets(1).Select
+    
+End Sub
+
+'Sub AbrirArquivos_Essbase()
+'
+'
+'Dim sTemp As String
+'Dim sPlanilha As String
+'Dim sSheet As String
+'
+'sSheet = "Arquivos Essbase"
+'Worksheets(sSheet).Activate
+'cont = contador(sSheet, 1, 1)
+'sTemp = ActiveWorkbook.Path
+'sPlanilha = ActiveWorkbook.Name
+'
+'For x = 2 To cont
+'
+'    sTemp = sTemp & "\" & Cells(x, 1)
+'
+'    'Se o arquivo existe, Abre
+'    If Dir(sTemp) <> "" Then
+'        Workbooks.OpenText Filename:=sTemp, DataType:=xlDelimited, Tab:=True, Other:=True, OtherChar:="|"
+'    End If
+'
+'    Windows(sPlanilha).Activate
+'
+'    sTemp = ""
+'    sTemp = ActiveWorkbook.Path
+'
+'Next
+'
+'
+'End Sub
+'
+'Public Function contador(Pasta As String, lin As Integer, col As Long)
+'Dim i As Long
+'Dim x As Long
+'
+'i = lin
+'x = 0
+'While Worksheets(Pasta).Cells(i, col) <> ""
+'    i = i + 1
+'    x = x + 1
+'Wend
+'
+'contador = x
+'
+'End Function
+
+Public Function ProtegerPlanilha(ByVal Senha As String)
+Dim x As Long
+    
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Cells.Select
+    ActiveSheet.Protect Senha, DrawingObjects:=True, Contents:=True, Scenarios:=True
+    Range("A1").Select
+Next x
+
+Sheets(1).Select
+    
+End Function
+
+Public Sub DesProtegerPlanilha()
+Dim x As Long
+    
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Cells.Select
+    ActiveSheet.Unprotect Senha
+    Range("A1").Select
+Next x
+
+Sheets(1).Select
+    
+End Sub
+

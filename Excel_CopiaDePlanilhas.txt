@@ -1,0 +1,252 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub CopiaDePlanilhas()
+Dim x As String
+
+    Workbooks.Add
+    
+    x = ActiveWorkbook.Name
+    
+    Windows.Arrange ArrangeStyle:=xlHorizontal
+    Windows("Vendas_Extra_SEÇAO 12.xls").Activate
+    Sheets(Array("relatorio", "MERC", "PEREC", "BAZAR", "ELETRO", "TEXTIL", "POSTO")).Select
+
+    Sheets(Array("relatorio", "MERC", "PEREC", "BAZAR", "ELETRO", "TEXTIL", "POSTO")). _
+        Copy Before:=Workbooks(x).Sheets(1)
+
+    Call Limpar
+End Sub
+
+Sub Limpar()
+    Sheets(Array("relatorio", "MERC", "PEREC", "BAZAR", "ELETRO", "TEXTIL", "POSTO", _
+        "Plan1", "Plan2", "Plan3")).Select
+    Sheets("relatorio").Activate
+    Cells.Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlValues, Operation:=xlNone, SkipBlanks:= _
+        False, Transpose:=False
+    Sheets(Array("Plan1", "Plan2", "Plan3")).Select
+    Sheets("Plan1").Activate
+    Application.CutCopyMode = False
+    Application.DisplayAlerts = False
+    ActiveWindow.SelectedSheets.Delete
+    Application.DisplayAlerts = True
+    ActiveWindow.ScrollWorkbookTabs Position:=xlFirst
+    Sheets("relatorio").Select
+    Rows("1:5").Select
+    Selection.ClearContents
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Columns("A:E").Select
+    Selection.ClearContents
+    Columns("A:D").Select
+    Selection.Delete Shift:=xlToLeft
+    Rows("1:4").Select
+    Selection.Delete Shift:=xlUp
+    Sheets("MERC").Select
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Rows("1:1").Select
+    Selection.ClearContents
+    Columns("B:C").Select
+    Selection.ClearContents
+    Columns("A:A").Select
+    Selection.Interior.ColorIndex = xlNone
+    Range("A1").Select
+    Sheets("PEREC").Select
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Columns("A:A").Select
+    Selection.Interior.ColorIndex = xlNone
+    Columns("B:C").Select
+    Selection.ClearContents
+    Rows("1:1").Select
+    Selection.ClearContents
+    ActiveWindow.ScrollRow = 5
+    Range("B2").Select
+    Sheets("BAZAR").Select
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Columns("A:A").Select
+    Selection.Interior.ColorIndex = xlNone
+    Columns("B:C").Select
+    Selection.ClearContents
+    Rows("1:1").Select
+    Selection.ClearContents
+    Range("B4").Select
+    Sheets("ELETRO").Select
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Columns("A:A").Select
+    Selection.Interior.ColorIndex = xlNone
+    Columns("B:C").Select
+    Selection.ClearContents
+    Rows("1:1").Select
+    Selection.ClearContents
+    ActiveWindow.ScrollRow = 5
+    Range("B2").Select
+    Sheets("TEXTIL").Select
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Rows("1:1").Select
+    Selection.ClearContents
+    Columns("A:A").Select
+    Selection.Interior.ColorIndex = xlNone
+    Columns("B:C").Select
+    Selection.ClearContents
+    ActiveWindow.ScrollRow = 5
+    Sheets("POSTO").Select
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Columns("A:A").Select
+    Selection.Interior.ColorIndex = xlNone
+    Columns("B:C").Select
+    Selection.ClearContents
+    Rows("1:1").Select
+    Selection.ClearContents
+    ActiveWindow.ScrollRow = 5
+    Range("A2").Select
+    Sheets("TEXTIL").Select
+    Range("D4").Select
+    Sheets("relatorio").Select
+    Range("B3").Select
+End Sub
+
+
+
+
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub CopiaDePlanilhas()
+Dim x As String
+
+    Workbooks.Add
+    
+    x = ActiveWorkbook.Name
+    
+    Windows.Arrange ArrangeStyle:=xlHorizontal
+    Windows("Vendas_Extra_SEÇAO 12.xls").Activate
+    Sheets(Array("relatorio", "MERC", "PEREC", "BAZAR", "ELETRO", "TEXTIL", "POSTO")).Select
+
+    Sheets(Array("relatorio", "MERC", "PEREC", "BAZAR", "ELETRO", "TEXTIL", "POSTO")). _
+        Copy Before:=Workbooks(x).Sheets(1)
+
+    Call Limpar
+End Sub
+
+Sub Limpar()
+    Sheets(Array("relatorio", "MERC", "PEREC", "BAZAR", "ELETRO", "TEXTIL", "POSTO", _
+        "Plan1", "Plan2", "Plan3")).Select
+    Sheets("relatorio").Activate
+    Cells.Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlValues, Operation:=xlNone, SkipBlanks:= _
+        False, Transpose:=False
+    Sheets(Array("Plan1", "Plan2", "Plan3")).Select
+    Sheets("Plan1").Activate
+    Application.CutCopyMode = False
+    Application.DisplayAlerts = False
+    ActiveWindow.SelectedSheets.Delete
+    Application.DisplayAlerts = True
+    ActiveWindow.ScrollWorkbookTabs Position:=xlFirst
+    Sheets("relatorio").Select
+    Rows("1:5").Select
+    Selection.ClearContents
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Columns("A:E").Select
+    Selection.ClearContents
+    Columns("A:D").Select
+    Selection.Delete Shift:=xlToLeft
+    Rows("1:4").Select
+    Selection.Delete Shift:=xlUp
+    Sheets("MERC").Select
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Rows("1:1").Select
+    Selection.ClearContents
+    Columns("B:C").Select
+    Selection.ClearContents
+    Columns("A:A").Select
+    Selection.Interior.ColorIndex = xlNone
+    Range("A1").Select
+    Sheets("PEREC").Select
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Columns("A:A").Select
+    Selection.Interior.ColorIndex = xlNone
+    Columns("B:C").Select
+    Selection.ClearContents
+    Rows("1:1").Select
+    Selection.ClearContents
+    ActiveWindow.ScrollRow = 5
+    Range("B2").Select
+    Sheets("BAZAR").Select
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Columns("A:A").Select
+    Selection.Interior.ColorIndex = xlNone
+    Columns("B:C").Select
+    Selection.ClearContents
+    Rows("1:1").Select
+    Selection.ClearContents
+    Range("B4").Select
+    Sheets("ELETRO").Select
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Columns("A:A").Select
+    Selection.Interior.ColorIndex = xlNone
+    Columns("B:C").Select
+    Selection.ClearContents
+    Rows("1:1").Select
+    Selection.ClearContents
+    ActiveWindow.ScrollRow = 5
+    Range("B2").Select
+    Sheets("TEXTIL").Select
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Rows("1:1").Select
+    Selection.ClearContents
+    Columns("A:A").Select
+    Selection.Interior.ColorIndex = xlNone
+    Columns("B:C").Select
+    Selection.ClearContents
+    ActiveWindow.ScrollRow = 5
+    Sheets("POSTO").Select
+    ActiveSheet.Shapes("Drop Down 1").Select
+    Selection.Delete
+    Columns("A:A").Select
+    Selection.Interior.ColorIndex = xlNone
+    Columns("B:C").Select
+    Selection.ClearContents
+    Rows("1:1").Select
+    Selection.ClearContents
+    ActiveWindow.ScrollRow = 5
+    Range("A2").Select
+    Sheets("TEXTIL").Select
+    Range("D4").Select
+    Sheets("relatorio").Select
+    Range("B3").Select
+End Sub
+
+
+
+
+

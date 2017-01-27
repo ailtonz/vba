@@ -1,0 +1,49 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Attribute VB_Name = "basType"
+Public banco(2) As infBanco
+
+Type infFiltro
+
+    strCampo As String
+    strValor As String
+        
+End Type
+
+Type infPosicao
+
+    strLocation As String
+    strDatabase As String
+        
+End Type
+
+
+Type infBanco
+
+    strSource As String
+    strDriver As String
+    strLocation As String
+    strDatabase As String
+    strUser As String
+    strPassword As String
+    strPort As String
+    
+    strTabela As String
+    strVendedor As String
+    strControle As String
+    
+    strFiltro As infFiltro
+    strPosicao As infPosicao
+
+End Type
+
+
+

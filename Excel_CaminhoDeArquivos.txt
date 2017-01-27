@@ -1,0 +1,94 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub CaminhoDeArquivos()
+On Error GoTo Numera_err
+
+Dim i As Integer
+Dim sArquivo As String
+Dim sArquivoCaminho As String
+
+Application.FileSearch.NewSearch
+Application.FileSearch.LookIn = "C:\Soft\Planilhas"
+Application.FileSearch.SearchSubFolders = True
+
+For colIndex = 9 To 9       ' Coluna
+    For rwIndex = 2 To 70   ' Linha
+      With Worksheets(2)
+           sArquivo = .Cells(rwIndex, 5).Value
+           Application.FileSearch.Filename = sArquivo
+           If Application.FileSearch.Execute() > 0 Then
+                For i = 1 To Application.FileSearch.FoundFiles.Count
+                    sArquivoCaminho = Application.FileSearch.FoundFiles(i)
+                    .Cells(rwIndex, colIndex).Value = sArquivoCaminho
+                Next i
+           Else
+                .Cells(rwIndex, colIndex).Value = "Arquivo não encontrado"
+           End If
+
+        End With
+    Next rwIndex
+Next colIndex
+
+Numera_Fim:
+ Exit Sub
+Numera_err:
+ MsgBox Err.Description
+ Resume Numera_Fim
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub CaminhoDeArquivos()
+On Error GoTo Numera_err
+
+Dim i As Integer
+Dim sArquivo As String
+Dim sArquivoCaminho As String
+
+Application.FileSearch.NewSearch
+Application.FileSearch.LookIn = "C:\Soft\Planilhas"
+Application.FileSearch.SearchSubFolders = True
+
+For colIndex = 9 To 9       ' Coluna
+    For rwIndex = 2 To 70   ' Linha
+      With Worksheets(2)
+           sArquivo = .Cells(rwIndex, 5).Value
+           Application.FileSearch.Filename = sArquivo
+           If Application.FileSearch.Execute() > 0 Then
+                For i = 1 To Application.FileSearch.FoundFiles.Count
+                    sArquivoCaminho = Application.FileSearch.FoundFiles(i)
+                    .Cells(rwIndex, colIndex).Value = sArquivoCaminho
+                Next i
+           Else
+                .Cells(rwIndex, colIndex).Value = "Arquivo não encontrado"
+           End If
+
+        End With
+    Next rwIndex
+Next colIndex
+
+Numera_Fim:
+ Exit Sub
+Numera_err:
+ MsgBox Err.Description
+ Resume Numera_Fim
+
+End Sub
+

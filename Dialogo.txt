@@ -1,0 +1,138 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function Dialogo() As Long
+
+
+    Dim lngCount As Long
+
+    ' Open the file dialog
+    With Application.FileDialog(msoFileDialogOpen)
+        .AllowMultiSelect = True
+        .Show
+
+        ' Display paths of each file selected
+        For lngCount = 1 To .SelectedItems.Count
+            MsgBox .SelectedItems(lngCount)
+        Next lngCount
+
+    End With
+
+
+End Function
+
+
+Public Function DialogoParaPastas(Titulo As String) As String
+
+Dim lngCount As Long
+
+' Open the file dialog
+With Application.FileDialog(msoFileDialogFolderPicker)
+    .Title = Titulo
+    .Show
+
+    ' Display paths of each file selected
+    For lngCount = 1 To .SelectedItems.Count
+        DialogoParaPastas = .SelectedItems(lngCount)
+    Next lngCount
+
+End With
+
+End Function
+
+Public Function DialogoParaArquivos(Titulo As String, Optional MultiSelecao As Boolean = False, Optional FiltroTitulo As String = "Todos os arquivos", Optional FiltroExtencao As String = "*.*") As String
+
+Dim lngCount As Long
+
+' Open the file dialog
+With Application.FileDialog(msoFileDialogFilePicker)
+    .Title = Titulo
+    .Filters.Add FiltroTitulo, FiltroExtencao
+    .AllowMultiSelect = MultiSelecao
+    .Show
+
+    ' Display paths of each file selected
+    For lngCount = 1 To .SelectedItems.Count
+        DialogoParaArquivos = .SelectedItems(lngCount)
+    Next lngCount
+
+End With
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function Dialogo() As Long
+
+
+    Dim lngCount As Long
+
+    ' Open the file dialog
+    With Application.FileDialog(msoFileDialogOpen)
+        .AllowMultiSelect = True
+        .Show
+
+        ' Display paths of each file selected
+        For lngCount = 1 To .SelectedItems.Count
+            MsgBox .SelectedItems(lngCount)
+        Next lngCount
+
+    End With
+
+
+End Function
+
+
+Public Function DialogoParaPastas(Titulo As String) As String
+
+Dim lngCount As Long
+
+' Open the file dialog
+With Application.FileDialog(msoFileDialogFolderPicker)
+    .Title = Titulo
+    .Show
+
+    ' Display paths of each file selected
+    For lngCount = 1 To .SelectedItems.Count
+        DialogoParaPastas = .SelectedItems(lngCount)
+    Next lngCount
+
+End With
+
+End Function
+
+Public Function DialogoParaArquivos(Titulo As String, Optional MultiSelecao As Boolean = False, Optional FiltroTitulo As String = "Todos os arquivos", Optional FiltroExtencao As String = "*.*") As String
+
+Dim lngCount As Long
+
+' Open the file dialog
+With Application.FileDialog(msoFileDialogFilePicker)
+    .Title = Titulo
+    .Filters.Add FiltroTitulo, FiltroExtencao
+    .AllowMultiSelect = MultiSelecao
+    .Show
+
+    ' Display paths of each file selected
+    For lngCount = 1 To .SelectedItems.Count
+        DialogoParaArquivos = .SelectedItems(lngCount)
+    Next lngCount
+
+End With
+
+End Function
+

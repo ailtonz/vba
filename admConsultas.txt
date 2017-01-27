@@ -1,0 +1,66 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+'''Listar Consultas e Tabelas do Banco de dados:
+
+SELECT 
+	qryTMP.TIPO, 
+	qryTMP.Name 
+FROM 
+	(
+	SELECT "CONSULTAS" AS TIPO, 
+			MSysObjects.Name 
+	FROM 
+		MsysObjects WHERE (Left$([Name],1)<>"~") AND (MSysObjects.Type)=5 
+	ORDER BY 
+		MSysObjects.Name 
+	
+	UNION 
+	
+	SELECT  "TABELAS" AS TIPO, 
+			MSysObjects.Name 
+	FROM 
+		MsysObjects WHERE (Left$([Name],1)<>"~") AND (Left$([Name],4) <> "Msys") AND (MSysObjects.Type)=1
+		ORDER BY MSysObjects.Name) as qryTMP 
+	WHERE qryTMP.Name NOT IN ("admConsultas") ORDER BY qryTMP.TIPO DESC , qryTMP.Name;
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+'''Listar Consultas e Tabelas do Banco de dados:
+
+SELECT 
+	qryTMP.TIPO, 
+	qryTMP.Name 
+FROM 
+	(
+	SELECT "CONSULTAS" AS TIPO, 
+			MSysObjects.Name 
+	FROM 
+		MsysObjects WHERE (Left$([Name],1)<>"~") AND (MSysObjects.Type)=5 
+	ORDER BY 
+		MSysObjects.Name 
+	
+	UNION 
+	
+	SELECT  "TABELAS" AS TIPO, 
+			MSysObjects.Name 
+	FROM 
+		MsysObjects WHERE (Left$([Name],1)<>"~") AND (Left$([Name],4) <> "Msys") AND (MSysObjects.Type)=1
+		ORDER BY MSysObjects.Name) as qryTMP 
+	WHERE qryTMP.Name NOT IN ("admConsultas") ORDER BY qryTMP.TIPO DESC , qryTMP.Name;
+

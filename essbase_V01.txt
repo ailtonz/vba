@@ -1,0 +1,306 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Option Explicit
+Declare Function EssVConnect Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal username As Variant, ByVal password As Variant, ByVal server As Variant, ByVal application As Variant, ByVal database As Variant) As Long
+Declare Function EssVRetrieve Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal range As Variant, ByVal lockFlag As Variant) As Long
+Declare Function EssVDisconnect Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant) As Long
+Declare Function EssVSetSheetOption Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal item As Variant, ByVal sheetOption As Variant) As Long
+Declare Function EssVGetSheetOption Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal item As Variant) As Variant
+Declare Function XGetUserName Lib "advapi32.dll" Alias "GetUserNameA" (ByVal lpBuffer As String, nSize As Long) As Long
+
+Global Usuario As String
+Global Senha As String
+
+Global BkpConfigEssBase_RetainOnRetrieval As Boolean
+Global BkpConfigEssBase_RetainOnKeepAndRemoveOnly As Boolean
+Global BkpConfigEssBase_RetainOnZooms As Boolean
+Global BkpConfigEssBase_FormulaFill As Boolean
+Global BkpConfigEssBase_Indentation As Integer
+ 
+ 
+ 
+Public Sub ConfiguraEssBase()
+Dim Retorno As Integer
+
+    'Backup da configuração atual
+    BkpConfigEssBase_RetainOnRetrieval = EssVGetSheetOption(Null, 11)
+    BkpConfigEssBase_RetainOnKeepAndRemoveOnly = EssVGetSheetOption(Null, 21)
+    BkpConfigEssBase_RetainOnZooms = EssVGetSheetOption(Null, 22)
+    BkpConfigEssBase_FormulaFill = EssVGetSheetOption(Null, 23)
+    BkpConfigEssBase_Indentation = EssVGetSheetOption(Null, 5)
+
+    '11 : Mode - Formula Preservation - Retain on Retrieval
+    '21 : Mode - Formula Preservation - Retain on Keep and Remove Only
+    '22 : Mode - Formula Preservation - Retain on Zooms
+    '23 : Mode - Formula Preservation - Formula Fill
+    ' 5 : Display - Indentation
+    Retorno = EssVSetSheetOption(Null, 11, True)
+    Retorno = EssVSetSheetOption(Null, 21, True)
+    Retorno = EssVSetSheetOption(Null, 22, True)
+    Retorno = EssVSetSheetOption(Null, 23, True)
+    Retorno = EssVSetSheetOption(Null, 5, 1)
+    
+End Sub
+
+
+
+Public Sub RestauraConfiguracaoEssBase()
+Dim Retorno As Integer
+
+    Retorno = EssVSetSheetOption(Null, 11, BkpConfigEssBase_RetainOnRetrieval)
+    Retorno = EssVSetSheetOption(Null, 21, BkpConfigEssBase_RetainOnKeepAndRemoveOnly)
+    Retorno = EssVSetSheetOption(Null, 22, BkpConfigEssBase_RetainOnZooms)
+    Retorno = EssVSetSheetOption(Null, 23, BkpConfigEssBase_FormulaFill)
+    Retorno = EssVSetSheetOption(Null, 5, BkpConfigEssBase_Indentation)
+
+End Sub
+
+
+
+Public Sub LogonEssBase()
+    frmLogonEssBase.Show 1
+End Sub
+
+
+
+Public Function ConectaEssBase(ByVal Pasta As String, _
+                               ByVal Servidor As String, _
+                               ByVal Aplicacao As String, _
+                               ByVal BancoDados As String) As Byte
+Dim Retorno As Integer
+On Error GoTo Erro
+    
+    Retorno = EssVConnect(Pasta, Usuario, Senha, Servidor, Aplicacao, BancoDados)
+    
+    If Retorno = 0 Then
+       ConectaEssBase = 1
+    Else
+       ConectaEssBase = 0
+    End If
+
+Exit Function
+Erro: ConectaEssBase = 0
+End Function
+
+
+
+Public Function DesconectaEssBase(ByVal Pasta As String) As Byte
+Dim Retorno As Integer
+On Error GoTo Erro
+
+    Retorno = EssVDisconnect(Pasta)
+    
+    If Retorno = 0 Then
+       DesconectaEssBase = 1
+    Else
+       DesconectaEssBase = 0
+    End If
+
+Exit Function
+Erro: DesconectaEssBase = 0
+End Function
+
+
+
+Public Function RetrieveEssBase(ByVal Pasta As String, _
+                                ByVal Intervalo As String) As Byte
+Dim Retorno As Integer
+On Error GoTo Erro
+
+    Sheets(Pasta).Select
+    If Intervalo = "A1" Then
+       Retorno = EssVRetrieve(Pasta, Null, 1)
+    Else
+       Retorno = EssVRetrieve(Pasta, range(Intervalo), 1)
+    End If
+    
+    If Retorno = 0 Then
+       RetrieveEssBase = 1
+    Else
+       RetrieveEssBase = 0
+    End If
+
+Exit Function
+Erro: RetrieveEssBase = 0
+End Function
+
+
+
+Public Function LoginUsuario() As String
+Dim Nome_temp As String
+Dim Tamanho_nome As Long
+Dim Resultado As Long
+  
+  Tamanho_nome = 256
+  Nome_temp = Space(256)
+  
+  Resultado = XGetUserName(Nome_temp, Tamanho_nome)
+  If Resultado <> 0 Then
+     LoginUsuario = UCase(Left$(Nome_temp, Tamanho_nome - 1))
+  Else
+     LoginUsuario = "Não identificado"
+  End If
+  
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Option Explicit
+Declare Function EssVConnect Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal username As Variant, ByVal password As Variant, ByVal server As Variant, ByVal application As Variant, ByVal database As Variant) As Long
+Declare Function EssVRetrieve Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal range As Variant, ByVal lockFlag As Variant) As Long
+Declare Function EssVDisconnect Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant) As Long
+Declare Function EssVSetSheetOption Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal item As Variant, ByVal sheetOption As Variant) As Long
+Declare Function EssVGetSheetOption Lib "ESSEXCLN.XLL" (ByVal sheetName As Variant, ByVal item As Variant) As Variant
+Declare Function XGetUserName Lib "advapi32.dll" Alias "GetUserNameA" (ByVal lpBuffer As String, nSize As Long) As Long
+
+Global Usuario As String
+Global Senha As String
+
+Global BkpConfigEssBase_RetainOnRetrieval As Boolean
+Global BkpConfigEssBase_RetainOnKeepAndRemoveOnly As Boolean
+Global BkpConfigEssBase_RetainOnZooms As Boolean
+Global BkpConfigEssBase_FormulaFill As Boolean
+Global BkpConfigEssBase_Indentation As Integer
+ 
+ 
+ 
+Public Sub ConfiguraEssBase()
+Dim Retorno As Integer
+
+    'Backup da configuração atual
+    BkpConfigEssBase_RetainOnRetrieval = EssVGetSheetOption(Null, 11)
+    BkpConfigEssBase_RetainOnKeepAndRemoveOnly = EssVGetSheetOption(Null, 21)
+    BkpConfigEssBase_RetainOnZooms = EssVGetSheetOption(Null, 22)
+    BkpConfigEssBase_FormulaFill = EssVGetSheetOption(Null, 23)
+    BkpConfigEssBase_Indentation = EssVGetSheetOption(Null, 5)
+
+    '11 : Mode - Formula Preservation - Retain on Retrieval
+    '21 : Mode - Formula Preservation - Retain on Keep and Remove Only
+    '22 : Mode - Formula Preservation - Retain on Zooms
+    '23 : Mode - Formula Preservation - Formula Fill
+    ' 5 : Display - Indentation
+    Retorno = EssVSetSheetOption(Null, 11, True)
+    Retorno = EssVSetSheetOption(Null, 21, True)
+    Retorno = EssVSetSheetOption(Null, 22, True)
+    Retorno = EssVSetSheetOption(Null, 23, True)
+    Retorno = EssVSetSheetOption(Null, 5, 1)
+    
+End Sub
+
+
+
+Public Sub RestauraConfiguracaoEssBase()
+Dim Retorno As Integer
+
+    Retorno = EssVSetSheetOption(Null, 11, BkpConfigEssBase_RetainOnRetrieval)
+    Retorno = EssVSetSheetOption(Null, 21, BkpConfigEssBase_RetainOnKeepAndRemoveOnly)
+    Retorno = EssVSetSheetOption(Null, 22, BkpConfigEssBase_RetainOnZooms)
+    Retorno = EssVSetSheetOption(Null, 23, BkpConfigEssBase_FormulaFill)
+    Retorno = EssVSetSheetOption(Null, 5, BkpConfigEssBase_Indentation)
+
+End Sub
+
+
+
+Public Sub LogonEssBase()
+    frmLogonEssBase.Show 1
+End Sub
+
+
+
+Public Function ConectaEssBase(ByVal Pasta As String, _
+                               ByVal Servidor As String, _
+                               ByVal Aplicacao As String, _
+                               ByVal BancoDados As String) As Byte
+Dim Retorno As Integer
+On Error GoTo Erro
+    
+    Retorno = EssVConnect(Pasta, Usuario, Senha, Servidor, Aplicacao, BancoDados)
+    
+    If Retorno = 0 Then
+       ConectaEssBase = 1
+    Else
+       ConectaEssBase = 0
+    End If
+
+Exit Function
+Erro: ConectaEssBase = 0
+End Function
+
+
+
+Public Function DesconectaEssBase(ByVal Pasta As String) As Byte
+Dim Retorno As Integer
+On Error GoTo Erro
+
+    Retorno = EssVDisconnect(Pasta)
+    
+    If Retorno = 0 Then
+       DesconectaEssBase = 1
+    Else
+       DesconectaEssBase = 0
+    End If
+
+Exit Function
+Erro: DesconectaEssBase = 0
+End Function
+
+
+
+Public Function RetrieveEssBase(ByVal Pasta As String, _
+                                ByVal Intervalo As String) As Byte
+Dim Retorno As Integer
+On Error GoTo Erro
+
+    Sheets(Pasta).Select
+    If Intervalo = "A1" Then
+       Retorno = EssVRetrieve(Pasta, Null, 1)
+    Else
+       Retorno = EssVRetrieve(Pasta, range(Intervalo), 1)
+    End If
+    
+    If Retorno = 0 Then
+       RetrieveEssBase = 1
+    Else
+       RetrieveEssBase = 0
+    End If
+
+Exit Function
+Erro: RetrieveEssBase = 0
+End Function
+
+
+
+Public Function LoginUsuario() As String
+Dim Nome_temp As String
+Dim Tamanho_nome As Long
+Dim Resultado As Long
+  
+  Tamanho_nome = 256
+  Nome_temp = Space(256)
+  
+  Resultado = XGetUserName(Nome_temp, Tamanho_nome)
+  If Resultado <> 0 Then
+     LoginUsuario = UCase(Left$(Nome_temp, Tamanho_nome - 1))
+  Else
+     LoginUsuario = "Não identificado"
+  End If
+  
+End Function
+

@@ -1,0 +1,28 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+=IF(COUNTIF(A$1:A1,A1)=1,A1,"") 
+
+=SE(CONT.SE(A$1:A1;A1)=1;A1;"")
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+=IF(COUNTIF(A$1:A1,A1)=1,A1,"") 
+
+=SE(CONT.SE(A$1:A1;A1)=1;A1;"")
+

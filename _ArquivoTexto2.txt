@@ -1,0 +1,29 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function ArquivoTexto(sCaminhoDoArquivo As String, sOperacao As String)
+
+Dim fso As New FileSystemObject
+Dim Arquivo As TextStream
+
+If sOperacao = "CriarArquivo" Then
+ Set Arquivo = fso.CreateTextFile(sCaminhoDoArquivo)
+ 
+ElseIf sOperacao = "AbrirArquivoLer" Then
+ Set Arquivo = fso.OpenTextFile("c:\teste.txt", ForReading, True)
+ 'MsgBox arq.Read(2) 'mostrando o conteúdo do arquivo
+ 
+End If
+
+Arquivo.Close
+
+End Function
+
+

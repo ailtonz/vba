@@ -1,0 +1,202 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function CopiarMarcas(iMarca As Integer)
+On Error GoTo Err_CopiarMarcas
+
+Dim cont As Long
+Dim LinOrigem As Long
+
+Dim strOrigem As String
+Dim strDestino As String
+Dim intVersao As Integer
+Dim intLinha As Long
+
+Dim colOrigem As String
+Dim colDestino As String
+
+'Selecionar planilha "Colunas"
+Sheets("Colunas").Select
+
+'Identificar a Planilha Origem
+strOrigem = Range("B2")
+
+'Identificar a Planilha Destino
+strDestino = Range("C2")
+
+'Selecionar planilha "Semanal"
+Sheets("Semanal").Select
+
+'Identificar a última linha cadastrada
+intLinha = Range("K1")
+
+'Ativa Planilha de Origem
+Sheets(strOrigem).Activate
+
+'Copia Linhas Marcadas
+For LinOrigem = 80 To Rows.Count
+    If Cells(LinOrigem, iMarca) <> "" Then
+        cont = cont + 1
+        'Atualizar a coluna "Numero da Mudança"
+        Range("Z" & LinOrigem) = Range("Z" & LinOrigem) + 1
+        'Selecionar planilha "Colunas"
+        Sheets("Colunas").Select
+        For LinDestino = 4 To Rows.Count
+            If Range("B" & LinDestino) <> "" Then
+                'Variaveis de localização
+                colDestino = Range("C" & LinDestino)
+                colOrigem = Range("B" & LinDestino)
+                'Ativa Planilha de Origem
+                Sheets(strOrigem).Activate
+                'Selecionar coluna para cópia - "Origem"
+                Range(colOrigem & LinOrigem).Select
+                Selection.Copy
+                'Selecionar coluna para cópia - "Destino"
+                Sheets(strDestino).Activate
+                Range(colDestino & intLinha).Select
+                Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+            Else
+                Exit For
+            End If
+            'Selecionar planilha "Colunas"
+            Sheets("Colunas").Select
+        Next LinDestino
+        'Ativa planilha "Semanal"
+        Sheets("Semanal").Select
+        'Atualizar útima linha cadastrada
+        intLinha = intLinha + 1
+        Range("K1") = intLinha
+        'Aponta o cursor p/ o inicio da lista
+        Range("A2").Select
+        'Seleciona a planilha - "Origem"
+        Sheets(strOrigem).Select
+        Application.CutCopyMode = False
+        'Apaga a coluna de marcação
+        Range("Y" & LinOrigem).Select
+        Selection.ClearContents
+        'Aponta o cursor p/ o inicio da lista
+        Range("A80").Select
+    End If
+Next
+
+CopiarMarcas = cont
+
+Exit_CopiarMarcas:
+    Exit Function
+Err_CopiarMarcas:
+'    If Err.Number = 9 Then MsgBox "A planilha: " & sPlanilha & " não existe.", vbExclamation
+    MsgBox Err.Description
+    Resume Exit_CopiarMarcas
+    
+End Function
+
+
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function CopiarMarcas(iMarca As Integer)
+On Error GoTo Err_CopiarMarcas
+
+Dim cont As Long
+Dim LinOrigem As Long
+
+Dim strOrigem As String
+Dim strDestino As String
+Dim intVersao As Integer
+Dim intLinha As Long
+
+Dim colOrigem As String
+Dim colDestino As String
+
+'Selecionar planilha "Colunas"
+Sheets("Colunas").Select
+
+'Identificar a Planilha Origem
+strOrigem = Range("B2")
+
+'Identificar a Planilha Destino
+strDestino = Range("C2")
+
+'Selecionar planilha "Semanal"
+Sheets("Semanal").Select
+
+'Identificar a última linha cadastrada
+intLinha = Range("K1")
+
+'Ativa Planilha de Origem
+Sheets(strOrigem).Activate
+
+'Copia Linhas Marcadas
+For LinOrigem = 80 To Rows.Count
+    If Cells(LinOrigem, iMarca) <> "" Then
+        cont = cont + 1
+        'Atualizar a coluna "Numero da Mudança"
+        Range("Z" & LinOrigem) = Range("Z" & LinOrigem) + 1
+        'Selecionar planilha "Colunas"
+        Sheets("Colunas").Select
+        For LinDestino = 4 To Rows.Count
+            If Range("B" & LinDestino) <> "" Then
+                'Variaveis de localização
+                colDestino = Range("C" & LinDestino)
+                colOrigem = Range("B" & LinDestino)
+                'Ativa Planilha de Origem
+                Sheets(strOrigem).Activate
+                'Selecionar coluna para cópia - "Origem"
+                Range(colOrigem & LinOrigem).Select
+                Selection.Copy
+                'Selecionar coluna para cópia - "Destino"
+                Sheets(strDestino).Activate
+                Range(colDestino & intLinha).Select
+                Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+            Else
+                Exit For
+            End If
+            'Selecionar planilha "Colunas"
+            Sheets("Colunas").Select
+        Next LinDestino
+        'Ativa planilha "Semanal"
+        Sheets("Semanal").Select
+        'Atualizar útima linha cadastrada
+        intLinha = intLinha + 1
+        Range("K1") = intLinha
+        'Aponta o cursor p/ o inicio da lista
+        Range("A2").Select
+        'Seleciona a planilha - "Origem"
+        Sheets(strOrigem).Select
+        Application.CutCopyMode = False
+        'Apaga a coluna de marcação
+        Range("Y" & LinOrigem).Select
+        Selection.ClearContents
+        'Aponta o cursor p/ o inicio da lista
+        Range("A80").Select
+    End If
+Next
+
+CopiarMarcas = cont
+
+Exit_CopiarMarcas:
+    Exit Function
+Err_CopiarMarcas:
+'    If Err.Number = 9 Then MsgBox "A planilha: " & sPlanilha & " não existe.", vbExclamation
+    MsgBox Err.Description
+    Resume Exit_CopiarMarcas
+    
+End Function
+
+
+

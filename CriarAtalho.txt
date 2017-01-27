@@ -1,0 +1,68 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub criar_atalho()
+Dim caminho As String
+Dim atalhoLnk As Object
+Dim WshShell As Object
+
+Set WshShell = CreateObject("WScript.Shell")
+caminho = WshShell.SpecialFolders("Desktop")
+
+''Cria na Area de trabalho
+Set atalhoLnk = WshShell.CreateShortcut(caminho & "\BASE_PMO.lnk")
+atalhoLnk.IconLocation = "%SystemRoot%\system32\SHELL32.dll, 15" ' ícone do atalho
+atalhoLnk.TargetPath = "C:\Dados\delprof_SAO1W1C6.log" ' programa que o atalho irá executar
+atalhoLnk.Save
+
+''' Cria em iniciar programas com o icone OBS o icone 15 vc pode trocar po outro.
+'Set atalhoProg = WshShell.CreateShortcut("C:\WINDOWS\Menu Iniciar\BASE_PMO.lnk")
+'atalhoProg.IconLocation = "%SystemRoot%\system32\SHELL32.dll, 15" ' ícone do atalho
+'atalhoProg.TargetPath = "C:\Ailton\RunDll32.txt" ' programa que o atalho irá executar
+'atalhoProg.Save
+
+End Sub
+
+="São Paulo, " & Minúscula$(Formato(Data();"dd"" de ""mmmm"" de ""yyyy"))
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub criar_atalho()
+Dim caminho As String
+Dim atalhoLnk As Object
+Dim WshShell As Object
+
+Set WshShell = CreateObject("WScript.Shell")
+caminho = WshShell.SpecialFolders("Desktop")
+
+''Cria na Area de trabalho
+Set atalhoLnk = WshShell.CreateShortcut(caminho & "\BASE_PMO.lnk")
+atalhoLnk.IconLocation = "%SystemRoot%\system32\SHELL32.dll, 15" ' ícone do atalho
+atalhoLnk.TargetPath = "C:\Dados\delprof_SAO1W1C6.log" ' programa que o atalho irá executar
+atalhoLnk.Save
+
+''' Cria em iniciar programas com o icone OBS o icone 15 vc pode trocar po outro.
+'Set atalhoProg = WshShell.CreateShortcut("C:\WINDOWS\Menu Iniciar\BASE_PMO.lnk")
+'atalhoProg.IconLocation = "%SystemRoot%\system32\SHELL32.dll, 15" ' ícone do atalho
+'atalhoProg.TargetPath = "C:\Ailton\RunDll32.txt" ' programa que o atalho irá executar
+'atalhoProg.Save
+
+End Sub
+
+="São Paulo, " & Minúscula$(Formato(Data();"dd"" de ""mmmm"" de ""yyyy"))
+

@@ -1,0 +1,148 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function CopiarUsuario(codUsuario As Integer)
+
+Dim rstUsuario As ADODB.Recordset
+Dim rORG_Permissoes As ADODB.Recordset
+Dim rDES_Permissoes As ADODB.Recordset
+Dim rORG_Conteudos As ADODB.Recordset
+Dim rDES_Conteudos As ADODB.Recordset
+Dim intCodUsuario As Integer
+Dim strUsuario As String
+
+Set rstUsuario = New ADODB.Recordset
+
+Set rORG_Permissoes = New ADODB.Recordset
+Set rDES_Permissoes = New ADODB.Recordset
+Set rORG_Conteudos = New ADODB.Recordset
+Set rDES_Conteudos = New ADODB.Recordset
+
+
+rstUsuario.Open "Select * from dbo_admUsuarios ", CurrentProject.Connection, , adLockPessimistic
+rstUsuario.AddNew
+strUsuario = "NovoUsuario" & GerarCodigoUsuario
+rstUsuario.Fields("no_Usuario") = strUsuario
+rstUsuario.Fields("no_Senha") = "Senha"
+rstUsuario.Fields("fl_Ativo") = True
+rstUsuario.Update
+rstUsuario.Close
+
+intCodUsuario = PegarCodUsuario(strUsuario)
+
+rORG_Permissoes.Open "Select * from dbo_admUsuPermissoes where codUsuario = " & codUsuario, CurrentProject.Connection
+rDES_Permissoes.Open "Select * from dbo_admUsuPermissoes ", CurrentProject.Connection, , adLockPessimistic
+
+BeginTrans
+While Not rORG_Permissoes.EOF
+    rDES_Permissoes.AddNew
+    rDES_Permissoes.Fields("codUsuario") = intCodUsuario
+    rDES_Permissoes.Fields("Especie") = rORG_Permissoes.Fields("Especie")
+    rDES_Permissoes.Fields("Controle") = rORG_Permissoes.Fields("Controle")
+    rDES_Permissoes.Fields("Titulo") = rORG_Permissoes.Fields("Titulo")
+    rDES_Permissoes.Update
+    Dim intCodPermissao As Integer
+    intCodPermissao = rORG_Permissoes.Fields("codPermissao")
+    rORG_Conteudos.Open "Select * from dbo_admUsuConteudos where codPermissao = " & intCodPermissao, CurrentProject.Connection
+    rDES_Conteudos.Open "Select * from dbo_admUsuConteudos ", CurrentProject.Connection, , adLockPessimistic
+    While Not rORG_Conteudos.EOF
+        rDES_Conteudos.AddNew
+        rDES_Conteudos.Fields("codPermissao") = rDES_Permissoes.Fields("codPermissao")
+        rDES_Conteudos.Fields("Descricao") = rORG_Conteudos.Fields("Descricao")
+        rDES_Conteudos.Fields("Categoria") = rORG_Conteudos.Fields("Categoria")
+        rDES_Conteudos.Fields("Titulo") = rORG_Conteudos.Fields("Titulo")
+        rDES_Conteudos.Update
+        rORG_Conteudos.MoveNext
+    Wend
+    rORG_Conteudos.Close
+    rDES_Conteudos.Close
+    rORG_Permissoes.MoveNext
+Wend
+rORG_Permissoes.Close
+rDES_Permissoes.Close
+
+CommitTrans
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function CopiarUsuario(codUsuario As Integer)
+
+Dim rstUsuario As ADODB.Recordset
+Dim rORG_Permissoes As ADODB.Recordset
+Dim rDES_Permissoes As ADODB.Recordset
+Dim rORG_Conteudos As ADODB.Recordset
+Dim rDES_Conteudos As ADODB.Recordset
+Dim intCodUsuario As Integer
+Dim strUsuario As String
+
+Set rstUsuario = New ADODB.Recordset
+
+Set rORG_Permissoes = New ADODB.Recordset
+Set rDES_Permissoes = New ADODB.Recordset
+Set rORG_Conteudos = New ADODB.Recordset
+Set rDES_Conteudos = New ADODB.Recordset
+
+
+rstUsuario.Open "Select * from dbo_admUsuarios ", CurrentProject.Connection, , adLockPessimistic
+rstUsuario.AddNew
+strUsuario = "NovoUsuario" & GerarCodigoUsuario
+rstUsuario.Fields("no_Usuario") = strUsuario
+rstUsuario.Fields("no_Senha") = "Senha"
+rstUsuario.Fields("fl_Ativo") = True
+rstUsuario.Update
+rstUsuario.Close
+
+intCodUsuario = PegarCodUsuario(strUsuario)
+
+rORG_Permissoes.Open "Select * from dbo_admUsuPermissoes where codUsuario = " & codUsuario, CurrentProject.Connection
+rDES_Permissoes.Open "Select * from dbo_admUsuPermissoes ", CurrentProject.Connection, , adLockPessimistic
+
+BeginTrans
+While Not rORG_Permissoes.EOF
+    rDES_Permissoes.AddNew
+    rDES_Permissoes.Fields("codUsuario") = intCodUsuario
+    rDES_Permissoes.Fields("Especie") = rORG_Permissoes.Fields("Especie")
+    rDES_Permissoes.Fields("Controle") = rORG_Permissoes.Fields("Controle")
+    rDES_Permissoes.Fields("Titulo") = rORG_Permissoes.Fields("Titulo")
+    rDES_Permissoes.Update
+    Dim intCodPermissao As Integer
+    intCodPermissao = rORG_Permissoes.Fields("codPermissao")
+    rORG_Conteudos.Open "Select * from dbo_admUsuConteudos where codPermissao = " & intCodPermissao, CurrentProject.Connection
+    rDES_Conteudos.Open "Select * from dbo_admUsuConteudos ", CurrentProject.Connection, , adLockPessimistic
+    While Not rORG_Conteudos.EOF
+        rDES_Conteudos.AddNew
+        rDES_Conteudos.Fields("codPermissao") = rDES_Permissoes.Fields("codPermissao")
+        rDES_Conteudos.Fields("Descricao") = rORG_Conteudos.Fields("Descricao")
+        rDES_Conteudos.Fields("Categoria") = rORG_Conteudos.Fields("Categoria")
+        rDES_Conteudos.Fields("Titulo") = rORG_Conteudos.Fields("Titulo")
+        rDES_Conteudos.Update
+        rORG_Conteudos.MoveNext
+    Wend
+    rORG_Conteudos.Close
+    rDES_Conteudos.Close
+    rORG_Permissoes.MoveNext
+Wend
+rORG_Permissoes.Close
+rDES_Permissoes.Close
+
+CommitTrans
+
+End Function
+

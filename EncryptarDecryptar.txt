@@ -1,0 +1,132 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Nova pagina 1</title>
+<style type ="text/css">
+#caixa_verde {
+	width: 280px;
+	height: 400px;
+	padding-top: 15px;
+	padding-left: 25px;
+	padding-right: 25px;
+	float: left;
+	background:#CCCC99
+}
+
+#caixa_verde p {
+	font-family: tahoma, verdana;
+	font-size: 18px;
+}
+
+#caixa_branca {
+	width: 227px;
+	height: 180px;
+	padding: 5px;
+	float: left;
+	font-family: tahoma;
+	background:#FFFFFF;
+	margin-bottom: 15px;
+}
+
+#caixa_branca p {
+	font-family: tahoma, verdana;
+	font-size: 12px;
+}
+</style>
+</head>
+
+<body>
+<div id="caixa_verde"><p>Aulas de <font color="#FF0000">Access</font> para 
+	iniciantes e intermediários</p>
+<div id="caixa_branca">
+<p>Curso completo do Access 2007&nbsp; <b>
+<font color="#800000">R$750,00 - 30 horas</font></b><br></p>
+<p>Assessoria por telefone, msn, email -<b><font color="#800000"> R$75,00/ano</font></b></p>
+<p>Acesse o site <font color="#FF0000" face="Verdana">www.usandoaccess.com.br</font></p>
+<p>Vídeo Aulas, tutoriais e dicas ....</p>
+</div>
+<table width="228"><td><p><font size="1">Este e-mail está de acordo com o código de ética da internet. 
+Caso seja do seu interesse interromper o recebimento de emails com este conteúdo, 
+envie uma mensagem para suporte@usandoaccess.com.br com o assunto: "REMOVER"</font></p></td></table>
+</div>
+
+</body>
+
+</html>
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Nova pagina 1</title>
+<style type ="text/css">
+#caixa_verde {
+	width: 280px;
+	height: 400px;
+	padding-top: 15px;
+	padding-left: 25px;
+	padding-right: 25px;
+	float: left;
+	background:#CCCC99
+}
+
+#caixa_verde p {
+	font-family: tahoma, verdana;
+	font-size: 18px;
+}
+
+#caixa_branca {
+	width: 227px;
+	height: 180px;
+	padding: 5px;
+	float: left;
+	font-family: tahoma;
+	background:#FFFFFF;
+	margin-bottom: 15px;
+}
+
+#caixa_branca p {
+	font-family: tahoma, verdana;
+	font-size: 12px;
+}
+</style>
+</head>
+
+<body>
+<div id="caixa_verde"><p>Aulas de <font color="#FF0000">Access</font> para 
+	iniciantes e intermediários</p>
+<div id="caixa_branca">
+<p>Curso completo do Access 2007&nbsp; <b>
+<font color="#800000">R$750,00 - 30 horas</font></b><br></p>
+<p>Assessoria por telefone, msn, email -<b><font color="#800000"> R$75,00/ano</font></b></p>
+<p>Acesse o site <font color="#FF0000" face="Verdana">www.usandoaccess.com.br</font></p>
+<p>Vídeo Aulas, tutoriais e dicas ....</p>
+</div>
+<table width="228"><td><p><font size="1">Este e-mail está de acordo com o código de ética da internet. 
+Caso seja do seu interesse interromper o recebimento de emails com este conteúdo, 
+envie uma mensagem para suporte@usandoaccess.com.br com o assunto: "REMOVER"</font></p></td></table>
+</div>
+
+</body>
+
+</html>
+

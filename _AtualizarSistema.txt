@@ -1,0 +1,48 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function AtualizarSistema()
+Dim tmpSQL As String
+Dim fd As Office.FileDialog
+
+'Diálogo de selecionar arquivo - Office
+Set fd = Application.FileDialog(msoFileDialogFilePicker)
+
+fd.Filters.Add "Script's de atualização", "*.sql"
+fd.TITLE = "Localize o script de atualização"
+fd.AllowMultiSelect = False
+
+''''''''''''''''''''''''''''
+'CAMINHO DO BANCO DE DADOS
+''''''''''''''''''''''''''''
+
+If fd.Show = -1 Then
+    
+    Open fd.SelectedItems(1) For Input As #1
+    
+    DoCmd.SetWarnings False
+    Dim l As Integer
+    l = 1
+    Do Until EOF(1)
+        Line Input #1, tmpSQL
+        l = l + 1
+        If tmpSQL <> "" Then DoCmd.RunSQL (tmpSQL)
+    Loop
+    
+    DoCmd.SetWarnings True
+    
+    Close #1
+    
+    MsgBox "Sistema atualizado com sucesso!", vbOKOnly + vbInformation, "Atulização do sistema"
+        
+End If
+
+End Function
+

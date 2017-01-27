@@ -1,0 +1,34 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+
+Sub UpdateFooter()
+'Como adicionar o caminho de pasta de trabalho para o rodapé
+   ActiveSheet.PageSetup.LeftFooter = ActiveWorkbook.FullName
+End Sub
+	
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+
+Sub UpdateFooter()
+'Como adicionar o caminho de pasta de trabalho para o rodapé
+   ActiveSheet.PageSetup.LeftFooter = ActiveWorkbook.FullName
+End Sub
+	
+

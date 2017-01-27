@@ -1,0 +1,50 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function contador(Pasta As String, lin As Integer, col As Long)
+Dim i As Long
+Dim x As Long
+
+i = lin
+x = 0
+While Worksheets(Pasta).Cells(i, col) <> ""
+    i = i + 1
+    x = x + 1
+Wend
+
+contador = x
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Function contador(Pasta As String, lin As Integer, col As Long)
+Dim i As Long
+Dim x As Long
+
+i = lin
+x = 0
+While Worksheets(Pasta).Cells(i, col) <> ""
+    i = i + 1
+    x = x + 1
+Wend
+
+contador = x
+
+End Function
+

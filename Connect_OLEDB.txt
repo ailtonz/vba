@@ -1,0 +1,60 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+        'Dim strConn As String = _
+        '"Jet OLEDB:Global Partial Bulk Ops=2;" & _
+        '"Jet OLEDB:Registry Path=;" & _
+        '"Jet OLEDB:Database Locking Mode=1;" & _
+        '"Data Source=" & CaminhoBanco & ";" & _
+        '"Jet OLEDB:Engine Type=5;" & _
+        '"Provider='Microsoft.Jet.OLEDB.4.0';" & _
+        '"Jet OLEDB:System database=;" & _
+        '"Jet OLEDB:SFP=False;" & _
+        '"persist security info=False;" & _
+        '"Extended Properties=;" & _
+        '"Mode=Share Exclusive;" & _
+        '"Jet OLEDB:Encrypt Database=False;" & _
+        '"Jet OLEDB:Create System Database=False;" & _
+        '"Jet OLEDB:Don't Copy Locale on Compact=False;" & _
+        '"Jet OLEDB:Compact Without Replica Repair=False;" & _
+        '"User ID=Admin;" & _
+        '"Password=" & Senha & ";" & _
+        '"Jet OLEDB:Global Bulk Transactions=1"
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+        'Dim strConn As String = _
+        '"Jet OLEDB:Global Partial Bulk Ops=2;" & _
+        '"Jet OLEDB:Registry Path=;" & _
+        '"Jet OLEDB:Database Locking Mode=1;" & _
+        '"Data Source=" & CaminhoBanco & ";" & _
+        '"Jet OLEDB:Engine Type=5;" & _
+        '"Provider='Microsoft.Jet.OLEDB.4.0';" & _
+        '"Jet OLEDB:System database=;" & _
+        '"Jet OLEDB:SFP=False;" & _
+        '"persist security info=False;" & _
+        '"Extended Properties=;" & _
+        '"Mode=Share Exclusive;" & _
+        '"Jet OLEDB:Encrypt Database=False;" & _
+        '"Jet OLEDB:Create System Database=False;" & _
+        '"Jet OLEDB:Don't Copy Locale on Compact=False;" & _
+        '"Jet OLEDB:Compact Without Replica Repair=False;" & _
+        '"User ID=Admin;" & _
+        '"Password=" & Senha & ";" & _
+        '"Jet OLEDB:Global Bulk Transactions=1"
+

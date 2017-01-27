@@ -1,0 +1,54 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function CaminhoDoBanco() As String
+Dim Arq As String
+Dim Caminho As String
+
+Arq = "caminho.log"
+Caminho = Application.CurrentProject.Path & "\" & Arq
+
+'Verifica a existencia do caminho do banco de dados
+If VerificaExistenciaDeArquivo(Caminho) Then
+    CaminhoDoBanco = getCaminho(Application.CurrentProject.Path & "\" & Arq)
+Else
+    MsgBox "ATENÇÃO: Não é possível localizar o caminho do Banco de dados.", vbExclamation + vbOKOnly, "Caminho do Banco de Dados"
+    CaminhoDoBanco = ""
+End If
+
+End Function
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Public Function CaminhoDoBanco() As String
+Dim Arq As String
+Dim Caminho As String
+
+Arq = "caminho.log"
+Caminho = Application.CurrentProject.Path & "\" & Arq
+
+'Verifica a existencia do caminho do banco de dados
+If VerificaExistenciaDeArquivo(Caminho) Then
+    CaminhoDoBanco = getCaminho(Application.CurrentProject.Path & "\" & Arq)
+Else
+    MsgBox "ATENÇÃO: Não é possível localizar o caminho do Banco de dados.", vbExclamation + vbOKOnly, "Caminho do Banco de Dados"
+    CaminhoDoBanco = ""
+End If
+
+End Function
+

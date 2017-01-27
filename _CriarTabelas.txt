@@ -1,0 +1,58 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Private Sub Comando0_Click()
+
+Dim MyDatabase As Database
+Dim NewTable As TableDef
+Dim MyArtist As DAO.Index
+Dim MyIndex2 As DAO.Index
+Dim MyIndex3 As DAO.Index
+
+' open database
+Set MyDatabase = CurrentDb
+'create the table
+Set NewTable = MyDatabase.CreateTableDef("mp3New")
+On Error Resume Next
+'delete the table if it already exists
+MyDatabase.TableDefs.Delete NewTable.Name
+
+'add the fields in the table, those used below are just an example
+With NewTable
+  .Fields.Append .CreateField("Title", dbText, 30)
+  .Fields.Append .CreateField("Artist", dbText, 30)
+  .Fields.Append .CreateField("Album", dbText, 30)
+  .Fields.Append .CreateField("Year", dbText, 4)
+  .Fields.Append .CreateField("Comment", dbText, 30)
+  .Fields.Append .CreateField("Genre", dbText, 1)
+  .Fields.Append .CreateField("Position", dbText, 10)
+End With
+
+'add indexes in the table
+Set MyArtist = NewTable.CreateIndex("Artist")
+MyArtist.Fields.Append MyArtist.CreateField("Artist")
+NewTable.Indexes.Append MyArtist
+
+Set MyIndex2 = NewTable.CreateIndex("Title")
+MyIndex2.Fields.Append MyIndex2.CreateField("Title")
+NewTable.Indexes.Append MyIndex2
+
+Set MyIndex3 = NewTable.CreateIndex("Position")
+MyIndex3.Fields.Append MyIndex3.CreateField("Position")
+NewTable.Indexes.Append MyIndex3
+
+NewTable.Indexes.Refresh
+MyDatabase.TableDefs.Append NewTable
+
+'close database
+MyDatabase.Close
+
+End Sub
+

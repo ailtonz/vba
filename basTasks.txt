@@ -1,0 +1,106 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Attribute VB_Name = "basTasks"
+Option Compare Database
+
+
+Sub TESTE_TASK()
+
+'addTasks "MySQL", "azs", "000-00"
+
+'addTasks "Access2003", "azs", "000-00"
+
+addTasksShipment "VANESSA VICTORELLO", "068-14"
+addTasksShipment "VANESSA VICTORELLO", "069-14"
+addTasksShipment "VANESSA VICTORELLO", "070-14"
+
+End Sub
+
+
+Sub addTasksShipment(strVendedor As String, strControle As String)
+
+Dim dbOrcamento As DAO.Database
+Dim qdf As DAO.QueryDef
+Dim strLocation As String: strLocation = Application.CurrentProject.Path & "" & "\dbOrcamentos_mirra.mdb"
+
+Set dbOrcamento = DBEngine.OpenDatabase(strLocation, False, False, "MS Access;PWD=" & SenhaBanco)
+Set qdf = dbOrcamento.QueryDefs("admRemessa")
+
+With qdf
+
+    .Parameters("NM_VENDEDOR") = strVendedor
+    .Parameters("NM_CONTROLE") = strControle
+    
+    .Execute
+    
+End With
+
+qdf.Close
+dbOrcamento.Close
+
+End Sub
+
+
+Sub addTasks(strBanco As String, strVendedor As String, strControle As String)
+
+Dim connection As New ADODB.connection
+Set connection = OpenConnection(strBanco)
+
+Dim rst As ADODB.Recordset
+
+Dim cd As ADODB.Command
+Set cd = New ADODB.Command
+
+With cd
+
+    .ActiveConnection = connection
+    
+    .CommandText = "admOrcamentosAtualizacoesREMESSA"
+    .CommandType = adCmdStoredProc
+    
+    .Parameters.Append .CreateParameter("@NM_VENDEDOR", adVarChar, adParamInput, 50, strVendedor)
+    .Parameters.Append .CreateParameter("@NM_CONTROLE", adVarChar, adParamInput, 50, strControle)
+    
+       
+    Set rst = .Execute
+
+End With
+
+connection.Close
+
+End Sub
+
+Sub delTasks(strBanco As String, strUsuario As String)
+
+Dim connection As New ADODB.connection
+Set connection = OpenConnection(strBanco)
+
+Dim rst As ADODB.Recordset
+
+Dim cmd As ADODB.Command
+Set cmd = New ADODB.Command
+
+With cmd
+
+    .ActiveConnection = connection
+    
+    .CommandText = "admOrcamentosAtualizacoesEXCLUSAO"
+    .CommandType = adCmdStoredProc
+    .Parameters.Append cmd.CreateParameter("@NM_USUARIO", adVarChar, adParamInput, 50, strUsuario)
+    
+    Set rst = .Execute
+
+End With
+
+connection.Close
+
+End Sub
+

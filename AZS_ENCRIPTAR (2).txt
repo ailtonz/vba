@@ -1,0 +1,39 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Attribute VB_Name = "AZS_ENCRIPTAR"
+Option Explicit
+
+Function AscEncode(str)
+    Dim i
+    Dim sAscii
+    
+    sAscii = ""
+    For i = 1 To Len(str)
+        sAscii = sAscii + CStr(Hex(Asc(Mid(str, i, 1))))
+    Next
+    
+    AscEncode = sAscii
+End Function
+
+Function ChrEncode(str)
+    Dim i
+    Dim sStr
+    
+    sStr = ""
+    For i = 1 To Len(str) Step 2
+        sStr = sStr + Chr(CLng("&H" & Mid(str, i, 2)))
+    Next
+    
+    ChrEncode = sStr
+End Function
+
+
+

@@ -1,0 +1,58 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Queries:
+
+    SELECT MSysObjects.Name FROM MsysObjects WHERE (Left$([Name],1)<>"~") AND 
+    (MSysObjects.Type)=5 ORDER BY MSysObjects.Name;
+
+Forms:
+
+    SELECT MSysObjects.Name FROM MsysObjects WHERE (Left$([Name],1)<>"~") AND 
+    (MSysObjects.Type)=-32768 ORDER BY MSysObjects.Name;
+
+Tables:
+
+    SELECT MSysObjects.Name FROM MsysObjects WHERE (Left$([Name],1)<>"~") AND 
+    (Left$([Name],4) <> "Msys") AND (MSysObjects.Type)=1 ORDER BY MSysObjects.Name;
+    
+    << OU >>
+    
+    SELECT MsysObjects.Name FROM MsysObjects WHERE (((Left$([Name],4))<>"Msys") AND 
+    ((MsysObjects.Type)=1)) ORDER BY MsysObjects.Name;
+  
+
+Reports:
+
+    SELECT MSysObjects.Name FROM MsysObjects WHERE (Left$([Name],1)<>"~") AND 
+    (MSysObjects.Type)= -32764 ORDER BY MSysObjects.Name;
+
+Modules:
+
+    SELECT MSysObjects.Name FROM MsysObjects WHERE (Left$([Name],1)<>"~") AND 
+    (MSysObjects.Type)= -32761 ORDER BY MSysObjects.Name;
+
+Macros:
+
+    SELECT MSysObjects.Name FROM MsysObjects WHERE (Left$([Name],1)<>"~") AND 
+    (MSysObjects.Type)= -32766 ORDER BY MSysObjects.Name;
+
+LOG:    
+
+    SELECT IIf([type]=1,"Local Table",IIf([type]=5,"Query",IIf([type]=-32768,"Function",
+    IIf([type]=-32764,"Report",IIf([type]=-32761,"Module","Other"))))) AS WhatItIs,
+    MSysObjects.Name, MSysObjects.DateUpdate
+    FROM MSysObjects
+    WHERE (((IIf([type]=1,"Local Table",IIf([type]=5,"Query",IIf([type]=-32768,"Function",
+    IIf([type]=-32764,"Report",IIf([type]=-32761,"Module","Other"))))))<>"Other") AND
+    ((MSysObjects.DateUpdate)>[Queries updates since what date?]))
+    ORDER BY IIf([type]=1,"Local Table",IIf([type]=5,"Query",IIf([type]=-32768,"Function",
+    IIf([type]=-32764,"Report",IIf([type]=-32761,"Module","Other"))))), MSysObjects.Name;
+

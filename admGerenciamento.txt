@@ -1,0 +1,74 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+SELECT 'Tabelas' AS Tipo, MsysObjects.Name
+FROM MsysObjects
+WHERE (((Left$([Name],1))<>"~") AND ((Left$([Name],4))<>"Msys") AND ((MsysObjects.Type)=1))
+ORDER BY MsysObjects.Name;
+
+
+UNION 
+
+SELECT 'Consultas' AS Tipo, MsysObjects.Name
+FROM MsysObjects
+WHERE (((MsysObjects.Name) Not In ("admGerenciamento")) AND ((Left$([Name],1))<>"~") AND ((MsysObjects.Type)=5))
+ORDER BY MsysObjects.Name;
+
+UNION
+
+SELECT 'Formularios' AS Tipo, MSysObjects.Name FROM MsysObjects WHERE (Left$([Name],1)<>"~") AND 
+(MSysObjects.Type)=-32768 ORDER BY MSysObjects.Name;
+
+UNION
+
+SELECT 'Relatorios' AS Tipo, MSysObjects.Name FROM MsysObjects WHERE (Left$([Name],1)<>"~") AND 
+(MSysObjects.Type)= -32764 ORDER BY MSysObjects.Name;
+
+UNION SELECT  'Modulos' AS Tipo,  MSysObjects.Name FROM MsysObjects WHERE (MsysObjects.Name) Not In ("READMEFIRST") AND (Left$([Name],1)<>"~") AND 
+(MSysObjects.Type)= -32761
+ORDER BY MSysObjects.Name;
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+SELECT 'Tabelas' AS Tipo, MsysObjects.Name
+FROM MsysObjects
+WHERE (((Left$([Name],1))<>"~") AND ((Left$([Name],4))<>"Msys") AND ((MsysObjects.Type)=1))
+ORDER BY MsysObjects.Name;
+
+
+UNION 
+
+SELECT 'Consultas' AS Tipo, MsysObjects.Name
+FROM MsysObjects
+WHERE (((MsysObjects.Name) Not In ("admGerenciamento")) AND ((Left$([Name],1))<>"~") AND ((MsysObjects.Type)=5))
+ORDER BY MsysObjects.Name;
+
+UNION
+
+SELECT 'Formularios' AS Tipo, MSysObjects.Name FROM MsysObjects WHERE (Left$([Name],1)<>"~") AND 
+(MSysObjects.Type)=-32768 ORDER BY MSysObjects.Name;
+
+UNION
+
+SELECT 'Relatorios' AS Tipo, MSysObjects.Name FROM MsysObjects WHERE (Left$([Name],1)<>"~") AND 
+(MSysObjects.Type)= -32764 ORDER BY MSysObjects.Name;
+
+UNION SELECT  'Modulos' AS Tipo,  MSysObjects.Name FROM MsysObjects WHERE (MsysObjects.Name) Not In ("READMEFIRST") AND (Left$([Name],1)<>"~") AND 
+(MSysObjects.Type)= -32761
+ORDER BY MSysObjects.Name;
+

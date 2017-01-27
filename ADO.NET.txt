@@ -1,0 +1,92 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+[TUTORIAIS]
+
+ADO .NET - O Acesso aos dados	|	http://www.macoratti.net/vbnet_5.htm
+Como usar objetos DataSet		|	http://www.macoratti.net/vbn_dts1.htm
+Como usar objetos DataSet II	|	http://www.macoratti.net/vbn_dts2.htm
+Meu Primeiro Acesso a Dados com o VB.NET	|	http://www.macoratti.net/vbnet_6.htm
+Acessando linhas deletadas em um DataTable	|	http://www.macoratti.net/vbn_lddt.htm
+VB.NET - Alterando , Excluindo e atualizando dados	|	http://www.macoratti.net/vbnet_7.htm
+
+
+[DICAS]
+
+Exploring MySQL in the Microsoft .NET Environment	|	http://dev.mysql.com/tech-resources/articles/dotnet/
+Os novos provedores de dados .NET					|	http://www.macoratti.net/vbn_prvd.htm
+Arquitetura de dados								|	http://pt.wikipedia.org/wiki/Arquitetura_de_dados
+Usando o servidor do Gmail							|	http://www.macoratti.net/12/01/net_gmail1.htm
+Criando código mais seguro							|	http://www.macoratti.net/vbn_secu.htm
+Tratando com arquivos de configuração				|	http://www.macoratti.net/net_cfg1.htm
+Arquivos de configuração .INI						|	http://www.macoratti.net/arq_ini1.htm
+Enviando E-mails									|	http://www.macoratti.net/07/09/vbn5_ee1.htm
+Enviando E-mails									|	http://www.macoratti.net/vbn_mail.htm
+Usando Coleções										|	http://www.macoratti.net/vbn_col1.htm
+
+
+[PESQUISAS]
+
+msdn.microsoft	|	Insert into do access para o MySql					|	http://social.msdn.microsoft.com/Forums/pt-br/vsvbasicpt/thread/5e0d7e2b-172f-4a2d-b26c-7a81f8ea0822
+msdn.microsoft	|	Mysql com .NET										|	http://social.msdn.microsoft.com/Forums/pt-BR/adoptpt/thread/9217bc6b-7d5b-4478-a2af-c5a57641e2e6
+google			|	System.Data.OleDB vb.net mysql						|	https://www.google.com.br/search?q=System.Data.OleDB+vb.net+mysql&aq=f&oq=System.Data.OleDB+vb.net+mysql&aqs=chrome.0.57j62l3.10606j0&sourceid=chrome&ie=UTF-8
+
+[OUTROS]
+
+System.Data.OleDb AcceptChanges
+
+É possível aprender a burlar senhas em 24 horas		|	http://www.tecmundo.com.br/senha/38387-e-possivel-aprender-a-burlar-senhas-em-24-horas-.htm?utm_source=facebook.com&utm_medium=referral&utm_campaign=imggrande
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+[TUTORIAIS]
+
+ADO .NET - O Acesso aos dados	|	http://www.macoratti.net/vbnet_5.htm
+Como usar objetos DataSet		|	http://www.macoratti.net/vbn_dts1.htm
+Como usar objetos DataSet II	|	http://www.macoratti.net/vbn_dts2.htm
+Meu Primeiro Acesso a Dados com o VB.NET	|	http://www.macoratti.net/vbnet_6.htm
+Acessando linhas deletadas em um DataTable	|	http://www.macoratti.net/vbn_lddt.htm
+VB.NET - Alterando , Excluindo e atualizando dados	|	http://www.macoratti.net/vbnet_7.htm
+
+
+[DICAS]
+
+Exploring MySQL in the Microsoft .NET Environment	|	http://dev.mysql.com/tech-resources/articles/dotnet/
+Os novos provedores de dados .NET					|	http://www.macoratti.net/vbn_prvd.htm
+Arquitetura de dados								|	http://pt.wikipedia.org/wiki/Arquitetura_de_dados
+Usando o servidor do Gmail							|	http://www.macoratti.net/12/01/net_gmail1.htm
+Criando código mais seguro							|	http://www.macoratti.net/vbn_secu.htm
+Tratando com arquivos de configuração				|	http://www.macoratti.net/net_cfg1.htm
+Arquivos de configuração .INI						|	http://www.macoratti.net/arq_ini1.htm
+Enviando E-mails									|	http://www.macoratti.net/07/09/vbn5_ee1.htm
+Enviando E-mails									|	http://www.macoratti.net/vbn_mail.htm
+Usando Coleções										|	http://www.macoratti.net/vbn_col1.htm
+
+
+[PESQUISAS]
+
+msdn.microsoft	|	Insert into do access para o MySql					|	http://social.msdn.microsoft.com/Forums/pt-br/vsvbasicpt/thread/5e0d7e2b-172f-4a2d-b26c-7a81f8ea0822
+msdn.microsoft	|	Mysql com .NET										|	http://social.msdn.microsoft.com/Forums/pt-BR/adoptpt/thread/9217bc6b-7d5b-4478-a2af-c5a57641e2e6
+google			|	System.Data.OleDB vb.net mysql						|	https://www.google.com.br/search?q=System.Data.OleDB+vb.net+mysql&aq=f&oq=System.Data.OleDB+vb.net+mysql&aqs=chrome.0.57j62l3.10606j0&sourceid=chrome&ie=UTF-8
+
+[OUTROS]
+
+System.Data.OleDb AcceptChanges
+
+É possível aprender a burlar senhas em 24 horas		|	http://www.tecmundo.com.br/senha/38387-e-possivel-aprender-a-burlar-senhas-em-24-horas-.htm?utm_source=facebook.com&utm_medium=referral&utm_campaign=imggrande
+

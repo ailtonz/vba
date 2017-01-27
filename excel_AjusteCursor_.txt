@@ -1,0 +1,40 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Private Sub AjusteCursor()
+Dim x As Long
+
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Range("A1").Activate
+Next x
+
+End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Private Sub AjusteCursor()
+Dim x As Long
+
+For x = 1 To Worksheets.Count
+    Sheets(x).Select
+    Range("A1").Activate
+Next x
+
+End Sub
+

@@ -30,3 +30,37 @@ Next
 s = SysCmd(acSysCmdSetStatus, " ")
 
 End Sub
+
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+Sub BarraDeProgresso()
+Dim count As Long
+Dim s As Variant
+Dim i As Long
+
+count = 100
+
+' Show the progress meter
+
+s = SysCmd(acSysCmdInitMeter, "Process Run " & count & " Step", count)
+
+For i = 0 To count - 1
+' Do something
+
+' Update the meter
+s = SysCmd(acSysCmdUpdateMeter, i)
+Next
+
+' Hide the Meter
+s = SysCmd(acSysCmdSetStatus, " ")
+
+End Sub
+
