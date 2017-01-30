@@ -1,0 +1,8 @@
+Dim ws As Worksheet
+Dim lRow As Long, x As Long
+
+'Set ws = Worksheets(ActiveSheet.Name)
+Set ws = Worksheets(strGuia)
+
+''find  first empty row in database
+lRow = ws.Cells(Rows.Count, 1).End(xlUp).Offset(1, 0).Row
